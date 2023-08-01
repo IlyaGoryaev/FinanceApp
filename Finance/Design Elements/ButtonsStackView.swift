@@ -25,9 +25,14 @@ class ButtonsStackView: UIStackView {
             self.addArrangedSubview($0)
         }
         buttonDay.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        buttonDay.heightAnchor.constraint(equalToConstant: 40).isActive = true
         buttonWeek.widthAnchor.constraint(equalToConstant: 80).isActive = true
         buttonMonth.widthAnchor.constraint(equalToConstant: 80).isActive = true
         buttonYear.widthAnchor.constraint(equalToConstant: 80).isActive = true
+        buttonWeek.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        buttonMonth.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        buttonYear.heightAnchor.constraint(equalToConstant: 40).isActive = true
+        
     }
     
     required init(coder: NSCoder) {

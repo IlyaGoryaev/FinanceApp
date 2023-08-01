@@ -10,23 +10,26 @@ import UIKit
 class AddCategoryCell: UICollectionViewCell {
     
     let label = UILabel()
-    let labelChose = UILabel()
     let image = UIImageView()
+    let view = UIView()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        layer.cornerRadius = 40
+        view.layer.cornerRadius = 30
         image.translatesAutoresizingMaskIntoConstraints = false
-        labelChose.translatesAutoresizingMaskIntoConstraints = false
+        view.translatesAutoresizingMaskIntoConstraints = false
         addSubview(image)
-        addSubview(labelChose)
+        addSubview(view)
+        view.addSubview(image)
         NSLayoutConstraint.activate([
-            image.centerXAnchor.constraint(equalTo: centerXAnchor),
-            image.centerYAnchor.constraint(equalTo: centerYAnchor),
-            image.heightAnchor.constraint(equalToConstant: 50),
-            image.widthAnchor.constraint(equalToConstant: 50),
-            labelChose.trailingAnchor.constraint(equalTo: trailingAnchor),
-            labelChose.bottomAnchor.constraint(equalTo: bottomAnchor)
+            view.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
+            view.topAnchor.constraint(equalTo: topAnchor, constant: 10),
+            view.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
+            view.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -10),
+            image.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            image.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+            image.heightAnchor.constraint(equalToConstant: 40),
+            image.widthAnchor.constraint(equalToConstant: 40),
         ])
     }
     

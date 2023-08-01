@@ -17,9 +17,16 @@
 		9D2A22BC2A7115C100CD86F4 /* AddCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A22BB2A7115C100CD86F4 /* AddCategoryCell.swift */; };
 		9D2A22BE2A71172700CD86F4 /* AddCostControllerTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A22BD2A71172700CD86F4 /* AddCostControllerTopView.swift */; };
 		9D2A22C02A711F7D00CD86F4 /* AddCategoryDateStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A22BF2A711F7D00CD86F4 /* AddCategoryDateStackView.swift */; };
-		9D2A22C22A712C1100CD86F4 /* CalendarViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A22C12A712C1100CD86F4 /* CalendarViewController.swift */; };
 		9D2A22C42A71643300CD86F4 /* MochiyPopPOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D2A22C32A71643300CD86F4 /* MochiyPopPOne-Regular.ttf */; };
 		9D2A22C82A71A89100CD86F4 /* DateView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A22C72A71A89100CD86F4 /* DateView.swift */; };
+		9D2A22EC2A73130000CD86F4 /* DateSegmentControle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A22EB2A73130000CD86F4 /* DateSegmentControle.swift */; };
+		9D2A23122A7451D300CD86F4 /* MainScreenViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A23112A7451D300CD86F4 /* MainScreenViewController.swift */; };
+		9D2A23142A74FB3C00CD86F4 /* CardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A23132A74FB3C00CD86F4 /* CardViewController.swift */; };
+		9D2A231A2A7542B100CD86F4 /* ExtensionForGestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A23192A7542B100CD86F4 /* ExtensionForGestures.swift */; };
+		9D2A233C2A769CF700CD86F4 /* Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A233B2A769CF700CD86F4 /* Circle.swift */; };
+		9D2A23422A76DD6E00CD86F4 /* CellForMainScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A23412A76DD6E00CD86F4 /* CellForMainScreen.swift */; };
+		9D2A23442A76F95900CD86F4 /* NavingationController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A23432A76F95900CD86F4 /* NavingationController.swift */; };
+		9D4BDE3A2A782937007149EA /* MainScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4BDE392A782937007149EA /* MainScreenViewModel.swift */; };
 		9D7364972A6E8CCD00528949 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7364962A6E8CCD00528949 /* AppDelegate.swift */; };
 		9D7364992A6E8CCD00528949 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7364982A6E8CCD00528949 /* SceneDelegate.swift */; };
 		9D73649B2A6E8CCD00528949 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D73649A2A6E8CCD00528949 /* ViewController.swift */; };
@@ -42,7 +49,6 @@
 		9DA0D67E2A6FD47200DFD80F /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA0D67D2A6FD47200DFD80F /* Button.swift */; };
 		9DA0D6802A6FE0CD00DFD80F /* ButtonsStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA0D67F2A6FE0CD00DFD80F /* ButtonsStackView.swift */; };
 		9DA0D6822A70017300DFD80F /* ButtonStackViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA0D6812A70017300DFD80F /* ButtonStackViewModel.swift */; };
-		9DA0D6862A700A5300DFD80F /* SwiftUIView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA0D6852A700A5300DFD80F /* SwiftUIView.swift */; };
 		9DA0D6882A701E6100DFD80F /* CategoryStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA0D6872A701E6100DFD80F /* CategoryStackView.swift */; };
 		CEC35E980CEBB7D6F303C8D3 /* Pods_Finance.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F90BBF5C34D9CE4AA548311 /* Pods_Finance.framework */; };
 /* End PBXBuildFile section */
@@ -60,9 +66,16 @@
 		9D2A22BB2A7115C100CD86F4 /* AddCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryCell.swift; sourceTree = "<group>"; };
 		9D2A22BD2A71172700CD86F4 /* AddCostControllerTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCostControllerTopView.swift; sourceTree = "<group>"; };
 		9D2A22BF2A711F7D00CD86F4 /* AddCategoryDateStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryDateStackView.swift; sourceTree = "<group>"; };
-		9D2A22C12A712C1100CD86F4 /* CalendarViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CalendarViewController.swift; sourceTree = "<group>"; };
 		9D2A22C32A71643300CD86F4 /* MochiyPopPOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MochiyPopPOne-Regular.ttf"; sourceTree = "<group>"; };
 		9D2A22C72A71A89100CD86F4 /* DateView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateView.swift; sourceTree = "<group>"; };
+		9D2A22EB2A73130000CD86F4 /* DateSegmentControle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateSegmentControle.swift; sourceTree = "<group>"; };
+		9D2A23112A7451D300CD86F4 /* MainScreenViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewController.swift; sourceTree = "<group>"; };
+		9D2A23132A74FB3C00CD86F4 /* CardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewController.swift; sourceTree = "<group>"; };
+		9D2A23192A7542B100CD86F4 /* ExtensionForGestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionForGestures.swift; sourceTree = "<group>"; };
+		9D2A233B2A769CF700CD86F4 /* Circle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Circle.swift; sourceTree = "<group>"; };
+		9D2A23412A76DD6E00CD86F4 /* CellForMainScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellForMainScreen.swift; sourceTree = "<group>"; };
+		9D2A23432A76F95900CD86F4 /* NavingationController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NavingationController.swift; sourceTree = "<group>"; };
+		9D4BDE392A782937007149EA /* MainScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainScreenViewModel.swift; sourceTree = "<group>"; };
 		9D7364932A6E8CCD00528949 /* Finance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Finance.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D7364962A6E8CCD00528949 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9D7364982A6E8CCD00528949 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -85,7 +98,6 @@
 		9DA0D67D2A6FD47200DFD80F /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		9DA0D67F2A6FE0CD00DFD80F /* ButtonsStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsStackView.swift; sourceTree = "<group>"; };
 		9DA0D6812A70017300DFD80F /* ButtonStackViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonStackViewModel.swift; sourceTree = "<group>"; };
-		9DA0D6852A700A5300DFD80F /* SwiftUIView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SwiftUIView.swift; sourceTree = "<group>"; };
 		9DA0D6872A701E6100DFD80F /* CategoryStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryStackView.swift; sourceTree = "<group>"; };
 		B984D3EDD309F9C13FDB8446 /* Pods-Finance.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Finance.release.xcconfig"; path = "Target Support Files/Pods-Finance/Pods-Finance.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -127,6 +139,7 @@
 				9DA0D6812A70017300DFD80F /* ButtonStackViewModel.swift */,
 				9D2A22AF2A70582F00CD86F4 /* CollectionViewModelView.swift */,
 				9DA0D6682A6E8FA500DFD80F /* CostModelView.swift */,
+				9D4BDE392A782937007149EA /* MainScreenViewModel.swift */,
 				9D2A22B72A71076900CD86F4 /* AddCostViewModel.swift */,
 			);
 			path = ViewModels;
@@ -138,8 +151,9 @@
 				9DA0D65D2A6E8F1200DFD80F /* CostViewController.swift */,
 				9DA0D66E2A6EA35700DFD80F /* AddViewController.swift */,
 				9D2A22B52A7106CB00CD86F4 /* AddCostViewController.swift */,
+				9D2A23132A74FB3C00CD86F4 /* CardViewController.swift */,
 				9D73649A2A6E8CCD00528949 /* ViewController.swift */,
-				9D2A22C12A712C1100CD86F4 /* CalendarViewController.swift */,
+				9D2A23112A7451D300CD86F4 /* MainScreenViewController.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -199,6 +213,7 @@
 			children = (
 				9D2A22C32A71643300CD86F4 /* MochiyPopPOne-Regular.ttf */,
 				9D7364A42A6E8CCE00528949 /* Info.plist */,
+				9D2A23192A7542B100CD86F4 /* ExtensionForGestures.swift */,
 				9D2A22A82A703CD300CD86F4 /* AppFiles */,
 				9DA0D67C2A6FD44800DFD80F /* Design Elements */,
 				9D2A22A42A703C1800CD86F4 /* ViewModels */,
@@ -214,16 +229,19 @@
 			children = (
 				9DA0D6762A6F0CF900DFD80F /* CategoryItemCollectionView.swift */,
 				9DA0D65F2A6E8F2E00DFD80F /* CostCell.swift */,
-				9DA0D6852A700A5300DFD80F /* SwiftUIView.swift */,
 				9D73649C2A6E8CCD00528949 /* Main.storyboard */,
+				9D2A233B2A769CF700CD86F4 /* Circle.swift */,
 				9D7364A12A6E8CCE00528949 /* LaunchScreen.storyboard */,
 				9D73649F2A6E8CCE00528949 /* Assets.xcassets */,
 				9DA0D67D2A6FD47200DFD80F /* Button.swift */,
 				9D2A22BF2A711F7D00CD86F4 /* AddCategoryDateStackView.swift */,
 				9D2A22B32A70623800CD86F4 /* CategoryCell.swift */,
+				9D2A23412A76DD6E00CD86F4 /* CellForMainScreen.swift */,
+				9D2A23432A76F95900CD86F4 /* NavingationController.swift */,
 				9D2A22BB2A7115C100CD86F4 /* AddCategoryCell.swift */,
 				9D2A22BD2A71172700CD86F4 /* AddCostControllerTopView.swift */,
 				9DA0D67F2A6FE0CD00DFD80F /* ButtonsStackView.swift */,
+				9D2A22EB2A73130000CD86F4 /* DateSegmentControle.swift */,
 				9D2A22C72A71A89100CD86F4 /* DateView.swift */,
 				9DA0D6872A701E6100DFD80F /* CategoryStackView.swift */,
 			);
@@ -353,37 +371,43 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D2A22C22A712C1100CD86F4 /* CalendarViewController.swift in Sources */,
+				9D2A23422A76DD6E00CD86F4 /* CellForMainScreen.swift in Sources */,
 				9D2A22B42A70623800CD86F4 /* CategoryCell.swift in Sources */,
 				9D2A22BE2A71172700CD86F4 /* AddCostControllerTopView.swift in Sources */,
 				9D73649B2A6E8CCD00528949 /* ViewController.swift in Sources */,
 				9D2A22C02A711F7D00CD86F4 /* AddCategoryDateStackView.swift in Sources */,
 				9DA0D6882A701E6100DFD80F /* CategoryStackView.swift in Sources */,
 				9DA0D6732A6ED0E900DFD80F /* DateModel.swift in Sources */,
+				9D2A23442A76F95900CD86F4 /* NavingationController.swift in Sources */,
 				9DA0D66F2A6EA35700DFD80F /* AddViewController.swift in Sources */,
+				9D2A23142A74FB3C00CD86F4 /* CardViewController.swift in Sources */,
 				9D7364972A6E8CCD00528949 /* AppDelegate.swift in Sources */,
 				9D7364992A6E8CCD00528949 /* SceneDelegate.swift in Sources */,
 				9D2A22BA2A710D9800CD86F4 /* AddCategoryModel.swift in Sources */,
+				9D2A22EC2A73130000CD86F4 /* DateSegmentControle.swift in Sources */,
 				9D2A22B22A705A9200CD86F4 /* CostStorageCategory.swift in Sources */,
+				9D2A231A2A7542B100CD86F4 /* ExtensionForGestures.swift in Sources */,
 				9DA0D6652A6E8F7300DFD80F /* CostService.swift in Sources */,
 				9D2A22AA2A704DDE00CD86F4 /* ModelCategory.swift in Sources */,
 				9DA0D6802A6FE0CD00DFD80F /* ButtonsStackView.swift in Sources */,
 				9D2A22B82A71076900CD86F4 /* AddCostViewModel.swift in Sources */,
-				9DA0D6862A700A5300DFD80F /* SwiftUIView.swift in Sources */,
 				9D2A22B02A70582F00CD86F4 /* CollectionViewModelView.swift in Sources */,
 				9DA0D67E2A6FD47200DFD80F /* Button.swift in Sources */,
+				9D2A23122A7451D300CD86F4 /* MainScreenViewController.swift in Sources */,
 				9DA0D6692A6E8FA500DFD80F /* CostModelView.swift in Sources */,
 				9DA0D66D2A6E8FD700DFD80F /* Categories.swift in Sources */,
 				9DA0D6822A70017300DFD80F /* ButtonStackViewModel.swift in Sources */,
 				9DA0D6602A6E8F2E00DFD80F /* CostCell.swift in Sources */,
 				9D2A22C82A71A89100CD86F4 /* DateView.swift in Sources */,
 				9D2A22BC2A7115C100CD86F4 /* AddCategoryCell.swift in Sources */,
+				9D2A233C2A769CF700CD86F4 /* Circle.swift in Sources */,
 				9DA0D66B2A6E8FC300DFD80F /* DateInfo.swift in Sources */,
 				9DA0D6632A6E8F5300DFD80F /* CostRealm.swift in Sources */,
 				9DA0D6712A6ED08300DFD80F /* DateStorage.swift in Sources */,
 				9DA0D6772A6F0CF900DFD80F /* CategoryItemCollectionView.swift in Sources */,
 				9DA0D65E2A6E8F1200DFD80F /* CostViewController.swift in Sources */,
 				9D2A22B62A7106CB00CD86F4 /* AddCostViewController.swift in Sources */,
+				9D4BDE3A2A782937007149EA /* MainScreenViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

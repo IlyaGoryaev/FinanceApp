@@ -9,6 +9,10 @@ class AddCostViewModel{
     var categories = BehaviorSubject(value: [SectionModel(model: "", items: [AddCategoryModel]())])
     var date = BehaviorSubject(value: "433")//изменить на дату
     var cost = BehaviorSubject(value: CostRealm(costId: UUID().uuidString, date: Date(), sumCost: 0, label: "", category: "food"))
+    var enabled = BehaviorSubject(value: false)
+    var isCategorySelected = BehaviorSubject(value: false)
+    var indexOfItemSelected = BehaviorSubject(value: -1)
+    var sum = BehaviorSubject(value: 0)
     
     func fetchCategories(){
         let array: [AddCategoryModel] = [
@@ -31,6 +35,23 @@ class AddCostViewModel{
     func saveRealm(){
         let storage = StorageService()
         try! storage.saveOrUpdateObject(object: try! cost.value())
+    }
+    
+    
+    func sumAndCategoryChosen(){
+        enabled.on(.next(true))
+    }
+    
+    func categorySelect(isSelect: Bool){
+        isCategorySelected.on(.next(isSelect))
+    }
+    
+    func itemSelect(index: Int){
+        indexOfItemSelected.on(.next(index))
+    }
+    
+    func getSum(sum: Int){
+        self.sum.on(.next(sum))
     }
     
 }

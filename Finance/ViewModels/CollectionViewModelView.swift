@@ -19,11 +19,7 @@ class CollectionViewModelView{
             } else {
                 categories.append(CategoryModel(category: .food, usage: Int(storage.getAllValues()[i])))
             }
-
         }
         section.on(.next([SectionModel(model: "", items: categories)]))
-        
-        
     }
-    
 }
