@@ -1,6 +1,6 @@
 import Foundation
 
-enum Categories: String{
+enum Categories: String, CaseIterable{
     case food
     case auto
     case householdExpenses

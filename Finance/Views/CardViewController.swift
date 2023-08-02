@@ -9,6 +9,7 @@ class CardViewController: UIViewController, UIScrollViewDelegate {
     let grayView = UIView()
     let disposeBag = DisposeBag()
     let label = UILabel()
+    let viewModel = CardViewModel()//Сделать private
     
     lazy var collectionView: UICollectionView = {
         let collectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -45,6 +46,7 @@ class CardViewController: UIViewController, UIScrollViewDelegate {
         configureCollectionView()
         bindCollectionView()
         setupLabel()
+        viewModel.fetchData()
     }
     
     private func setupLabel(){
@@ -68,24 +70,27 @@ class CardViewController: UIViewController, UIScrollViewDelegate {
             collectionView.topAnchor.constraint(equalTo: handleView.bottomAnchor, constant: 30),
             collectionView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             collectionView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionView.heightAnchor.constraint(equalToConstant: 250)
+            collectionView.heightAnchor.constraint(equalToConstant: 500)
         ])
     }
     
     private func bindCollectionView(){
-        let data = Observable.just([1, 2, 3, 4])
-        data.bind(to: collectionView.rx.items){ collectionView, index, item in
-            let indexPath = IndexPath(item: index, section: 0)
-            let arrayColor: [UIColor] = [#colorLiteral(red: 0.5433602929, green: 0.7548330426, blue: 0.5191312432, alpha: 1), #colorLiteral(red: 0.9719435573, green: 0.295688808, blue: 0.2824983001, alpha: 1), #colorLiteral(red: 0.2864229083, green: 0.4874387383, blue: 0.9976932406, alpha: 1), #colorLiteral(red: 0.9960328937, green: 0.7385336757, blue: 0.171693176, alpha: 1)]
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CellForMainScreen
-            cell.backgroundColor = .systemGray6
-            cell.colorImage.backgroundColor = arrayColor.randomElement()
-            cell.percentLabel.text = "\(Int.random(in: 10...80))%"
-            cell.sumLabel.text = "\(Int.random(in: 100...1000))"
-            cell.layer.cornerRadius = 10
-            return cell
-        }.disposed(by: disposeBag)
-        
         collectionView.rx.setDelegate(self).disposed(by: disposeBag)
+        
+        let dataSource = RxCollectionViewSectionedReloadDataSource<SectionModel<String, CostCategoryModel>> { _, collectionView, indexPath, item in
+            if let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as? CellForMainScreen{
+                cell.categoryLabel.text = item.category.rawValue
+                cell.sumLabel.text = "\(item.costsSum)"
+                cell.percentLabel.text = "\(item.percents)"
+                cell.colorImage.backgroundColor = item.color
+                cell.backgroundColor = .systemGray6
+                return cell
+            }
+            return UICollectionViewCell()
+        }
+        
+        viewModel.categories.bind(to: collectionView.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+        
+        
     }
 }

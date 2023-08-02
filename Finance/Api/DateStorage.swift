@@ -22,6 +22,4 @@ final class DateStorage{
             return [] }
         return storage.objects(DateObject.self).toArray()
     }
-    
-    
 }

@@ -48,13 +48,15 @@ final class StorageService{
     
     func fetchSumCurrentDay() -> Int{
         guard let storage else { return 0 }
-        return storage.objects(CostRealm.self).filter("dayValue = \(Calendar.current.component(.day, from: Date()))").sum(ofProperty: "sumCost")
+        print(Date())
+        return storage.objects(CostRealm.self).filter("dayValue = \(Calendar.current.component(.day, from: Date()))").filter("monthValue = \(Calendar.current.component(.month, from: Date()))").filter("yearValue = \(Calendar.current.component(.year, from: Date()))").sum(ofProperty: "sumCost")
+        
         
     }
     
     func fetchSumCurrentMonth() -> Int{
         guard let storage else { return 0 }
-        return storage.objects(CostRealm.self).filter("monthValue = \(Calendar.current.component(.month, from: Date()))").sum(ofProperty: "sumCost")
+        return storage.objects(CostRealm.self).filter("monthValue = \(Calendar.current.component(.month, from: Date()))").filter("yearValue = \(Calendar.current.component(.year, from: Date()))").sum(ofProperty: "sumCost")
     }
     
     func fetchSumCurrentYear() -> Int{

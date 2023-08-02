@@ -17,7 +17,8 @@ class CostModelView{
             var dateComponents = DateComponents()
             dateComponents.day = Calendar.current.component(.day, from: date)
             dateComponents.month = Calendar.current.component(.month, from: date)
-            arraySection.append(SectionModel(model: DateShare.shared.convertFunc(dateComponents: dateComponents), items: storage.fetchByDate(day: Calendar.current.component(.day, from: date), month: Calendar.current.component(.month, from: date), year: Calendar.current.component(.year, from: date)).reversed()))
+            dateComponents.year = Calendar.current.component(.year, from: date)
+            arraySection.append(SectionModel(model: DateShare.shared.convertFuncDay(dateComponents: dateComponents), items: storage.fetchByDate(day: Calendar.current.component(.day, from: date), month: Calendar.current.component(.month, from: date), year: Calendar.current.component(.year, from: date)).reversed()))
         }
         costs.on(.next(arraySection as! [SectionModel<String, CostRealm>]))
         print(storage.fetchAllDates())

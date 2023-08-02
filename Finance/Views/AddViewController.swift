@@ -6,9 +6,7 @@ import RxDataSources
 
 
 class AddViewController: UIViewController, UICalendarSelectionSingleDateDelegate, UIScrollViewDelegate {
-    
-    
-    
+
     let calendarView = UICalendarView()
     let dateLabel = UILabel()
     let disposeBag = DisposeBag()

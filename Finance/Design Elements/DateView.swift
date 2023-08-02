@@ -24,7 +24,7 @@ class DateView: UIView {
         var dateComponents = DateComponents()
         dateComponents.day = Calendar.current.component(.day, from: Date())
         dateComponents.month = Calendar.current.component(.month, from: Date())
-        date.text = DateShare.shared.convertFunc(dateComponents: dateComponents)
+        date.text = DateShare.shared.convertFuncDay(dateComponents: dateComponents)
         dateLabel.text = "Дата"
         calendarImage.image = UIImage(systemName: "calendar")
         stackView.translatesAutoresizingMaskIntoConstraints = false

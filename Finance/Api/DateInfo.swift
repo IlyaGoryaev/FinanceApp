@@ -16,7 +16,7 @@ class DateShare{
         Int(Calendar.current.component(.day, from: Date()))
     }
     
-    func convertFunc(dateComponents: DateComponents?) -> String{
+    func convertFuncDay(dateComponents: DateComponents?) -> String{
         var resultDate: String = ""
         
         if (dateComponents?.day)! > 9{
@@ -34,6 +34,23 @@ class DateShare{
                 resultDate = "0\(String(describing: dateComponents!.day!)).0\(String(describing: dateComponents!.month!))"
             }
         }
+        
+        resultDate += ".\(String(describing: dateComponents!.year!))"
+        
+        return resultDate
+    }
+    
+    func convertFuncMonth(dateComponents: DateComponents?) -> String{
+        
+        var resultDate: String = ""
+        
+        if (dateComponents?.month)! > 9{
+            resultDate = "\(dateComponents!.month!)"
+        } else {
+            resultDate = "0\(dateComponents!.month!)"
+        }
+        
+        resultDate += ".\(dateComponents!.year!)"
         
         return resultDate
     }

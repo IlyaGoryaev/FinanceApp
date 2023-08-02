@@ -52,9 +52,20 @@ class ViewControllerWithView: UIViewController {
     
     var animationProgressWhenInterrupted: CGFloat = 0
     
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        navigationController?.navigationBar.isHidden = true
+    }
+    
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        var dateComponents = DateComponents()
+        dateComponents.day = Calendar.current.component(.day, from: Date())
+        dateComponents.month = Calendar.current.component(.month, from: Date())
+        dateComponents.year = Calendar.current.component(.year, from: Date())
+        print(GetStatistic().getDayPercent(dateComponents: dateComponents))
+        self.navigationController?.navigationBar.isHidden = true
         view.addSubview(viewWithCircleContainer)
         
         addButton.translatesAutoresizingMaskIntoConstraints = false
@@ -79,7 +90,7 @@ class ViewControllerWithView: UIViewController {
         view.addSubview(buttons)
         NSLayoutConstraint.activate([
             buttons.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            buttons.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
+            buttons.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40)
         ])
         
         
@@ -107,10 +118,20 @@ class ViewControllerWithView: UIViewController {
         setupLabel()
         
         //buttons.buttonMonth.addTarget(self, action: #selector(tappedMonthButton(sender: )), for: .touchUpInside)
-        setUpButtons()
+        
         //кнопка не работает после добавления child View Controller
         
         setUpCard()
+        
+        setUpButtons()
+        
+        self.cardViewController.collectionView.rx.itemSelected.subscribe { indexPath in
+            let cell = self.cardViewController.collectionView.cellForItem(at: indexPath.element!) as? CellForMainScreen
+            let controller = ListSortedCostsViewController(category: (cell?.categoryLabel.text)!, nibName: nil, bundle: nil)
+            controller.view.backgroundColor = cell?.colorImage.backgroundColor
+            self.navigationController?.navigationBar.isHidden = false
+            self.navigationController?.pushViewController(controller, animated: true)
+        }.disposed(by: disposeBag)
     }
     
     
@@ -150,6 +171,7 @@ class ViewControllerWithView: UIViewController {
     //MARK: Настройка кнопок
     func setUpButtons(){
         buttons.buttonDay.addAction(UIAction(handler: { _ in
+            self.cardViewController.viewModel.getDayStatistics()
             self.viewModel.getDayLabelText()
             self.viewModel.getCircleDay()
             self.viewWithCircleContainer.layer.sublayers?.forEach({
@@ -163,6 +185,7 @@ class ViewControllerWithView: UIViewController {
         }), for:  .touchUpInside)
 
         buttons.buttonMonth.addAction(UIAction(handler: { _ in
+            self.cardViewController.viewModel.getMonthStatistics()//Убрать
             self.viewModel.getMonthLabelText()
             self.viewModel.getCircleMonth()
             self.viewWithCircleContainer.layer.sublayers?.forEach({
@@ -211,101 +234,44 @@ class ViewControllerWithView: UIViewController {
         cardViewController.view.layer.shadowOffset = CGSize(width: 0.0, height: 3.0)
         cardViewController.view.layer.shadowOpacity = 0.15
         
-        let panGestureRecognizerBottomToTap = UIPanGestureRecognizer(target: self, action: #selector(handleCardPanBottomToTop(recognizer: )))
-                cardViewController.handleView.addGestureRecognizer(panGestureRecognizerBottomToTap)
+//        let panGestureRecognizerBottomToTap = UIPanGestureRecognizer(target: self, action: #selector(handleCardPanBottomToTop(recognizer: )))
+//                cardViewController.handleView.addGestureRecognizer(panGestureRecognizerBottomToTap)
+//
+//        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleCardTap(recognizer: )))
+//        cardViewController.handleView.addGestureRecognizer(tapGestureRecognizer)
         
-        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleCardTap(recognizer: )))
-        cardViewController.handleView.addGestureRecognizer(tapGestureRecognizer)
+        let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeUp(recognizer: )))
+        swipeGestureRecognizer.direction = .up
+        cardViewController.view.addGestureRecognizer(swipeGestureRecognizer)
     }
     
-    @objc func handleCardTap(recognizer: UITapGestureRecognizer){
-        switch recognizer.state{
-        case .ended:
-            animateTransitionIfNeeded(state: nextState, duration: 0.9)
+//    @objc func handleCardTap(recognizer: UITapGestureRecognizer){
+//        switch recognizer.state{
+//        case .ended:
+//            animateTransitionIfNeeded(state: nextState, duration: 0.9)
+//        default:
+//            break
+//        }
+//    }
+    
+    @objc func handleSwipeUp(recognizer: UISwipeGestureRecognizer){
+        switch recognizer.direction{
+        case .up:
+            animateTransitionIfNeeded(state: nextState, duration: 0.7)
         default:
             break
         }
     }
     
-    //Проблема с зависанием анимации
-    @objc func handleCardPanBottomToTop(recognizer: UIGestureRecognizer){
-        if let swipeGesture = recognizer as? UIPanGestureRecognizer{
-            
-            switch swipeGesture.direction{
-                
-            case .bottomToTop:
-                
-                switch recognizer.state{
-                    
-                case .began:
-                            startInteractiveTransition(state: nextState, duration: 0.9)
-                        case .changed:
-                            let translation = swipeGesture.translation(in: self.cardViewController.handleView)
-                            var fractionComplete = translation.y / cardHeight
-                            fractionComplete = cardVisible ? fractionComplete : -fractionComplete
-                            updateInteractiveTransition(fractionCompleted: fractionComplete)
-                case .ended:
-                    let translation = swipeGesture.translation(in: self.cardViewController.handleView)
-                    var fractionComplete = translation.y / self.cardViewController.handleView.frame.height
-                            fractionComplete = cardVisible ? fractionComplete : -fractionComplete
-                            if fractionComplete < 0.3{
-                                cardVisible = false
-                                for animator in self.runningAnimation{
-                                    animator.stopAnimation(false)
-                                }
-                                self.runningAnimation.removeAll()
-                                animateTransitionIfNeeded(state: nextState, duration: 0.5)
-                            }else{
-                                continueInteractiveTransition()
-                            }
-                        default:
-                            break
-                        }
-            default:
-                break
-            }
+    
+    @objc func handleSwipeDown(recognizer: UISwipeGestureRecognizer){
+        switch recognizer.direction{
+        case .down:
+            animateTransitionIfNeeded(state: nextState, duration: 0.7)
+        default:
+            break
         }
     }
-    
-
-    @objc func handleCardPanTopToBottom(recognizer: UIGestureRecognizer){
-        if let swipeGesture = recognizer as? UIPanGestureRecognizer{
-            
-            switch swipeGesture.direction{
-                
-            case .topToBottom:
-                print(cardViewController.view.frame.minY)
-                    switch recognizer.state{
-                    case .began:
-                        startInteractiveTransition(state: nextState, duration: 0.9)
-                    case .changed:
-                        let translation = swipeGesture.translation(in: self.cardViewController.handleView)
-                        var fractionComplete = translation.y / cardHeight
-                        fractionComplete = cardVisible ? fractionComplete : -fractionComplete
-                        updateInteractiveTransition(fractionCompleted: fractionComplete)
-                    case .ended:
-                        let translation = swipeGesture.translation(in: self.cardViewController.handleView)
-                        var fractionComplete = translation.y / self.cardViewController.handleView.frame.height
-                                fractionComplete = cardVisible ? fractionComplete : -fractionComplete
-                                if fractionComplete < 0.3{
-                                    cardVisible = false
-                                    for animator in self.runningAnimation{
-                                        animator.stopAnimation(false)
-                                    }
-                                    self.runningAnimation.removeAll()
-                                    animateTransitionIfNeeded(state: nextState, duration: 0.5)
-                                }else{
-                                    continueInteractiveTransition()
-                                }
-                            default:
-                                break
-                            }
-            default:
-                break
-            }
-        }
-    }
-    
     
     func animateTransitionIfNeeded(state: CardState, duration: TimeInterval){
         
@@ -321,15 +287,21 @@ class ViewControllerWithView: UIViewController {
             
             frameAnimator.addCompletion { _ in
                 self.cardVisible = !self.cardVisible
-                for recognizer in self.cardViewController.handleView.gestureRecognizers!{
-                    self.cardViewController.handleView.removeGestureRecognizer(recognizer)
+                for recognizer in self.cardViewController.view.gestureRecognizers!{
+                    self.cardViewController.view.removeGestureRecognizer(recognizer)
                 }
                 if self.cardVisible{
-                    let panGestureRecognizerTopToBottom = UIPanGestureRecognizer(target: self, action: #selector(self.handleCardPanTopToBottom(recognizer: )))
-                    self.cardViewController.handleView.addGestureRecognizer(panGestureRecognizerTopToBottom)
+
+                    let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipeDown(recognizer: )))
+                    swipeGestureRecognizer.direction = .down
+                    self.cardViewController.view.addGestureRecognizer(swipeGestureRecognizer)
+
+
                 } else {
-                    let panGestureRecognizerBottomToTap = UIPanGestureRecognizer(target: self, action: #selector(self.handleCardPanBottomToTop(recognizer: )))
-                    self.cardViewController.handleView.addGestureRecognizer(panGestureRecognizerBottomToTap)
+                    let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipeUp(recognizer: )))
+                    swipeGestureRecognizer.direction = .up
+                    self.cardViewController.view.addGestureRecognizer(swipeGestureRecognizer)
+
                 }
                 self.runningAnimation.removeAll()
             }
@@ -348,11 +320,10 @@ class ViewControllerWithView: UIViewController {
         }
         for animation in runningAnimation {
             animation.pauseAnimation()
-            print("Paused")
-            //continueInteractiveTransition()
             animationProgressWhenInterrupted = animation.fractionComplete
             updateInteractiveTransition(fractionCompleted: animation.fractionComplete)
         }
+        animateTransitionIfNeeded(state: nextState, duration: 0.9)
     }
     
     func updateInteractiveTransition(fractionCompleted: CGFloat){

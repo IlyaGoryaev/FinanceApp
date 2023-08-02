@@ -15,6 +15,7 @@ class MainScreenViewModel{
     func getDayLabelText(){
         subLabelText.on(.next("Сегодня"))
         labelText.on(.next("\(StorageService().fetchSumCurrentDay())"))
+        print(StorageService().fetchSumCurrentDay())
     }
     
     func getMonthLabelText(){
@@ -34,7 +35,24 @@ class MainScreenViewModel{
     
     //Исправить
     func getCircleDay(){
-        percentArray.on(.next([0]))
+        var dateComponents = DateComponents()
+        dateComponents.day = Calendar.current.component(.day, from: Date())
+        dateComponents.month = Calendar.current.component(.month, from: Date())
+        dateComponents.year = Calendar.current.component(.year, from: Date())
+        let dict = GetStatistic().getDayPercent(dateComponents: dateComponents)
+        var array: [Double] = []
+        for (category, item) in dict{
+            if item != 0{
+                if round(item * 100) / 100 >= 0.07{//Исправить
+                    array.append(round(item * 100) / 100)
+                }
+            }
+        }
+        array = array.sorted(by: { first, second in
+            first > second
+        })
+        print(array)
+        percentArray.on(.next(array))
     }
     
     //Исправить
