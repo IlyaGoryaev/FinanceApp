@@ -5,7 +5,7 @@ import RxDataSources
 
 //Решить проблему с добалением view в стек
 
-class ViewControllerWithView: UIViewController {
+class CostSreen: UIViewController {
     
     let addButton = UIButton()
         
@@ -28,7 +28,7 @@ class ViewControllerWithView: UIViewController {
     let buttons = ButtonsStackView()
     
     //MARK: Инициализация viewModel
-    private var viewModel = MainScreenViewModel()
+    private var viewModel = CostScreenViewModel()
     
     //MARK: Контроллер вида, который находится в нижнем View
     var cardViewController: CardViewController!
@@ -55,11 +55,14 @@ class ViewControllerWithView: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
+        viewModel.getCircleDay()
+        self.cardViewController.viewModel.getDayStatistics()
     }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        viewModel.getCircleDay()
         var dateComponents = DateComponents()
         dateComponents.day = Calendar.current.component(.day, from: Date())
         dateComponents.month = Calendar.current.component(.month, from: Date())
@@ -126,7 +129,7 @@ class ViewControllerWithView: UIViewController {
         setUpButtons()
         
         self.cardViewController.collectionView.rx.itemSelected.subscribe { indexPath in
-            let cell = self.cardViewController.collectionView.cellForItem(at: indexPath.element!) as? CellForMainScreen
+            let cell = self.cardViewController.collectionView.cellForItem(at: indexPath.element!) as? CellForCostScreen
             let controller = ListSortedCostsViewController(category: (cell?.categoryLabel.text)!, nibName: nil, bundle: nil)
             controller.view.backgroundColor = cell?.colorImage.backgroundColor
             self.navigationController?.navigationBar.isHidden = false
@@ -199,6 +202,7 @@ class ViewControllerWithView: UIViewController {
         }), for: .touchUpInside)
 
         buttons.buttonYear.addAction(UIAction(handler: { _ in
+            self.cardViewController.viewModel.getYearStatistics()
             self.viewModel.getYearLabelText()
             self.viewModel.getCircleYear()
             self.viewWithCircleContainer.layer.sublayers?.forEach({

@@ -16,7 +16,7 @@ class CardViewController: UIViewController, UIScrollViewDelegate {
         collectionViewFlowLayout.itemSize = CGSize(width: 166, height: 90)
         collectionViewFlowLayout.sectionInset = UIEdgeInsets(top: 8, left: 24, bottom: 8, right: 24)
         let collectionView = UICollectionView(frame: CGRect(), collectionViewLayout: collectionViewFlowLayout)
-        collectionView.register(CellForMainScreen.self, forCellWithReuseIdentifier: "Cell")
+        collectionView.register(CellForCostScreen.self, forCellWithReuseIdentifier: "Cell")
         collectionView.translatesAutoresizingMaskIntoConstraints = false
         collectionView.backgroundColor = .white
         collectionView.isScrollEnabled = false
@@ -46,7 +46,6 @@ class CardViewController: UIViewController, UIScrollViewDelegate {
         configureCollectionView()
         bindCollectionView()
         setupLabel()
-        viewModel.fetchData()
     }
     
     private func setupLabel(){
@@ -78,10 +77,10 @@ class CardViewController: UIViewController, UIScrollViewDelegate {
         collectionView.rx.setDelegate(self).disposed(by: disposeBag)
         
         let dataSource = RxCollectionViewSectionedReloadDataSource<SectionModel<String, CostCategoryModel>> { _, collectionView, indexPath, item in
-            if let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as? CellForMainScreen{
+            if let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as? CellForCostScreen{
                 cell.categoryLabel.text = item.category.rawValue
                 cell.sumLabel.text = "\(item.costsSum)"
-                cell.percentLabel.text = "\(item.percents)"
+                cell.percentLabel.text = "\(item.percents)%"
                 cell.colorImage.backgroundColor = item.color
                 cell.backgroundColor = .systemGray6
                 return cell

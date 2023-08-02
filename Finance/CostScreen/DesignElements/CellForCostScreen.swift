@@ -1,13 +1,6 @@
-//
-//  CellForMainScreen.swift
-//  Finance
-//
-//  Created by Илья Горяев on 30.07.2023.
-//
-
 import UIKit
 
-class CellForMainScreen: UICollectionViewCell {
+class CellForCostScreen: UICollectionViewCell {
     
     let sumLabel = UILabel()
     let categoryLabel = UILabel()
@@ -16,22 +9,18 @@ class CellForMainScreen: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
-        sumLabel.text = "694"
         sumLabel.font = .boldSystemFont(ofSize: 17)
         sumLabel.textColor = .gray
-        categoryLabel.text = "Food"
         categoryLabel.font = .systemFont(ofSize: 14)
         categoryLabel.textColor = .systemGray2
         sumLabel.translatesAutoresizingMaskIntoConstraints = false
         categoryLabel.translatesAutoresizingMaskIntoConstraints = false
-        colorImage.backgroundColor = #colorLiteral(red: 0.5433602929, green: 0.7548330426, blue: 0.5191312432, alpha: 1)
         colorImage.layer.cornerRadius = 8
         colorImage.translatesAutoresizingMaskIntoConstraints = false
         addSubview(colorImage)
         addSubview(sumLabel)
         addSubview(categoryLabel)
         addSubview(percentLabel)
-        percentLabel.text = "20%"
         percentLabel.font = .systemFont(ofSize: 17)
         percentLabel.textColor = .gray
         percentLabel.translatesAutoresizingMaskIntoConstraints = false

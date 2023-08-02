@@ -4,7 +4,7 @@ import RxSwift
 import RxDataSources
 
 
-class MainScreenViewModel{
+class CostScreenViewModel{
     
     var labelText = BehaviorSubject(value: "\(StorageService().fetchSumCurrentDay())")
     
@@ -41,7 +41,7 @@ class MainScreenViewModel{
         dateComponents.year = Calendar.current.component(.year, from: Date())
         let dict = GetStatistic().getDayPercent(dateComponents: dateComponents)
         var array: [Double] = []
-        for (category, item) in dict{
+        for (_, item) in dict.0{
             if item != 0{
                 if round(item * 100) / 100 >= 0.07{//Исправить
                     array.append(round(item * 100) / 100)
@@ -51,7 +51,6 @@ class MainScreenViewModel{
         array = array.sorted(by: { first, second in
             first > second
         })
-        print(array)
         percentArray.on(.next(array))
     }
     
