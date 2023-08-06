@@ -14,7 +14,7 @@
 		9D2A22BC2A7115C100CD86F4 /* AddCategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A22BB2A7115C100CD86F4 /* AddCategoryCell.swift */; };
 		9D2A22BE2A71172700CD86F4 /* AddCostControllerTopView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A22BD2A71172700CD86F4 /* AddCostControllerTopView.swift */; };
 		9D2A22C42A71643300CD86F4 /* MochiyPopPOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D2A22C32A71643300CD86F4 /* MochiyPopPOne-Regular.ttf */; };
-		9D2A23122A7451D300CD86F4 /* CostSreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A23112A7451D300CD86F4 /* CostSreen.swift */; };
+		9D2A23122A7451D300CD86F4 /* CostScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A23112A7451D300CD86F4 /* CostScreen.swift */; };
 		9D2A23142A74FB3C00CD86F4 /* CardViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A23132A74FB3C00CD86F4 /* CardViewController.swift */; };
 		9D2A231A2A7542B100CD86F4 /* ExtensionForGestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A23192A7542B100CD86F4 /* ExtensionForGestures.swift */; };
 		9D2A233C2A769CF700CD86F4 /* Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A233B2A769CF700CD86F4 /* Circle.swift */; };
@@ -28,8 +28,25 @@
 		9D4C78002A7A409A00B79C01 /* KeyValueDateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C77FF2A7A409A00B79C01 /* KeyValueDateModel.swift */; };
 		9D4C78022A7A4C2C00B79C01 /* SumCostModelsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C78012A7A4C2C00B79C01 /* SumCostModelsService.swift */; };
 		9D4C78042A7A8B5900B79C01 /* GetStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C78032A7A8B5900B79C01 /* GetStatistics.swift */; };
-		9D4C78062A7AE4F200B79C01 /* CategoryCostsColors.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C78052A7AE4F200B79C01 /* CategoryCostsColors.swift */; };
+		9D4C78062A7AE4F200B79C01 /* CategoryCostsDesignElements.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C78052A7AE4F200B79C01 /* CategoryCostsDesignElements.swift */; };
 		9D4C78082A7AE83500B79C01 /* CellForCostScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C78072A7AE83500B79C01 /* CellForCostScreen.swift */; };
+		9D4C781B2A7BD4D800B79C01 /* Buttons.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C781A2A7BD4D800B79C01 /* Buttons.swift */; };
+		9D4C781D2A7CD8C500B79C01 /* MenuIcon.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C781C2A7CD8C500B79C01 /* MenuIcon.swift */; };
+		9D4C78252A7CDFA900B79C01 /* StartContainerController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C78242A7CDFA900B79C01 /* StartContainerController.swift */; };
+		9D4C78272A7CE25B00B79C01 /* MenuViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C78262A7CE25B00B79C01 /* MenuViewController.swift */; };
+		9D4C782B2A7CEC9D00B79C01 /* MenuTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C782A2A7CEC9D00B79C01 /* MenuTableViewCell.swift */; };
+		9D4C782E2A7CF22B00B79C01 /* MenuModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C782D2A7CF22B00B79C01 /* MenuModel.swift */; };
+		9D4C78402A7D2A6F00B79C01 /* IncomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C783F2A7D2A6F00B79C01 /* IncomeScreen.swift */; };
+		9D4C78422A7D2F8300B79C01 /* FinanceGoalsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C78412A7D2F8300B79C01 /* FinanceGoalsScreen.swift */; };
+		9D4C78442A7D332E00B79C01 /* FinanceStatisticsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C78432A7D332E00B79C01 /* FinanceStatisticsScreen.swift */; };
+		9D4C78462A7D343F00B79C01 /* SettingsScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C78452A7D343F00B79C01 /* SettingsScreen.swift */; };
+		9D4C78482A7EBE9900B79C01 /* DateCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C78472A7EBE9900B79C01 /* DateCollectionViewCell.swift */; };
+		9D4C784A2A7F90B000B79C01 /* GoalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C78492A7F90B000B79C01 /* GoalCell.swift */; };
+		9D4C784C2A7FB29B00B79C01 /* GoalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C784B2A7FB29B00B79C01 /* GoalViewModel.swift */; };
+		9D4C784E2A7FB30A00B79C01 /* GoalObject.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C784D2A7FB30A00B79C01 /* GoalObject.swift */; };
+		9D4C78502A7FB5CB00B79C01 /* GoalsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C784F2A7FB5CB00B79C01 /* GoalsService.swift */; };
+		9D4C78522A7FCC6A00B79C01 /* AddGoalViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C78512A7FCC6A00B79C01 /* AddGoalViewController.swift */; };
+		9D4C78582A7FD40600B79C01 /* CollectionViewForIconsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C78572A7FD40600B79C01 /* CollectionViewForIconsCell.swift */; };
 		9D7364972A6E8CCD00528949 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7364962A6E8CCD00528949 /* AppDelegate.swift */; };
 		9D7364992A6E8CCD00528949 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7364982A6E8CCD00528949 /* SceneDelegate.swift */; };
 		9D73649E2A6E8CCD00528949 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D73649C2A6E8CCD00528949 /* Main.storyboard */; };
@@ -61,7 +78,7 @@
 		9D2A22BB2A7115C100CD86F4 /* AddCategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCategoryCell.swift; sourceTree = "<group>"; };
 		9D2A22BD2A71172700CD86F4 /* AddCostControllerTopView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCostControllerTopView.swift; sourceTree = "<group>"; };
 		9D2A22C32A71643300CD86F4 /* MochiyPopPOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MochiyPopPOne-Regular.ttf"; sourceTree = "<group>"; };
-		9D2A23112A7451D300CD86F4 /* CostSreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostSreen.swift; sourceTree = "<group>"; };
+		9D2A23112A7451D300CD86F4 /* CostScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostScreen.swift; sourceTree = "<group>"; };
 		9D2A23132A74FB3C00CD86F4 /* CardViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CardViewController.swift; sourceTree = "<group>"; };
 		9D2A23192A7542B100CD86F4 /* ExtensionForGestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionForGestures.swift; sourceTree = "<group>"; };
 		9D2A233B2A769CF700CD86F4 /* Circle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Circle.swift; sourceTree = "<group>"; };
@@ -75,8 +92,25 @@
 		9D4C77FF2A7A409A00B79C01 /* KeyValueDateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = KeyValueDateModel.swift; sourceTree = "<group>"; };
 		9D4C78012A7A4C2C00B79C01 /* SumCostModelsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SumCostModelsService.swift; sourceTree = "<group>"; };
 		9D4C78032A7A8B5900B79C01 /* GetStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetStatistics.swift; sourceTree = "<group>"; };
-		9D4C78052A7AE4F200B79C01 /* CategoryCostsColors.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCostsColors.swift; sourceTree = "<group>"; };
+		9D4C78052A7AE4F200B79C01 /* CategoryCostsDesignElements.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCostsDesignElements.swift; sourceTree = "<group>"; };
 		9D4C78072A7AE83500B79C01 /* CellForCostScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellForCostScreen.swift; sourceTree = "<group>"; };
+		9D4C781A2A7BD4D800B79C01 /* Buttons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Buttons.swift; sourceTree = "<group>"; };
+		9D4C781C2A7CD8C500B79C01 /* MenuIcon.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuIcon.swift; sourceTree = "<group>"; };
+		9D4C78242A7CDFA900B79C01 /* StartContainerController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StartContainerController.swift; sourceTree = "<group>"; };
+		9D4C78262A7CE25B00B79C01 /* MenuViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuViewController.swift; sourceTree = "<group>"; };
+		9D4C782A2A7CEC9D00B79C01 /* MenuTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuTableViewCell.swift; sourceTree = "<group>"; };
+		9D4C782D2A7CF22B00B79C01 /* MenuModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuModel.swift; sourceTree = "<group>"; };
+		9D4C783F2A7D2A6F00B79C01 /* IncomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomeScreen.swift; sourceTree = "<group>"; };
+		9D4C78412A7D2F8300B79C01 /* FinanceGoalsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinanceGoalsScreen.swift; sourceTree = "<group>"; };
+		9D4C78432A7D332E00B79C01 /* FinanceStatisticsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinanceStatisticsScreen.swift; sourceTree = "<group>"; };
+		9D4C78452A7D343F00B79C01 /* SettingsScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsScreen.swift; sourceTree = "<group>"; };
+		9D4C78472A7EBE9900B79C01 /* DateCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCollectionViewCell.swift; sourceTree = "<group>"; };
+		9D4C78492A7F90B000B79C01 /* GoalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalCell.swift; sourceTree = "<group>"; };
+		9D4C784B2A7FB29B00B79C01 /* GoalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalViewModel.swift; sourceTree = "<group>"; };
+		9D4C784D2A7FB30A00B79C01 /* GoalObject.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalObject.swift; sourceTree = "<group>"; };
+		9D4C784F2A7FB5CB00B79C01 /* GoalsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GoalsService.swift; sourceTree = "<group>"; };
+		9D4C78512A7FCC6A00B79C01 /* AddGoalViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalViewController.swift; sourceTree = "<group>"; };
+		9D4C78572A7FD40600B79C01 /* CollectionViewForIconsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CollectionViewForIconsCell.swift; sourceTree = "<group>"; };
 		9D7364932A6E8CCD00528949 /* Finance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Finance.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D7364962A6E8CCD00528949 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9D7364982A6E8CCD00528949 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -134,6 +168,7 @@
 			children = (
 				9DA0D6702A6ED08300DFD80F /* DateStorage.swift */,
 				9DA0D6642A6E8F7300DFD80F /* CostService.swift */,
+				9D4C784F2A7FB5CB00B79C01 /* GoalsService.swift */,
 				9DA0D66A2A6E8FC300DFD80F /* DateInfo.swift */,
 				9D4C78032A7A8B5900B79C01 /* GetStatistics.swift */,
 				9D4C77F72A799DEF00B79C01 /* GetListOfCategoriesService.swift */,
@@ -149,6 +184,7 @@
 				9D2A22A92A704DDE00CD86F4 /* ModelCategory.swift */,
 				9D2A22B92A710D9800CD86F4 /* AddCategoryModel.swift */,
 				9D4C77FF2A7A409A00B79C01 /* KeyValueDateModel.swift */,
+				9D4C784D2A7FB30A00B79C01 /* GoalObject.swift */,
 				9DA0D6722A6ED0E900DFD80F /* DateModel.swift */,
 				9D4C77FD2A7A3F5000B79C01 /* SumCostObjects.swift */,
 				9D4C77F52A797DEC00B79C01 /* CostCategoryModel.swift */,
@@ -179,7 +215,7 @@
 		9D4C780A2A7AEA7A00B79C01 /* ViewControllers */ = {
 			isa = PBXGroup;
 			children = (
-				9D2A23112A7451D300CD86F4 /* CostSreen.swift */,
+				9D2A23112A7451D300CD86F4 /* CostScreen.swift */,
 				9D2A23132A74FB3C00CD86F4 /* CardViewController.swift */,
 				9D4C77FB2A79ADB900B79C01 /* ListSortedCostsViewController.swift */,
 			);
@@ -201,6 +237,7 @@
 			children = (
 				9DA0D67D2A6FD47200DFD80F /* Button.swift */,
 				9D4C78072A7AE83500B79C01 /* CellForCostScreen.swift */,
+				9D4C781A2A7BD4D800B79C01 /* Buttons.swift */,
 				9D2A233B2A769CF700CD86F4 /* Circle.swift */,
 				9DA0D67F2A6FE0CD00DFD80F /* ButtonsStackView.swift */,
 			);
@@ -272,6 +309,7 @@
 			isa = PBXGroup;
 			children = (
 				9DA0D65F2A6E8F2E00DFD80F /* CostCell.swift */,
+				9D4C78472A7EBE9900B79C01 /* DateCollectionViewCell.swift */,
 			);
 			path = DesignElements;
 			sourceTree = "<group>";
@@ -282,6 +320,196 @@
 				9D2A23192A7542B100CD86F4 /* ExtensionForGestures.swift */,
 			);
 			path = Extensions;
+			sourceTree = "<group>";
+		};
+		9D4C781E2A7CDE8C00B79C01 /* MenuScreen */ = {
+			isa = PBXGroup;
+			children = (
+				9D4C782C2A7CF21300B79C01 /* Models */,
+				9D4C78212A7CDED000B79C01 /* DesignElements */,
+				9D4C78202A7CDEC500B79C01 /* ViewModels */,
+				9D4C781F2A7CDEB400B79C01 /* ViewControllers */,
+			);
+			path = MenuScreen;
+			sourceTree = "<group>";
+		};
+		9D4C781F2A7CDEB400B79C01 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				9D4C78262A7CE25B00B79C01 /* MenuViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		9D4C78202A7CDEC500B79C01 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		9D4C78212A7CDED000B79C01 /* DesignElements */ = {
+			isa = PBXGroup;
+			children = (
+				9D4C782A2A7CEC9D00B79C01 /* MenuTableViewCell.swift */,
+			);
+			path = DesignElements;
+			sourceTree = "<group>";
+		};
+		9D4C78222A7CDF5D00B79C01 /* StartContainerController */ = {
+			isa = PBXGroup;
+			children = (
+				9D4C78232A7CDF8B00B79C01 /* ViewControllers */,
+			);
+			path = StartContainerController;
+			sourceTree = "<group>";
+		};
+		9D4C78232A7CDF8B00B79C01 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				9D4C78242A7CDFA900B79C01 /* StartContainerController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		9D4C782C2A7CF21300B79C01 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9D4C782D2A7CF22B00B79C01 /* MenuModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		9D4C782F2A7D28B600B79C01 /* IncomeScreen */ = {
+			isa = PBXGroup;
+			children = (
+				9D4C78322A7D28E900B79C01 /* DesignElements */,
+				9D4C78312A7D28DE00B79C01 /* ViewControllers */,
+				9D4C78302A7D28D200B79C01 /* ViewModels */,
+			);
+			path = IncomeScreen;
+			sourceTree = "<group>";
+		};
+		9D4C78302A7D28D200B79C01 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		9D4C78312A7D28DE00B79C01 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				9D4C783F2A7D2A6F00B79C01 /* IncomeScreen.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		9D4C78322A7D28E900B79C01 /* DesignElements */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = DesignElements;
+			sourceTree = "<group>";
+		};
+		9D4C78332A7D291100B79C01 /* FinanceGoalsScreen */ = {
+			isa = PBXGroup;
+			children = (
+				9D4C78362A7D294000B79C01 /* DesignElements */,
+				9D4C78352A7D293600B79C01 /* ViewModels  */,
+				9D4C78342A7D292C00B79C01 /* ViewControllers */,
+			);
+			path = FinanceGoalsScreen;
+			sourceTree = "<group>";
+		};
+		9D4C78342A7D292C00B79C01 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				9D4C78412A7D2F8300B79C01 /* FinanceGoalsScreen.swift */,
+				9D4C78512A7FCC6A00B79C01 /* AddGoalViewController.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		9D4C78352A7D293600B79C01 /* ViewModels  */ = {
+			isa = PBXGroup;
+			children = (
+				9D4C784B2A7FB29B00B79C01 /* GoalViewModel.swift */,
+			);
+			path = "ViewModels ";
+			sourceTree = "<group>";
+		};
+		9D4C78362A7D294000B79C01 /* DesignElements */ = {
+			isa = PBXGroup;
+			children = (
+				9D4C78492A7F90B000B79C01 /* GoalCell.swift */,
+				9D4C78572A7FD40600B79C01 /* CollectionViewForIconsCell.swift */,
+			);
+			path = DesignElements;
+			sourceTree = "<group>";
+		};
+		9D4C78372A7D294F00B79C01 /* FinanceStatistics */ = {
+			isa = PBXGroup;
+			children = (
+				9D4C783A2A7D297D00B79C01 /* DesignElements */,
+				9D4C78392A7D297500B79C01 /* ViewModels */,
+				9D4C78382A7D296A00B79C01 /* ViewControllers */,
+			);
+			path = FinanceStatistics;
+			sourceTree = "<group>";
+		};
+		9D4C78382A7D296A00B79C01 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				9D4C78432A7D332E00B79C01 /* FinanceStatisticsScreen.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		9D4C78392A7D297500B79C01 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		9D4C783A2A7D297D00B79C01 /* DesignElements */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = DesignElements;
+			sourceTree = "<group>";
+		};
+		9D4C783B2A7D29A100B79C01 /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				9D4C783E2A7D29BE00B79C01 /* DesignElements */,
+				9D4C783D2A7D29B500B79C01 /* ViewModels */,
+				9D4C783C2A7D29AB00B79C01 /* ViewControllers */,
+			);
+			path = Settings;
+			sourceTree = "<group>";
+		};
+		9D4C783C2A7D29AB00B79C01 /* ViewControllers */ = {
+			isa = PBXGroup;
+			children = (
+				9D4C78452A7D343F00B79C01 /* SettingsScreen.swift */,
+			);
+			path = ViewControllers;
+			sourceTree = "<group>";
+		};
+		9D4C783D2A7D29B500B79C01 /* ViewModels */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = ViewModels;
+			sourceTree = "<group>";
+		};
+		9D4C783E2A7D29BE00B79C01 /* DesignElements */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = DesignElements;
 			sourceTree = "<group>";
 		};
 		9D73648A2A6E8CCD00528949 = {
@@ -307,6 +535,12 @@
 			children = (
 				9D2A22C32A71643300CD86F4 /* MochiyPopPOne-Regular.ttf */,
 				9D7364A42A6E8CCE00528949 /* Info.plist */,
+				9D4C783B2A7D29A100B79C01 /* Settings */,
+				9D4C78372A7D294F00B79C01 /* FinanceStatistics */,
+				9D4C78332A7D291100B79C01 /* FinanceGoalsScreen */,
+				9D4C782F2A7D28B600B79C01 /* IncomeScreen */,
+				9D4C78222A7CDF5D00B79C01 /* StartContainerController */,
+				9D4C781E2A7CDE8C00B79C01 /* MenuScreen */,
 				9D4C78192A7AF0C500B79C01 /* Extensions */,
 				9D4C78142A7AEF6500B79C01 /* CostsListScreen */,
 				9D4C78092A7AEA5D00B79C01 /* CostScreen */,
@@ -325,7 +559,8 @@
 				9D73649C2A6E8CCD00528949 /* Main.storyboard */,
 				9D7364A12A6E8CCE00528949 /* LaunchScreen.storyboard */,
 				9D73649F2A6E8CCE00528949 /* Assets.xcassets */,
-				9D4C78052A7AE4F200B79C01 /* CategoryCostsColors.swift */,
+				9D4C781C2A7CD8C500B79C01 /* MenuIcon.swift */,
+				9D4C78052A7AE4F200B79C01 /* CategoryCostsDesignElements.swift */,
 			);
 			path = "Design Elements";
 			sourceTree = "<group>";
@@ -453,41 +688,58 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				9D4C78062A7AE4F200B79C01 /* CategoryCostsColors.swift in Sources */,
+				9D4C78062A7AE4F200B79C01 /* CategoryCostsDesignElements.swift in Sources */,
 				9D2A22BE2A71172700CD86F4 /* AddCostControllerTopView.swift in Sources */,
+				9D4C782B2A7CEC9D00B79C01 /* MenuTableViewCell.swift in Sources */,
 				9D4C78002A7A409A00B79C01 /* KeyValueDateModel.swift in Sources */,
 				9DA0D6732A6ED0E900DFD80F /* DateModel.swift in Sources */,
 				9D2A23142A74FB3C00CD86F4 /* CardViewController.swift in Sources */,
 				9D4C77FC2A79ADB900B79C01 /* ListSortedCostsViewController.swift in Sources */,
+				9D4C78422A7D2F8300B79C01 /* FinanceGoalsScreen.swift in Sources */,
 				9D7364972A6E8CCD00528949 /* AppDelegate.swift in Sources */,
+				9D4C78272A7CE25B00B79C01 /* MenuViewController.swift in Sources */,
 				9D7364992A6E8CCD00528949 /* SceneDelegate.swift in Sources */,
 				9D2A22BA2A710D9800CD86F4 /* AddCategoryModel.swift in Sources */,
 				9D2A231A2A7542B100CD86F4 /* ExtensionForGestures.swift in Sources */,
 				9DA0D6652A6E8F7300DFD80F /* CostService.swift in Sources */,
 				9D2A22AA2A704DDE00CD86F4 /* ModelCategory.swift in Sources */,
 				9DA0D6802A6FE0CD00DFD80F /* ButtonsStackView.swift in Sources */,
+				9D4C78482A7EBE9900B79C01 /* DateCollectionViewCell.swift in Sources */,
 				9D4C78082A7AE83500B79C01 /* CellForCostScreen.swift in Sources */,
 				9D2A22B82A71076900CD86F4 /* AddCostViewModel.swift in Sources */,
 				9DA0D67E2A6FD47200DFD80F /* Button.swift in Sources */,
+				9D4C784E2A7FB30A00B79C01 /* GoalObject.swift in Sources */,
+				9D4C784A2A7F90B000B79C01 /* GoalCell.swift in Sources */,
 				9D4C77F82A799DEF00B79C01 /* GetListOfCategoriesService.swift in Sources */,
-				9D2A23122A7451D300CD86F4 /* CostSreen.swift in Sources */,
+				9D2A23122A7451D300CD86F4 /* CostScreen.swift in Sources */,
 				9DA0D6692A6E8FA500DFD80F /* CostModelView.swift in Sources */,
 				9DA0D66D2A6E8FD700DFD80F /* Categories.swift in Sources */,
 				9D4C77FA2A79ABC200B79C01 /* ListSortedCostsViewModel.swift in Sources */,
 				9DA0D6602A6E8F2E00DFD80F /* CostCell.swift in Sources */,
+				9D4C78502A7FB5CB00B79C01 /* GoalsService.swift in Sources */,
 				9D4C77F62A797DEC00B79C01 /* CostCategoryModel.swift in Sources */,
 				9D4C78022A7A4C2C00B79C01 /* SumCostModelsService.swift in Sources */,
+				9D4C784C2A7FB29B00B79C01 /* GoalViewModel.swift in Sources */,
 				9D4C77F42A797D3900B79C01 /* CardViewModel.swift in Sources */,
+				9D4C78462A7D343F00B79C01 /* SettingsScreen.swift in Sources */,
 				9D2A22BC2A7115C100CD86F4 /* AddCategoryCell.swift in Sources */,
 				9D2A233C2A769CF700CD86F4 /* Circle.swift in Sources */,
+				9D4C781B2A7BD4D800B79C01 /* Buttons.swift in Sources */,
+				9D4C781D2A7CD8C500B79C01 /* MenuIcon.swift in Sources */,
 				9DA0D66B2A6E8FC300DFD80F /* DateInfo.swift in Sources */,
+				9D4C78522A7FCC6A00B79C01 /* AddGoalViewController.swift in Sources */,
 				9DA0D6632A6E8F5300DFD80F /* CostRealm.swift in Sources */,
 				9DA0D6712A6ED08300DFD80F /* DateStorage.swift in Sources */,
 				9DA0D65E2A6E8F1200DFD80F /* CostViewController.swift in Sources */,
 				9D4C77FE2A7A3F5000B79C01 /* SumCostObjects.swift in Sources */,
+				9D4C78252A7CDFA900B79C01 /* StartContainerController.swift in Sources */,
+				9D4C782E2A7CF22B00B79C01 /* MenuModel.swift in Sources */,
+				9D4C78582A7FD40600B79C01 /* CollectionViewForIconsCell.swift in Sources */,
 				9D2A22B62A7106CB00CD86F4 /* AddCostViewController.swift in Sources */,
+				9D4C78402A7D2A6F00B79C01 /* IncomeScreen.swift in Sources */,
 				9D4BDE3A2A782937007149EA /* CostScreenViewModel.swift in Sources */,
 				9D4C78042A7A8B5900B79C01 /* GetStatistics.swift in Sources */,
+				9D4C78442A7D332E00B79C01 /* FinanceStatisticsScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -641,8 +893,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -651,9 +903,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ilyaagoryaev.Finance;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
 		};
@@ -671,8 +926,8 @@
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown";
 				IPHONEOS_DEPLOYMENT_TARGET = 16.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -681,9 +936,12 @@
 				MARKETING_VERSION = 1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = ilyaagoryaev.Finance;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
+				SUPPORTS_MACCATALYST = NO;
+				SUPPORTS_MAC_DESIGNED_FOR_IPHONE_IPAD = NO;
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
-				TARGETED_DEVICE_FAMILY = "1,2";
+				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
 		};

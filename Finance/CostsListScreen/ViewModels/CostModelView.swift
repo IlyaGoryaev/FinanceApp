@@ -37,4 +37,43 @@ class CostModelView{
         self.costs.on(.next(sections))
     }
     
+    func fetchDayCosts(){
+        let storage = StorageService()
+        var array = storage.fetchByDate(day: Calendar.current.component(.day, from: Date()), month: Calendar.current.component(.month, from: Date()), year: Calendar.current.component(.year, from: Date()))
+        var dateComponents = DateComponents()
+        dateComponents.day = Calendar.current.component(.day, from: Date())
+        dateComponents.month = Calendar.current.component(.month, from: Date())
+        dateComponents.year = Calendar.current.component(.year, from: Date())
+        array = array.sorted { cost1, cost2 in
+            cost1.date > cost2.date
+        }
+        costs.on(.next([SectionModel(model: DateShare.shared.convertFuncDay(dateComponents: dateComponents), items: array)]))
+    }
+    
+    func fetchMonthCosts(){
+        let storage = StorageService()
+        var dateComponents = DateComponents()
+        dateComponents.month = Calendar.current.component(.month, from: Date())
+        dateComponents.year = Calendar.current.component(.year, from: Date())
+        var array = storage.fetchObjectsByMonth(month: dateComponents.month!, year: dateComponents.year!)
+        costs.on(.next([SectionModel(model: DateShare().convertFuncMonth(dateComponents: dateComponents), items: array)]))
+        
+        
+    }
+    func fetchWeekCosts(){
+        let storage = StorageService()
+        var array: [any SectionModelType] = []
+        var dateComponents = DateComponents()
+        dateComponents.day = Calendar.current.component(.day, from: Date())
+        dateComponents.month = Calendar.current.component(.month, from: Date())
+        dateComponents.year = Calendar.current.component(.year, from: Date())
+        let daysWeek = Calendar.current.component(.weekday, from: Date()) == 1 ? 7 : Calendar.current.component(.weekday, from: Date()) - 1
+        for i in 0...daysWeek - 1{
+            array.append(SectionModel(model: DateShare().convertFuncDay(dateComponents: dateComponents), items: storage.fetchByDate(day: dateComponents.day!, month: dateComponents.month!, year: dateComponents.year!)))
+            dateComponents.day! -= 1
+        }
+        costs.on(.next(array as! [SectionModel<String, CostRealm>]))
+        
+    }
+    
 }

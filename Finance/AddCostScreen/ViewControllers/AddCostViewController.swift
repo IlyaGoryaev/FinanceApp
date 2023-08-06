@@ -20,31 +20,11 @@ class AddCostViewController: UIViewController, UITextFieldDelegate {
         return button
     }()
     
-    //MARK: Кнопка выхода
-    lazy var exitButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "xmark"), for: .normal)
-        button.tintColor = .white
-        button.translatesAutoresizingMaskIntoConstraints = false
-        button.addAction(UIAction(handler: { _ in
-            self.dismiss(animated: true)
-        }), for: .touchUpInside)
-        return button
-    }()
-    
     lazy var calendarButton: UIButton = {
        let button = UIButton()
         button.setImage(UIImage(systemName: "calendar"), for: .normal)
         button.translatesAutoresizingMaskIntoConstraints = false
         button.frame.size = CGSizeMake(40, 40)
-        return button
-    }()
-    
-    lazy var commentButton: UIButton = {
-        let button = UIButton()
-        button.setImage(UIImage(systemName: "bubble.left.fill"), for: .normal)
-        button.tintColor = #colorLiteral(red: 1, green: 0.9999921918, blue: 0.3256074786, alpha: 1)
-        button.translatesAutoresizingMaskIntoConstraints = false
         return button
     }()
     
@@ -56,7 +36,7 @@ class AddCostViewController: UIViewController, UITextFieldDelegate {
         let collectionView = UICollectionView(frame: CGRect(), collectionViewLayout: collectionViewFlowLayout)
         collectionView.register(AddCategoryCell.self, forCellWithReuseIdentifier: "Cell")
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .systemGray6
+        collectionView.backgroundColor = .white
         collectionView.isScrollEnabled = false
         return collectionView
     }()
@@ -87,8 +67,6 @@ class AddCostViewController: UIViewController, UITextFieldDelegate {
         view.addSubview(button)
         view.addSubview(button)
         view.addSubview(dateSegmetControl)
-        view.addSubview(exitButton)
-        view.addSubview(commentButton)
         view.addSubview(calendarButton)
         NSLayoutConstraint.activate([
             topView.topAnchor.constraint(equalTo: view.topAnchor),
@@ -104,10 +82,6 @@ class AddCostViewController: UIViewController, UITextFieldDelegate {
             dateSegmetControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
             dateSegmetControl.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16 * 4),
             dateSegmetControl.heightAnchor.constraint(equalToConstant: 50),
-            exitButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            exitButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            commentButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            commentButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16),
             calendarButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 500),
             calendarButton.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -16)
         ])
@@ -161,7 +135,7 @@ extension AddCostViewController: UIScrollViewDelegate{
     
     private func setupCollectionView(){
         collectionView.layer.cornerRadius = 10
-        collectionView.backgroundColor = .systemGray5
+        collectionView.backgroundColor = .white
         view.addSubview(collectionView)
         NSLayoutConstraint.activate([
             collectionView.topAnchor.constraint(equalTo: topView.bottomAnchor, constant: 16),

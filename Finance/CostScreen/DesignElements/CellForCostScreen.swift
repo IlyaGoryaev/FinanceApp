@@ -24,6 +24,7 @@ class CellForCostScreen: UICollectionViewCell {
         percentLabel.font = .systemFont(ofSize: 17)
         percentLabel.textColor = .gray
         percentLabel.translatesAutoresizingMaskIntoConstraints = false
+        self.layer.cornerRadius = 10
         
         NSLayoutConstraint.activate([
             sumLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16),

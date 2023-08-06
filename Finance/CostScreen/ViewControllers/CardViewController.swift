@@ -78,7 +78,8 @@ class CardViewController: UIViewController, UIScrollViewDelegate {
         
         let dataSource = RxCollectionViewSectionedReloadDataSource<SectionModel<String, CostCategoryModel>> { _, collectionView, indexPath, item in
             if let cell = self.collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as? CellForCostScreen{
-                cell.categoryLabel.text = item.category.rawValue
+                cell.categoryLabel.text = CategoryCostsDesignElements().getRussianLabelText()[item.category.rawValue]
+                
                 cell.sumLabel.text = "\(item.costsSum)"
                 cell.percentLabel.text = "\(item.percents)%"
                 cell.colorImage.backgroundColor = item.color

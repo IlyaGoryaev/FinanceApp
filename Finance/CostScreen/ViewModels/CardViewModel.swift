@@ -13,10 +13,11 @@ class CardViewModel{
         dateComponents.month = Calendar.current.component(.month, from: Date())
         dateComponents.year = Calendar.current.component(.year, from: Date())
         let dict = GetStatistic().getDayPercent(dateComponents: dateComponents)
+        print(dict)
         var array: [CostCategoryModel] = []
         for (category, value) in dict.0{
             if value != 0{
-                array.append(CostCategoryModel(costsSum: dict.1[category]!, percents: Int(round(value * 100) / 100 * 100), category: Categories(rawValue: String(category))!, color: CategoryCostsColors().getCategoryColors()[category]!))
+                array.append(CostCategoryModel(costsSum: dict.1[category]!, percents: Int(round(value * 100) / 100 * 100), category: Categories(rawValue: String(category))!, color: CategoryCostsDesignElements().getCategoryColors()[category]!))
             }
         }
         
@@ -36,7 +37,7 @@ class CardViewModel{
         var array: [CostCategoryModel] = []
         for (category, value) in dict.0{
             if value != 0{
-                array.append(CostCategoryModel(costsSum: dict.1[category]!, percents: Int(round(value * 100) / 100 * 100), category: Categories(rawValue: String(category))!, color: CategoryCostsColors().getCategoryColors()[category]!))
+                array.append(CostCategoryModel(costsSum: dict.1[category]!, percents: Int(round(value * 100) / 100 * 100), category: Categories(rawValue: String(category))!, color: CategoryCostsDesignElements().getCategoryColors()[category]!))
             }
         }
         
@@ -52,7 +53,7 @@ class CardViewModel{
         var array: [CostCategoryModel] = []
         for (category, value) in dict.0{
             if value != 0{
-                array.append(CostCategoryModel(costsSum: dict.1[category]!, percents: Int(round(value * 100) / 100 * 100), category: Categories(rawValue: String(category))!, color: CategoryCostsColors().getCategoryColors()[category]!))
+                array.append(CostCategoryModel(costsSum: dict.1[category]!, percents: Int(round(value * 100) / 100 * 100), category: Categories(rawValue: String(category))!, color: CategoryCostsDesignElements().getCategoryColors()[category]!))
             }
         }
         

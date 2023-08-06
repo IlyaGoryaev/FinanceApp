@@ -4,11 +4,21 @@ import RxCocoa
 import RxDataSources
 
 //Решить проблему с добалением view в стек
+//компановка элементов
+//Удаление слоев
+//Распознавание жестов над слоями
+//рефакторинг кода
+protocol CostScreenDelegate: AnyObject{
+    func didTapButtonMenu()
+}
 
-class CostSreen: UIViewController {
+class CostScreen: UIViewController {
+    
+    //MARK: Кнопка бокового меню
+    let menuIcon = MenuIcon.build(color: .brown, frame: CGRect(x: 0, y: 0, width: 50, height: 50))
     
     let addButton = UIButton()
-        
+    
     //MARK: Круговая диаграмма трат
     let viewWithCircleContainer = UIView()
     let label = UILabel()
@@ -20,12 +30,15 @@ class CostSreen: UIViewController {
         case collapsed
     }
     
-    var arrayOfCategoriesSection = [Double]()
+    var arrayOfCategoriesSection = [Categories.RawValue: Double]()
     
     let disposeBag = DisposeBag()
     
+    
+    weak var delegate: CostScreenDelegate?
+    
     //MARK: Тестовые кнопки
-    let buttons = ButtonsStackView()
+    let buttons = Buttons()
     
     //MARK: Инициализация viewModel
     private var viewModel = CostScreenViewModel()
@@ -37,8 +50,8 @@ class CostSreen: UIViewController {
     var visualEffectView: UIVisualEffectView!
     
     //MARK: Высота контролллера в двух режимах
-    let cardHeight: CGFloat = 800//переделать
-    let cardHandleAreaHeight: CGFloat = 300// переделать
+    let cardHeightPercentage = 0.95//переделать
+    let cardHandleAreaHeightPercentage = 0.35// переделать
     
     //MARK: Свойства, которые отвечает за состояние вида
     var cardVisible = false
@@ -52,16 +65,39 @@ class CostSreen: UIViewController {
     
     var animationProgressWhenInterrupted: CGFloat = 0
     
+    var height = UIApplication.shared.delegate?.window?!.windowScene?.keyWindow?.frame.height
+    
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
-        viewModel.getCircleDay()
         self.cardViewController.viewModel.getDayStatistics()
+        viewModel.getCircleDay()
+        viewModel.getDayLabelText()
+    }
+    
+    override func viewDidAppear(_ animated: Bool) {
+        super.viewDidAppear(animated)
+        
     }
     
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        print(self.view.frame.height / self.view.frame.width)
+        //MARK: Настройка кнопки меню
+        menuIcon.translatesAutoresizingMaskIntoConstraints = false
+        menuIcon.backgroundColor = .white
+        view.addSubview(menuIcon)
+        NSLayoutConstraint.activate([
+            menuIcon.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            menuIcon.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            menuIcon.heightAnchor.constraint(equalToConstant: 50),
+            menuIcon.widthAnchor.constraint(equalToConstant: 50)
+        ])
+        let tapMenuIconGesture = UITapGestureRecognizer(target: self, action: #selector(tappedMenuButton))
+        menuIcon.addGestureRecognizer(tapMenuIconGesture)
+        
+        
         viewModel.getCircleDay()
         var dateComponents = DateComponents()
         dateComponents.day = Calendar.current.component(.day, from: Date())
@@ -73,14 +109,18 @@ class CostSreen: UIViewController {
         
         addButton.translatesAutoresizingMaskIntoConstraints = false
         addButton.setTitle("+", for: .normal)
-        addButton.setTitleColor(.white, for: .normal)
+        addButton.titleLabel?.font = .boldSystemFont(ofSize: 30)
+        addButton.setTitleColor(.gray, for: .normal)
         view.addSubview(addButton)
         NSLayoutConstraint.activate([
-            addButton.trailingAnchor.constraint(equalTo: viewWithCircleContainer.trailingAnchor),
-            addButton.bottomAnchor.constraint(equalTo: viewWithCircleContainer.bottomAnchor)
+            addButton.trailingAnchor.constraint(equalTo: viewWithCircleContainer.trailingAnchor, constant: 16),
+            addButton.bottomAnchor.constraint(equalTo: viewWithCircleContainer.bottomAnchor, constant: 16),
+            addButton.heightAnchor.constraint(equalToConstant: 50),
+            addButton.widthAnchor.constraint(equalToConstant: 50)
         ])
-        addButton.backgroundColor = .blue
-        addButton.layer.cornerRadius = 16
+        addButton.backgroundColor = .white
+        addButton.layer.cornerRadius = 25
+        addButton.layer.shadowOpacity = 0.4
         addButton.addTarget(self, action: #selector(addMenu), for: .touchUpInside)
         
         
@@ -103,17 +143,18 @@ class CostSreen: UIViewController {
         viewWithCircleContainer.translatesAutoresizingMaskIntoConstraints = false
         
         NSLayoutConstraint.activate([
-            viewWithCircleContainer.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -cardHandleAreaHeight - 50),
+            viewWithCircleContainer.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor, constant: -(self.view.frame.height * cardHandleAreaHeightPercentage) - 50),
             viewWithCircleContainer.centerXAnchor.constraint(equalTo: view.centerXAnchor),
-            viewWithCircleContainer.heightAnchor.constraint(equalToConstant: 300),
-            viewWithCircleContainer.widthAnchor.constraint(equalToConstant: 300)
+            viewWithCircleContainer.heightAnchor.constraint(equalToConstant: view.frame.width * 0.76),
+            viewWithCircleContainer.widthAnchor.constraint(equalToConstant: view.frame.width * 0.76)
             
         ])
         viewWithCircleContainer.backgroundColor = .white
         
         //MARK: Добавление слоев круговой диаграммы
-        for layer in CircleCategories().getCategoriesLayer(percentArray: arrayOfCategoriesSection){
+        for layer in CircleCategories(circleValue: Int(view.frame.width * 0.76) / 2).getCategoriesLayer(percentDict: arrayOfCategoriesSection){
             viewWithCircleContainer.layer.addSublayer(layer)
+            print(layer)
         }
         
         
@@ -138,11 +179,16 @@ class CostSreen: UIViewController {
     }
     
     
+    @objc func tappedMenuButton(){
+        self.delegate?.didTapButtonMenu()
+        
+    }
+    
+    
     @objc func addMenu(){
-        let controller = UINavigationController()
-        controller.modalPresentationStyle = .fullScreen
-        controller.viewControllers = [CostViewController()]
-        present(controller, animated: true)
+        let controller = CostViewController()
+        self.navigationController?.navigationBar.isHidden = false
+        self.navigationController?.pushViewController(controller, animated: true)
     }
     
     
@@ -173,7 +219,13 @@ class CostSreen: UIViewController {
     
     //MARK: Настройка кнопок
     func setUpButtons(){
+        buttons.buttonDay.titleLabel?.font = .boldSystemFont(ofSize: self.view.frame.width * 0.09)
+        buttons.buttonMonth.titleLabel?.font = .boldSystemFont(ofSize: self.view.frame.width * 0.09)
+        buttons.buttonYear.titleLabel?.font = .boldSystemFont(ofSize: self.view.frame.width * 0.09)
         buttons.buttonDay.addAction(UIAction(handler: { _ in
+            self.buttons.buttonDay.setTitleColor(.black, for: .normal)
+            self.buttons.buttonMonth.setTitleColor(.systemGray2, for: .normal)
+            self.buttons.buttonYear.setTitleColor(.systemGray2, for: .normal)
             self.cardViewController.viewModel.getDayStatistics()
             self.viewModel.getDayLabelText()
             self.viewModel.getCircleDay()
@@ -182,12 +234,16 @@ class CostSreen: UIViewController {
             })
             self.label.isHidden = false
             self.subLabel.isHidden = false
-            for layer in CircleCategories().getCategoriesLayer(percentArray: self.arrayOfCategoriesSection){
+            for layer in CircleCategories(circleValue: Int(self.view.frame.width * 0.76) / 2).getCategoriesLayer(percentDict: self.arrayOfCategoriesSection){
                 self.viewWithCircleContainer.layer.addSublayer(layer)
+                print(layer)
             }
         }), for:  .touchUpInside)
-
+        
         buttons.buttonMonth.addAction(UIAction(handler: { _ in
+            self.buttons.buttonDay.setTitleColor(.systemGray2, for: .normal)
+            self.buttons.buttonMonth.setTitleColor(.black, for: .normal)
+            self.buttons.buttonYear.setTitleColor(.systemGray2, for: .normal)
             self.cardViewController.viewModel.getMonthStatistics()//Убрать
             self.viewModel.getMonthLabelText()
             self.viewModel.getCircleMonth()
@@ -196,12 +252,16 @@ class CostSreen: UIViewController {
             })
             self.label.isHidden = false
             self.subLabel.isHidden = false
-            for layer in CircleCategories().getCategoriesLayer(percentArray: self.arrayOfCategoriesSection){
+            for layer in CircleCategories(circleValue: Int(self.view.frame.width * 0.76) / 2).getCategoriesLayer(percentDict: self.arrayOfCategoriesSection){
                 self.viewWithCircleContainer.layer.addSublayer(layer)
+                print(layer)
             }
         }), for: .touchUpInside)
-
+        
         buttons.buttonYear.addAction(UIAction(handler: { _ in
+            self.buttons.buttonDay.setTitleColor(.systemGray2, for: .normal)
+            self.buttons.buttonMonth.setTitleColor(.systemGray2, for: .normal)
+            self.buttons.buttonYear.setTitleColor(.black, for: .normal)
             self.cardViewController.viewModel.getYearStatistics()
             self.viewModel.getYearLabelText()
             self.viewModel.getCircleYear()
@@ -210,8 +270,9 @@ class CostSreen: UIViewController {
             })
             self.label.isHidden = false
             self.subLabel.isHidden = false
-            for layer in CircleCategories().getCategoriesLayer(percentArray: self.arrayOfCategoriesSection){
+            for layer in CircleCategories(circleValue: Int(self.view.frame.width * 0.76) / 2).getCategoriesLayer(percentDict: self.arrayOfCategoriesSection){
                 self.viewWithCircleContainer.layer.addSublayer(layer)
+                print(layer)
             }
         }), for: .touchUpInside)
     }
@@ -227,7 +288,8 @@ class CostSreen: UIViewController {
         
         self.view.addSubview(cardViewController.view)
         cardViewController.didMove(toParent: self)
-        cardViewController.view.frame = CGRect(x: 0, y: self.view.frame.height - cardHandleAreaHeight, width: self.view.frame.width, height: self.cardHeight)
+        cardViewController.view.frame = CGRect(x: 0, y: self.view.frame.height - (self.view.frame.height * cardHandleAreaHeightPercentage), width: self.view.frame.width, height: self.view.frame.height * cardHeightPercentage)
+        
         cardViewController.view.clipsToBounds = true
         self.cardViewController.view.layer.cornerRadius = 20
         cardViewController.view.layer.masksToBounds = false
@@ -238,25 +300,20 @@ class CostSreen: UIViewController {
         cardViewController.view.layer.shadowOffset = CGSize(width: 0.0, height: 3.0)
         cardViewController.view.layer.shadowOpacity = 0.15
         
-//        let panGestureRecognizerBottomToTap = UIPanGestureRecognizer(target: self, action: #selector(handleCardPanBottomToTop(recognizer: )))
-//                cardViewController.handleView.addGestureRecognizer(panGestureRecognizerBottomToTap)
-//
-//        let tapGestureRecognizer = UITapGestureRecognizer(target: self, action: #selector(handleCardTap(recognizer: )))
-//        cardViewController.handleView.addGestureRecognizer(tapGestureRecognizer)
         
         let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeUp(recognizer: )))
         swipeGestureRecognizer.direction = .up
         cardViewController.view.addGestureRecognizer(swipeGestureRecognizer)
     }
     
-//    @objc func handleCardTap(recognizer: UITapGestureRecognizer){
-//        switch recognizer.state{
-//        case .ended:
-//            animateTransitionIfNeeded(state: nextState, duration: 0.9)
-//        default:
-//            break
-//        }
-//    }
+    //    @objc func handleCardTap(recognizer: UITapGestureRecognizer){
+    //        switch recognizer.state{
+    //        case .ended:
+    //            animateTransitionIfNeeded(state: nextState, duration: 0.9)
+    //        default:
+    //            break
+    //        }
+    //    }
     
     @objc func handleSwipeUp(recognizer: UISwipeGestureRecognizer){
         switch recognizer.direction{
@@ -283,9 +340,9 @@ class CostSreen: UIViewController {
             let frameAnimator = UIViewPropertyAnimator(duration: duration, dampingRatio: 1){
                 switch state{
                 case .expand:
-                    self.cardViewController.view.frame.origin.y = self.view.frame.height - self.cardHeight
+                    self.cardViewController.view.frame.origin.y = self.view.frame.height - (self.view.frame.height * self.cardHeightPercentage)
                 case .collapsed:
-                    self.cardViewController.view.frame.origin.y = self.view.frame.height - self.cardHandleAreaHeight
+                    self.cardViewController.view.frame.origin.y = self.view.frame.height - (self.view.frame.height * self.cardHandleAreaHeightPercentage)
                 }
             }
             
@@ -295,17 +352,17 @@ class CostSreen: UIViewController {
                     self.cardViewController.view.removeGestureRecognizer(recognizer)
                 }
                 if self.cardVisible{
-
+                    
                     let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipeDown(recognizer: )))
                     swipeGestureRecognizer.direction = .down
                     self.cardViewController.view.addGestureRecognizer(swipeGestureRecognizer)
-
-
+                    
+                    
                 } else {
                     let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(self.handleSwipeUp(recognizer: )))
                     swipeGestureRecognizer.direction = .up
                     self.cardViewController.view.addGestureRecognizer(swipeGestureRecognizer)
-
+                    
                 }
                 self.runningAnimation.removeAll()
             }
@@ -314,7 +371,7 @@ class CostSreen: UIViewController {
             
             frameAnimator.startAnimation()
             runningAnimation.append(frameAnimator)
-
+            
         }
     }
     
@@ -341,4 +398,13 @@ class CostSreen: UIViewController {
             animation.continueAnimation(withTimingParameters: nil, durationFactor: 0)
         }
     }
-}
+        
+        override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
+            let point = touches.first?.location(in: self.view)
+            if let layer = self.view.layer.hitTest(point!) as? CAShapeLayer{
+                if ((layer.path?.contains(point!)) != nil){
+                    print("Tapped")
+                }
+            }
+        }
+    }
