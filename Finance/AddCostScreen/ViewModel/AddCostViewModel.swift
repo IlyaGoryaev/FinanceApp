@@ -109,6 +109,10 @@ class AddCostViewModel{
     
     var categoryShow = BehaviorSubject(value: true)
     
+    var selectedItem = BehaviorSubject(value: ["":""])
+    
+    var isItemSelected = BehaviorSubject(value: false)
+    
     func fetchGoalObjects(){
         
         let goalsService = GoalsService()

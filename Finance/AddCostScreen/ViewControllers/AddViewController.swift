@@ -19,7 +19,8 @@ class AddCostController: UIViewController, UIScrollViewDelegate {
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .systemGray6
-        scrollView.frame = view.bounds
+        //scrollView.frame = view.bounds
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.contentSize = contentSize
         return scrollView
     }()
@@ -73,7 +74,14 @@ class AddCostController: UIViewController, UIScrollViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        view.backgroundColor = .systemGray6
         view.addSubview(scrollView)
+        NSLayoutConstraint.activate([
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 82)
+        ])
         scrollView.addSubview(contentView)
         contentView.addSubview(stackView)
         setupTextFiled()
@@ -121,7 +129,7 @@ extension AddCostController{
     private func setupExitButton(){
         exitButton.translatesAutoresizingMaskIntoConstraints = false
         exitButton.backgroundColor = .white
-        contentView.addSubview(exitButton)
+        view.addSubview(exitButton)
         exitButton.layer.cornerRadius = 25
         exitButton.layer.shadowOpacity = 0.4
         exitButton.setTitle("✕", for: .normal)
@@ -130,8 +138,8 @@ extension AddCostController{
         NSLayoutConstraint.activate([
             exitButton.widthAnchor.constraint(equalToConstant: 50),
             exitButton.heightAnchor.constraint(equalToConstant: 50),
-            exitButton.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16),
-            exitButton.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 16)
+            exitButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            exitButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 16)
         ])
         exitButton.addAction(UIAction(handler: { _ in
             self.dismiss(animated: true)
@@ -142,7 +150,7 @@ extension AddCostController{
     private func setupViewConstraints(){
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            stackView.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 82),
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
         ])
@@ -184,17 +192,55 @@ extension AddCostController{
         }.disposed(by: disposeBag)
         
         collectionViewCategory.rx.itemSelected.subscribe {
-            if try! self.viewModel.goalsShow.value() == true{
-                self.viewModel.isNotGoalsShow()
-                self.collectionViewCategory.cellForItem(at: $0)?.backgroundColor = .red
-                self.collectionViewGoals.isHidden = true
-                self.labelGoals.isHidden = true
+            
+            
+            let selectedIndex = try! self.viewModel.selectedItem.value()["Category"]
+            
+            if selectedIndex == nil{
+                
+                if try! self.viewModel.goalsShow.value() == true{
+                    
+                    self.collectionViewCategory.cellForItem(at: $0.element!)?.backgroundColor = .red
+                    self.animateVisabilityGoals()
+                    
+                    self.viewModel.isItemSelected.on(.next(true))
+                    self.viewModel.isNotGoalsShow()
+                    self.viewModel.selectedItem.on(.next(["Category": "\(($0.element!.row))"]))
+                    
+                    
+                } else {
+                    
+                    
+                    self.viewModel.isItemSelected.on(.next(false))
+                    self.collectionViewCategory.cellForItem(at: $0.element!)?.backgroundColor = .white
+                    self.animateVisabilityGoals()
+                    self.viewModel.isGoalsShow()
+                    
+                }
+                
+                
             } else {
-                self.viewModel.isGoalsShow()
-                self.collectionViewCategory.cellForItem(at: $0)?.backgroundColor = .white
-                self.collectionViewGoals.isHidden = false
-                self.labelGoals.isHidden = false
+                
+                self.collectionViewCategory.cellForItem(at: $0.element!)?.backgroundColor = .red
+                if Int(selectedIndex!)! == $0.element!.row{
+                    
+                    print("Yes")
+                    self.collectionViewCategory.cellForItem(at: $0.element!)?.backgroundColor = .white
+                    self.animateVisabilityGoals()
+                    self.viewModel.isItemSelected.on(.next(false))
+                    self.viewModel.isGoalsShow()
+                    
+                }
+                self.viewModel.selectedItem.on(.next(["Category": "\(($0.element!.row))"]))
             }
+            
+            if try! self.viewModel.isItemSelected.value() == false{
+                self.viewModel.selectedItem.on(.next(["":""]))
+            }
+        }.disposed(by: disposeBag)
+        
+        collectionViewCategory.rx.itemDeselected.subscribe {
+            self.collectionViewCategory.cellForItem(at: $0)?.backgroundColor = .white
         }.disposed(by: disposeBag)
 
         collectionViewCategory.rx.setDelegate(self).disposed(by: disposeBag)
@@ -212,17 +258,60 @@ extension AddCostController{
             return cell
         }
         collectionViewGoals.rx.itemSelected.subscribe {
-            if try! self.viewModel.categoryShow.value() == true{
-                self.viewModel.isNotCategoriesShow()
-                self.collectionViewGoals.cellForItem(at: $0)?.backgroundColor = .red
-                self.collectionViewCategory.isHidden = true
-                self.labelCategory.isHidden = true
+            
+            let selectedIndex = try! self.viewModel.selectedItem.value()["Goal"]
+            
+            if selectedIndex == nil{
+                
+                
+                if try! self.viewModel.categoryShow.value() == true{
+                    
+                    self.collectionViewGoals.cellForItem(at: $0.element!)?.backgroundColor = .red
+                    self.animateVisabilityCategories()
+                    
+                    self.viewModel.isItemSelected.on(.next(true))
+                    self.viewModel.isNotCategoriesShow()
+                    self.viewModel.selectedItem.on(.next(["Goal": "\(($0.element!.row))"]))
+    
+                    
+                } else {
+                    
+                    self.viewModel.isItemSelected.on(.next(false))
+                    self.collectionViewGoals.cellForItem(at: $0.element!)?.backgroundColor = .white
+                    self.animateVisabilityCategories()
+                    self.viewModel.isCategoriesShow()
+                }
+            
             } else {
-                self.viewModel.isCategoriesShow()
-                self.collectionViewGoals.cellForItem(at: $0)?.backgroundColor = .white
-                self.collectionViewCategory.isHidden = false
-                self.labelCategory.isHidden = false
+                
+                self.collectionViewGoals.cellForItem(at: $0.element!)?.backgroundColor = .red
+                
+                if Int(selectedIndex!)! == $0.element!.row{
+                    
+                    print("Yes")
+                    self.collectionViewGoals.cellForItem(at: $0.element!)?.backgroundColor = .white
+                    self.animateVisabilityCategories()
+                    self.viewModel.isItemSelected.on(.next(false))
+                    self.viewModel.isCategoriesShow()
+                    
+                }
+                
+                self.viewModel.selectedItem.on(.next(["Goal": "\(($0.element!.row))"]))
+                
             }
+            
+            if try! self.viewModel.isItemSelected.value() == false{
+                self.viewModel.selectedItem.on(.next(["":""]))
+            }
+            
+            
+            
+        }.disposed(by: disposeBag)
+        
+        collectionViewGoals.rx.itemDeselected.subscribe {
+            
+            self.collectionViewGoals.cellForItem(at: $0)?.backgroundColor = .white
+            
         }.disposed(by: disposeBag)
         
         
@@ -232,4 +321,56 @@ extension AddCostController{
     }
 
     
+}
+extension AddCostController{
+    
+    
+    func animateVisabilityGoals(){
+        let duration1 = 0.3
+        let duration2 = 0.1
+        let animatables = [collectionViewGoals, labelGoals]
+        _ = animatables.map({ $0.alpha = 0 })
+        
+        
+        let firstAnimation = UIViewPropertyAnimator(duration: duration1, curve: .easeInOut){ [self] in
+            _ = animatables.map({ $0.isHidden = try! self.viewModel.goalsShow.value()
+            })
+        }
+        
+        firstAnimation.addCompletion { position in
+            if position == .end{
+                let secondAnimation = UIViewPropertyAnimator(duration: duration2, curve: .easeInOut){
+                    _ = animatables.map({ $0.alpha = 1
+                    })
+                }
+                secondAnimation.startAnimation()
+            }
+        }
+        firstAnimation.startAnimation()
+    }
+    
+    
+    
+    func animateVisabilityCategories(){
+        let duration1 = 0.3
+        let duration2 = 0.1
+        let animatables = [collectionViewCategory, labelCategory]
+        _ = animatables.map({ $0.alpha = 0 })
+        
+        let firstAnimation = UIViewPropertyAnimator(duration: duration1, curve: .easeInOut){ [self] in
+            _ = animatables.map({ $0.isHidden = try! self.viewModel.categoryShow.value()
+            })
+        }
+        
+        firstAnimation.addCompletion { position in
+            if position == .end{
+                let secondAnimation = UIViewPropertyAnimator(duration: duration2, curve: .easeInOut){
+                    _ = animatables.map({ $0.alpha = 1 })
+                }
+                secondAnimation.startAnimation()
+            }
+            
+        }
+        firstAnimation.startAnimation()
+    }
 }
