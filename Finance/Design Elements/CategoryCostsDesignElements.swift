@@ -8,11 +8,11 @@ class CategoryCostsDesignElements{
     }
     
     func getCategoryEmoji() -> [String: String]{
-        return ["food": "🍴", "auto": "🚗", "householdExpenses": "🛠️", "transport": "🚎", "houseRent": "🏢", "health": "💊", "sport": "⚽️", "pets": "🐶", "workExpenses": "📂"]
+        return ["food": "🍴", "auto": "🚗", "householdExpenses": "🛠️", "transport": "🚎", "houseRent": "🏢", "health": "💊", "sport": "⚽️", "pets": "🐶", "workExpenses": "📂", "other": "?"]
     }
     
     func getRussianLabelText() -> [String: String]{
-        return ["food": "Еда", "auto": "Автомобиль", "householdExpenses": "Домашние расходы", "transport": "Траспорт", "houseRent": "Аренда жилья", "health": "Здоровье", "sport": "Спорт", "pets": "Питомцы", "workExpenses": "Рабочие расходы"]
+        return ["food": "Еда", "auto": "Автомобиль", "householdExpenses": "Домашние расходы", "transport": "Траспорт", "houseRent": "Аренда жилья", "health": "Здоровье", "sport": "Спорт", "pets": "Питомцы", "workExpenses": "Рабочие расходы", "other": "Другие"]
     }
 
 }

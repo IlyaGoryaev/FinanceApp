@@ -127,7 +127,7 @@ class CostViewController: UIViewController {
     }
     
     @objc func tappedAddButton(){
-        let addViewController = AddCostViewController()
+        let addViewController = AddCostController()
         //addViewController.modalPresentationStyle = .fullScreen
         self.present(addViewController, animated: true)
     }

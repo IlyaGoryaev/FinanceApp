@@ -10,5 +10,5 @@ enum Categories: String, CaseIterable{
     case sport
     case pets
     case workExpenses
-    case financeGoal
+    case other
 }
