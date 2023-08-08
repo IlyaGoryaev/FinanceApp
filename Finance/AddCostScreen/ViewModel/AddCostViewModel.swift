@@ -17,7 +17,7 @@ class AddCostViewModel{
     
     var isItemSelected = BehaviorSubject(value: false)
     
-    var datesForSelection = BehaviorSubject(value: [""])
+    var datesForSelection = BehaviorSubject(value: [Date]())
     
     var dateSelected = BehaviorSubject(value: Date())
     
@@ -31,14 +31,15 @@ class AddCostViewModel{
     
     func fetchDates(){//Исправить 
         
-        var array: [String] = []
+        var array: [Date] = []
         
         var dateComponents = DateComponents()
         dateComponents.day = Calendar.current.component(.day, from: Date())
         dateComponents.month = Calendar.current.component(.month, from: Date())
         dateComponents.year = Calendar.current.component(.year, from: Date())
+                
         
-        array.append(DateShare.shared.convertFuncDayWithoutYear(dateComponents: dateComponents))
+        array.append(Calendar.current.date(from: dateComponents)!)
         
         if dateComponents.day! - 1 < 1{
             dateComponents.month! -= 1
@@ -48,15 +49,15 @@ class AddCostViewModel{
             dateComponents.day! -= 1
         }
         
-        array.insert(DateShare.shared.convertFuncDayWithoutYear(dateComponents: dateComponents), at: 0)
+        array.insert(Calendar.current.date(from: dateComponents)!, at: 0)
         
         dateComponents.day! -= 1
         
-        array.insert(DateShare.shared.convertFuncDayWithoutYear(dateComponents: dateComponents), at: 0)
+        array.insert(Calendar.current.date(from: dateComponents)!, at: 0)
         
         dateComponents.day! += 3
         
-        array.append(DateShare.shared.convertFuncDayWithoutYear(dateComponents: dateComponents))
+        array.append(Calendar.current.date(from: dateComponents)!)
         
         datesForSelection.on(.next(array))
         

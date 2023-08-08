@@ -188,7 +188,7 @@ class CostViewController: UIViewController {
             }
             print(stringSelectedItem)
             
-            addViewController.viewModel.newValuesForCost(sumCost: sum, category: stringSelectedItem, label: "rrfw4rfrw", date: Date())
+            addViewController.viewModel.newValuesForCost(sumCost: sum, category: stringSelectedItem, label: "rrfw4rfrw", date: try! addViewController.viewModel.dateSelected.value())
             addViewController.viewModel.saveRealm()
             self.viewModel.fetchObjectsAfterAddingNewCost()
             

@@ -21,6 +21,12 @@ final class StorageService{
         return storage.objects(CostRealm.self).filter("monthValue = \(month)").filter("yearValue = \(year)").toArray()
     }
     
+    func fecthObjectsMonth(month: Int, year: Int){
+        guard let storage else { return  }
+        var monthObjects = storage.objects(CostRealm.self).filter("monthValue = \(month)").filter("yearValue = \(year)").toArray()
+        
+    }
+    
     func fetchObjectByYear(year: Int) -> [CostRealm]{
         guard let storage else { return [] }
         return storage.objects(CostRealm.self).filter("yearValue = \(year)").toArray()

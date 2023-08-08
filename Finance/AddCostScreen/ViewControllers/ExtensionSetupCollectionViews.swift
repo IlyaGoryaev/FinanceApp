@@ -35,7 +35,11 @@ extension AddCostController{
         self.viewModel.datesForSelection.bind(to: dateCollectionView.rx.items){collectionView, index, item in
             let indexPath = IndexPath(row: index, section: 0)
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! DateCell
-            cell.label.text = item
+            var dateComponents = DateComponents()
+            dateComponents.day = Calendar.current.component(.day, from: item)
+            dateComponents.month = Calendar.current.component(.month, from: item)
+            dateComponents.year = Calendar.current.component(.year, from: item)
+            cell.label.text = DateShare.shared.convertFuncDayWithoutYear(dateComponents: dateComponents)
             cell.backgroundColor = .systemGray5
             cell.layer.cornerRadius = 10
             cell.layer.borderColor = UIColor.systemGray2.cgColor
@@ -49,7 +53,8 @@ extension AddCostController{
             let cell = self.dateCollectionView.cellForItem(at: $0.element!) as! DateCell
             cell.backgroundColor = .blue
             cell.label.textColor = .white
-            self.viewModel.dateSelected.on(.next(cell.label.text!))
+            let arrayDates = try! self.viewModel.datesForSelection.value()
+            self.viewModel.dateSelected.on(.next(arrayDates[$0.element!.row]))
             self.viewModel.isDateSelected.on(.next(true))
             self.viewModel.buttonStatus()
             

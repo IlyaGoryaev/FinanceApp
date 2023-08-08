@@ -54,16 +54,6 @@ class DateShare{
         
         return resultDate
     }
-    
-    func convertFromStringToDate(string: String) -> Date{
-        var dateString = string
-        var dateComponents = DateComponents()
-        
-        dateString.contains(".")
-        
-        
-    }
-    
     func convertFuncDayWithoutYear(dateComponents: DateComponents?) -> String{
         
         var resultDate: String = ""

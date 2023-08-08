@@ -24,19 +24,6 @@ class CostModelView{
         print(storage.fetchAllDates())
     }
     
-    func addCosts(cost: CostRealm){
-        guard var sections = try? costs.value() else { return }
-        
-        let storage = StorageService()
-        try! storage.saveOrUpdateObject(object: cost)
-
-        var currentSectionDate = sections[0]
-        currentSectionDate.items.insert(cost, at: 0)
-        currentSectionDate.model = "\(DateShare.shared.getDay()).\(DateShare.shared.getMonth())"
-        sections[0] = currentSectionDate
-        self.costs.on(.next(sections))
-    }
-    
     func fetchDayCosts(){
         let storage = StorageService()
         var array = storage.fetchByDate(day: Calendar.current.component(.day, from: Date()), month: Calendar.current.component(.month, from: Date()), year: Calendar.current.component(.year, from: Date()))
@@ -45,18 +32,55 @@ class CostModelView{
         dateComponents.month = Calendar.current.component(.month, from: Date())
         dateComponents.year = Calendar.current.component(.year, from: Date())
         array = array.sorted { cost1, cost2 in
-            cost1.date > cost2.date
+            cost1.date >= cost2.date
         }
         costs.on(.next([SectionModel(model: DateShare.shared.convertFuncDay(dateComponents: dateComponents), items: array)]))
     }
     
     func fetchMonthCosts(){
         let storage = StorageService()
+        var monthArray: [any SectionModelType] = []
+        var costsArray: [[CostRealm?]] = [[CostRealm?]].init(repeating: [nil], count: 32)
         var dateComponents = DateComponents()
         dateComponents.month = Calendar.current.component(.month, from: Date())
         dateComponents.year = Calendar.current.component(.year, from: Date())
         let array = storage.fetchObjectsByMonth(month: dateComponents.month!, year: dateComponents.year!)
-        costs.on(.next([SectionModel(model: DateShare().convertFuncMonth(dateComponents: dateComponents), items: array)]))
+        
+        for cost in array{
+            
+            var dateComponents = DateComponents()
+            dateComponents.day = Calendar.current.component(.day, from: cost.date)
+            dateComponents.month = Calendar.current.component(.month, from: cost.date)
+            dateComponents.year = Calendar.current.component(.year, from: cost.date)
+            let stringDate = DateShare.shared.convertFuncDay(dateComponents: dateComponents)
+            if costsArray[dateComponents.day!] == [nil]{
+                costsArray[dateComponents.day!] = [cost]
+            } else {
+                costsArray[dateComponents.day!].append(cost)
+            }
+            print(cost)
+            
+            
+        }
+        var i = 31
+        while(i > 0){
+            
+            if costsArray[i] != [nil]{
+                var dateComponents = DateComponents()
+                costsArray[i] = costsArray[i].sorted { cost1, cost2 in
+                    cost1!.date >= cost2!.date
+                }
+                dateComponents.day = i
+                dateComponents.month = Calendar.current.component(.month, from: Date())
+                dateComponents.year = Calendar.current.component(.year, from: Date())
+                monthArray.append(SectionModel(model: DateShare.shared.convertFuncDay(dateComponents: dateComponents), items: costsArray[i] as! [CostRealm]))
+            }
+            
+            i -= 1
+            
+        }
+        
+        costs.on(.next(monthArray as! [SectionModel<String, CostRealm>]))
         
         
     }
@@ -71,7 +95,7 @@ class CostModelView{
         for _ in 0...daysWeek - 1{
             var dailyArray = storage.fetchByDate(day: dateComponents.day!, month: dateComponents.month!, year: dateComponents.year!)
             dailyArray = dailyArray.sorted { cost1, cost2 in
-                cost1.date > cost2.date
+                cost1.date >= cost2.date
             }
             array.append(SectionModel(model: DateShare().convertFuncDay(dateComponents: dateComponents), items: dailyArray))
             dateComponents.day! -= 1
@@ -89,11 +113,11 @@ class CostModelView{
             fetchDayCosts()
             break
         case 1:
-            //Добавление только в первый секцию
+            //Добавление только в первую секцию
             fetchWeekCosts()
             break
         case 2:
-            //Добавление только в первый секцию
+            //Добавление только в первую секцию
             fetchMonthCosts()
             break
         default:
