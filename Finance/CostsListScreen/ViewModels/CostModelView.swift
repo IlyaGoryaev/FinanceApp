@@ -7,8 +7,8 @@ import RealmSwift
 class CostModelView{
     
     var costs = BehaviorSubject(value: [SectionModel(model: "", items: [CostRealm]())])
-    
-    var amountOfDays = BehaviorSubject(value: 3)
+        
+    var selectedIndex = BehaviorSubject(value: 0)
         
     func fetchCosts(){
         let storage = StorageService()
@@ -55,7 +55,7 @@ class CostModelView{
         var dateComponents = DateComponents()
         dateComponents.month = Calendar.current.component(.month, from: Date())
         dateComponents.year = Calendar.current.component(.year, from: Date())
-        var array = storage.fetchObjectsByMonth(month: dateComponents.month!, year: dateComponents.year!)
+        let array = storage.fetchObjectsByMonth(month: dateComponents.month!, year: dateComponents.year!)
         costs.on(.next([SectionModel(model: DateShare().convertFuncMonth(dateComponents: dateComponents), items: array)]))
         
         
@@ -68,11 +68,37 @@ class CostModelView{
         dateComponents.month = Calendar.current.component(.month, from: Date())
         dateComponents.year = Calendar.current.component(.year, from: Date())
         let daysWeek = Calendar.current.component(.weekday, from: Date()) == 1 ? 7 : Calendar.current.component(.weekday, from: Date()) - 1
-        for i in 0...daysWeek - 1{
-            array.append(SectionModel(model: DateShare().convertFuncDay(dateComponents: dateComponents), items: storage.fetchByDate(day: dateComponents.day!, month: dateComponents.month!, year: dateComponents.year!)))
+        for _ in 0...daysWeek - 1{
+            var dailyArray = storage.fetchByDate(day: dateComponents.day!, month: dateComponents.month!, year: dateComponents.year!)
+            dailyArray = dailyArray.sorted { cost1, cost2 in
+                cost1.date > cost2.date
+            }
+            array.append(SectionModel(model: DateShare().convertFuncDay(dateComponents: dateComponents), items: dailyArray))
             dateComponents.day! -= 1
         }
         costs.on(.next(array as! [SectionModel<String, CostRealm>]))
+        
+    }
+    
+    func fetchObjectsAfterAddingNewCost(){
+        
+        let selectedIndex = try! selectedIndex.value()
+        
+        switch selectedIndex{
+        case 0:
+            fetchDayCosts()
+            break
+        case 1:
+            //Добавление только в первый секцию
+            fetchWeekCosts()
+            break
+        case 2:
+            //Добавление только в первый секцию
+            fetchMonthCosts()
+            break
+        default:
+            break
+        }
         
     }
     

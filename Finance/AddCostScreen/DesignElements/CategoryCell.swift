@@ -3,16 +3,34 @@ import UIKit
 class CategoryCell: UICollectionViewCell {
     
     let label = UILabel()
+    let greenView = UIView()
+    let labelSelected = UILabel()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
         label.translatesAutoresizingMaskIntoConstraints = false
+        greenView.translatesAutoresizingMaskIntoConstraints = false
+        labelSelected.translatesAutoresizingMaskIntoConstraints = false
+        greenView.backgroundColor = .green
+        greenView.layer.cornerRadius = 15
+        labelSelected.text = "✔️"
+        labelSelected.textColor = .white
         addSubview(label)
+        addSubview(greenView)
+        addSubview(labelSelected)
         NSLayoutConstraint.activate([
             label.centerXAnchor.constraint(equalTo: centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: centerYAnchor)
+            label.centerYAnchor.constraint(equalTo: centerYAnchor),
+            greenView.centerXAnchor.constraint(equalTo: centerXAnchor),
+            greenView.centerYAnchor.constraint(equalTo: centerYAnchor),
+            greenView.widthAnchor.constraint(equalToConstant: 30),
+            greenView.heightAnchor.constraint(equalToConstant: 30),
+            labelSelected.centerXAnchor.constraint(equalTo: centerXAnchor),
+            labelSelected.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
         addDashedBorder()
+        greenView.isHidden = true
+        labelSelected.isHidden = true
     }
     
     required init?(coder: NSCoder) {

@@ -48,6 +48,8 @@
 		9D4C785E2A8112ED00B79C01 /* AddViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C785D2A8112ED00B79C01 /* AddViewController.swift */; };
 		9D4C78602A81134900B79C01 /* CategoryCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C785F2A81134900B79C01 /* CategoryCell.swift */; };
 		9D4C78622A8116A700B79C01 /* AddCostGoalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C78612A8116A700B79C01 /* AddCostGoalCell.swift */; };
+		9D4C78642A82240000B79C01 /* DateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C78632A82240000B79C01 /* DateCell.swift */; };
+		9D4C78662A82896200B79C01 /* ExtensionSetupCollectionViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C78652A82896200B79C01 /* ExtensionSetupCollectionViews.swift */; };
 		9D7364972A6E8CCD00528949 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7364962A6E8CCD00528949 /* AppDelegate.swift */; };
 		9D7364992A6E8CCD00528949 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7364982A6E8CCD00528949 /* SceneDelegate.swift */; };
 		9D73649E2A6E8CCD00528949 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D73649C2A6E8CCD00528949 /* Main.storyboard */; };
@@ -113,6 +115,8 @@
 		9D4C785D2A8112ED00B79C01 /* AddViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddViewController.swift; sourceTree = "<group>"; };
 		9D4C785F2A81134900B79C01 /* CategoryCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CategoryCell.swift; sourceTree = "<group>"; };
 		9D4C78612A8116A700B79C01 /* AddCostGoalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCostGoalCell.swift; sourceTree = "<group>"; };
+		9D4C78632A82240000B79C01 /* DateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCell.swift; sourceTree = "<group>"; };
+		9D4C78652A82896200B79C01 /* ExtensionSetupCollectionViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionSetupCollectionViews.swift; sourceTree = "<group>"; };
 		9D7364932A6E8CCD00528949 /* Finance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Finance.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D7364962A6E8CCD00528949 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9D7364982A6E8CCD00528949 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -261,6 +265,7 @@
 			children = (
 				9D2A22B52A7106CB00CD86F4 /* AddCostViewController.swift */,
 				9D4C785D2A8112ED00B79C01 /* AddViewController.swift */,
+				9D4C78652A82896200B79C01 /* ExtensionSetupCollectionViews.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -278,6 +283,7 @@
 			children = (
 				9D4C785F2A81134900B79C01 /* CategoryCell.swift */,
 				9D4C78612A8116A700B79C01 /* AddCostGoalCell.swift */,
+				9D4C78632A82240000B79C01 /* DateCell.swift */,
 			);
 			path = DesignElements;
 			sourceTree = "<group>";
@@ -715,6 +721,7 @@
 				9D4C77F82A799DEF00B79C01 /* GetListOfCategoriesService.swift in Sources */,
 				9D4C78602A81134900B79C01 /* CategoryCell.swift in Sources */,
 				9D2A23122A7451D300CD86F4 /* CostScreen.swift in Sources */,
+				9D4C78662A82896200B79C01 /* ExtensionSetupCollectionViews.swift in Sources */,
 				9DA0D6692A6E8FA500DFD80F /* CostModelView.swift in Sources */,
 				9DA0D66D2A6E8FD700DFD80F /* Categories.swift in Sources */,
 				9D4C77FA2A79ABC200B79C01 /* ListSortedCostsViewModel.swift in Sources */,
@@ -743,6 +750,7 @@
 				9D4BDE3A2A782937007149EA /* CostScreenViewModel.swift in Sources */,
 				9D4C78042A7A8B5900B79C01 /* GetStatistics.swift in Sources */,
 				9D4C785E2A8112ED00B79C01 /* AddViewController.swift in Sources */,
+				9D4C78642A82240000B79C01 /* DateCell.swift in Sources */,
 				9D4C78442A7D332E00B79C01 /* FinanceStatisticsScreen.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -4,35 +4,43 @@ import RxSwift
 import RxDataSources
 
 class AddCostController: UIViewController, UIScrollViewDelegate {
-    
+    //MARK: Кнопки наверху контроллера
     let exitButton = UIButton()
 
+    //MARK: Графические элементы
     let labelCategory = UILabel()
-    
     let labelGoals = UILabel()
-        
-    let disposeBag = DisposeBag()
+    let dateView = UIView()
+    let dateStackView = UIStackView()
+    let calendarButton = UIButton()
     
+    
+    let disposeBag = DisposeBag()
     let viewModel = AddCostViewModel()
 
+    
+    //MARK: Инициализация текстового поля
     let textField = UITextField()
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .systemGray6
-        //scrollView.frame = view.bounds
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.contentSize = contentSize
         return scrollView
     }()
     
-    private lazy var contentView: UIView = {
+    
+    //MARK: Контейнер для ScrollView
+    lazy var contentView: UIView = {
         let contentView = UIView()
         contentView.backgroundColor = .systemGray6
         contentView.frame.size = contentSize
         return contentView
     }()
     
-    private lazy var stackView: UIStackView = {
+    
+    //MARK: StackView в котором располагаются элементы
+    lazy var stackView: UIStackView = {
         let stackView = UIStackView()
         stackView.axis = .vertical
         stackView.alignment = .center
@@ -40,6 +48,8 @@ class AddCostController: UIViewController, UIScrollViewDelegate {
         return stackView
     }()
     
+    
+    //MARK: collectionView для выбора категории, инициализация
     lazy var collectionViewCategory: UICollectionView = {
         let collectionViewFlowLayout = UICollectionViewFlowLayout()
         collectionViewFlowLayout.itemSize = CGSize(width: 60, height: 60)
@@ -53,6 +63,8 @@ class AddCostController: UIViewController, UIScrollViewDelegate {
         return collectionView
     }()
     
+    
+    //MARK: collectionView для выбора цели, инициализация
     lazy var collectionViewGoals: UICollectionView = {
         let collectionViewFlowLayout = UICollectionViewFlowLayout()
         collectionViewFlowLayout.itemSize = CGSize(width: 60, height: 60)
@@ -68,9 +80,28 @@ class AddCostController: UIViewController, UIScrollViewDelegate {
     }()
     
     
+    //MARK: collectionView для выбора даты, инициализация
+    lazy var dateCollectionView: UICollectionView = {
+        let collectionViewFlowLayout = UICollectionViewFlowLayout()
+        collectionViewFlowLayout.itemSize = CGSize(width: 60, height: 60)
+        collectionViewFlowLayout.sectionInset = UIEdgeInsets(top: 2, left: 2, bottom: 2, right: 2)
+        collectionViewFlowLayout.scrollDirection = .horizontal
+        collectionViewFlowLayout.minimumInteritemSpacing = 10
+        let collectionView = UICollectionView(frame: CGRect(), collectionViewLayout: collectionViewFlowLayout)
+        collectionView.register(DateCell.self, forCellWithReuseIdentifier: "Cell")
+        collectionView.translatesAutoresizingMaskIntoConstraints = false
+        collectionView.backgroundColor = .white
+        collectionView.isScrollEnabled = false
+        return collectionView
+    }()
+    
+    
+    //MARK: Размер контента внутри scrollView
     private var contentSize: CGSize {
-        CGSize(width: view.frame.width, height: view.frame.height + 500)
+        CGSize(width: view.frame.width, height: view.frame.height)
     }
+    
+    
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -88,42 +119,62 @@ class AddCostController: UIViewController, UIScrollViewDelegate {
         setupViewConstraints()
         setupExitButton()
         setupCollectionViewCategory()
-        setupCollectionViewGoals()
+        
         bindCollectionViewCategory()
-        bindCollectionViewGoals()
+        
         viewModel.fetchGoalObjects()
+        if try! viewModel.goals.value() != []{
+            setupCollectionViewGoals()
+            bindCollectionViewGoals()
+        }
+        setupDateStackView()
+        
     }
     
     
 }
 extension AddCostController{
     
-    private func setupCollectionViewGoals(){
-        labelGoals.text = "Цели"
-        labelGoals.textColor = .gray
-        collectionViewGoals.backgroundColor = .white
-        collectionViewGoals.layer.cornerRadius = 10
-        stackView.addArrangedSubview(labelGoals)
-        stackView.addArrangedSubview(collectionViewGoals)
+    private func setupDateStackView(){
+        setupDateCollectionView()
+        viewModel.fetchDates()
+        bindDateCollectionView()
+        setupDateButton()
+        
+        dateStackView.axis = .horizontal
+        dateStackView.distribution = .equalCentering
+        
+        [self.dateCollectionView, self.calendarButton].forEach {
+            dateStackView.addArrangedSubview($0)
+        }
+        
+        stackView.addArrangedSubview(dateStackView)
+        
+        self.viewModel.isItemSelected.subscribe {
+            self.dateStackView.isHidden = !$0.element!
+        }.disposed(by: disposeBag)
+        dateCollectionView.cellForItem(at: IndexPath(item: 2, section: 0))?.isSelected = true
+    }
+    
+    private func setupDateButton(){
+        
+        calendarButton.setTitle("🗓️", for: .normal)
+        calendarButton.layer.cornerRadius = 30
+        calendarButton.titleLabel?.font = .systemFont(ofSize: 40)
+        calendarButton.backgroundColor = .systemGray5
+        calendarButton.layer.borderColor = UIColor.systemGray2.cgColor
+        calendarButton.layer.borderWidth = 1
+        calendarButton.layer.cornerRadius = 10
         NSLayoutConstraint.activate([
-            collectionViewGoals.widthAnchor.constraint(equalToConstant: view.frame.width - 16),
-            collectionViewGoals.heightAnchor.constraint(equalToConstant: 100)
+            calendarButton.widthAnchor.constraint(equalToConstant: 60),
+            calendarButton.heightAnchor.constraint(equalToConstant: 60)
         ])
+        
     }
     
     
-    private func setupCollectionViewCategory(){
-        labelCategory.text = "Категории"
-        labelCategory.textColor = .gray
-        collectionViewCategory.backgroundColor = .white
-        collectionViewCategory.layer.cornerRadius = 10
-        stackView.addArrangedSubview(labelCategory)
-        stackView.addArrangedSubview(collectionViewCategory)
-        NSLayoutConstraint.activate([
-            collectionViewCategory.widthAnchor.constraint(equalToConstant: view.frame.width - 16),
-            collectionViewCategory.heightAnchor.constraint(equalToConstant: 180)
-        ])
-    }
+    
+    
     
     
     private func setupExitButton(){
@@ -147,6 +198,7 @@ extension AddCostController{
     }
     
     
+    
     private func setupViewConstraints(){
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
@@ -154,12 +206,6 @@ extension AddCostController{
             stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
             stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
         ])
-        for view in stackView.arrangedSubviews{
-            NSLayoutConstraint.activate([
-                view.widthAnchor.constraint(equalToConstant: 300),
-                view.heightAnchor.constraint(equalToConstant: 100)
-            ])
-        }
     }
     
     
@@ -168,158 +214,30 @@ extension AddCostController{
         textField.borderStyle = .roundedRect
         textField.layer.borderColor = UIColor.gray.cgColor
         textField.placeholder = "1000₽"
+        textField.textAlignment = .right
+        textField.font = .systemFont(ofSize: 30)
         textField.layer.borderWidth = 1
         textField.layer.cornerRadius = 10
         NSLayoutConstraint.activate([
-            textField.widthAnchor.constraint(equalToConstant: 300),
+            textField.widthAnchor.constraint(equalToConstant: view.frame.width - 16),
             textField.heightAnchor.constraint(equalToConstant: 50)
         ])
-    }
-    
-    
-    private func bindCollectionViewCategory(){
-
-        let data = Observable.just(CategoryCostsDesignElements().getCategoryEmoji().values)
-
-        data.bind(to: collectionViewCategory.rx.items){collectionView, index, item in
-            let indexPath = IndexPath(item: index, section: 0)
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CategoryCell
-            cell.label.text = item
-            cell.label.font = .systemFont(ofSize: 40)
-            cell.backgroundColor = .white
-            cell.layer.cornerRadius = 30
-            return cell
-        }.disposed(by: disposeBag)
-        
-        collectionViewCategory.rx.itemSelected.subscribe {
-            
-            
-            let selectedIndex = try! self.viewModel.selectedItem.value()["Category"]
-            
-            if selectedIndex == nil{
-                
-                if try! self.viewModel.goalsShow.value() == true{
-                    
-                    self.collectionViewCategory.cellForItem(at: $0.element!)?.backgroundColor = .red
-                    self.animateVisabilityGoals()
-                    
-                    self.viewModel.isItemSelected.on(.next(true))
-                    self.viewModel.isNotGoalsShow()
-                    self.viewModel.selectedItem.on(.next(["Category": "\(($0.element!.row))"]))
-                    
-                    
-                } else {
-                    
-                    
-                    self.viewModel.isItemSelected.on(.next(false))
-                    self.collectionViewCategory.cellForItem(at: $0.element!)?.backgroundColor = .white
-                    self.animateVisabilityGoals()
-                    self.viewModel.isGoalsShow()
-                    
-                }
-                
-                
+        textField.rx.text.subscribe {
+            if let sumInt = Int($0.element!!){
+                self.viewModel.sum.on(.next(sumInt))
+                self.viewModel.buttonStatus()
             } else {
-                
-                self.collectionViewCategory.cellForItem(at: $0.element!)?.backgroundColor = .red
-                if Int(selectedIndex!)! == $0.element!.row{
-                    
-                    print("Yes")
-                    self.collectionViewCategory.cellForItem(at: $0.element!)?.backgroundColor = .white
-                    self.animateVisabilityGoals()
-                    self.viewModel.isItemSelected.on(.next(false))
-                    self.viewModel.isGoalsShow()
-                    
-                }
-                self.viewModel.selectedItem.on(.next(["Category": "\(($0.element!.row))"]))
-            }
-            
-            if try! self.viewModel.isItemSelected.value() == false{
-                self.viewModel.selectedItem.on(.next(["":""]))
+                self.viewModel.sum.on(.next(0))
+                self.viewModel.buttonStatus()
             }
         }.disposed(by: disposeBag)
-        
-        collectionViewCategory.rx.itemDeselected.subscribe {
-            self.collectionViewCategory.cellForItem(at: $0)?.backgroundColor = .white
+        self.viewModel.sum.subscribe {
+            print($0)
         }.disposed(by: disposeBag)
-
-        collectionViewCategory.rx.setDelegate(self).disposed(by: disposeBag)
     }
     
     
     
-    private func bindCollectionViewGoals(){
-        
-        let dataSource = RxCollectionViewSectionedReloadDataSource<SectionModel<String, GoalObject>> { _, collectionView, indexPath, item in
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! AddCostGoalCell
-            cell.pictureLabel.text = item.picture
-            cell.layer.cornerRadius = 30
-            cell.pictureLabel.font = .systemFont(ofSize: 40)
-            return cell
-        }
-        collectionViewGoals.rx.itemSelected.subscribe {
-            
-            let selectedIndex = try! self.viewModel.selectedItem.value()["Goal"]
-            
-            if selectedIndex == nil{
-                
-                
-                if try! self.viewModel.categoryShow.value() == true{
-                    
-                    self.collectionViewGoals.cellForItem(at: $0.element!)?.backgroundColor = .red
-                    self.animateVisabilityCategories()
-                    
-                    self.viewModel.isItemSelected.on(.next(true))
-                    self.viewModel.isNotCategoriesShow()
-                    self.viewModel.selectedItem.on(.next(["Goal": "\(($0.element!.row))"]))
-    
-                    
-                } else {
-                    
-                    self.viewModel.isItemSelected.on(.next(false))
-                    self.collectionViewGoals.cellForItem(at: $0.element!)?.backgroundColor = .white
-                    self.animateVisabilityCategories()
-                    self.viewModel.isCategoriesShow()
-                }
-            
-            } else {
-                
-                self.collectionViewGoals.cellForItem(at: $0.element!)?.backgroundColor = .red
-                
-                if Int(selectedIndex!)! == $0.element!.row{
-                    
-                    print("Yes")
-                    self.collectionViewGoals.cellForItem(at: $0.element!)?.backgroundColor = .white
-                    self.animateVisabilityCategories()
-                    self.viewModel.isItemSelected.on(.next(false))
-                    self.viewModel.isCategoriesShow()
-                    
-                }
-                
-                self.viewModel.selectedItem.on(.next(["Goal": "\(($0.element!.row))"]))
-                
-            }
-            
-            if try! self.viewModel.isItemSelected.value() == false{
-                self.viewModel.selectedItem.on(.next(["":""]))
-            }
-            
-            
-            
-        }.disposed(by: disposeBag)
-        
-        collectionViewGoals.rx.itemDeselected.subscribe {
-            
-            self.collectionViewGoals.cellForItem(at: $0)?.backgroundColor = .white
-            
-        }.disposed(by: disposeBag)
-        
-        
-        viewModel.goals.bind(to: collectionViewGoals.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
-        
-        collectionViewGoals.rx.setDelegate(self).disposed(by: disposeBag)
-    }
-
     
 }
 extension AddCostController{

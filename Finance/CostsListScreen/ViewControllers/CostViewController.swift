@@ -58,12 +58,15 @@ class CostViewController: UIViewController {
         switch sender.selectedSegmentIndex{
         case 0:
             viewModel.fetchDayCosts()
+            viewModel.selectedIndex.on(.next(0))
             break
         case 1:
             viewModel.fetchWeekCosts()
+            viewModel.selectedIndex.on(.next(1))
             break
         case 2:
             viewModel.fetchMonthCosts()
+            viewModel.selectedIndex.on(.next(2))
             break
         default:
             break
@@ -120,17 +123,81 @@ class CostViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         viewModel.fetchDayCosts()
+        print("Appear")
     }
+    
     
     @objc func tappedExitButton(){
         self.navigationController?.popViewController(animated: true)
     }
     
+    
     @objc func tappedAddButton(){
         let addViewController = AddCostController()
-        //addViewController.modalPresentationStyle = .fullScreen
+        
+        let addButton = UIButton()
+        addButton.translatesAutoresizingMaskIntoConstraints = false
+        addButton.backgroundColor = .systemGray4
+        addViewController.view.addSubview(addButton)
+        addButton.layer.cornerRadius = 25
+        addButton.layer.shadowOpacity = 0.4
+        addButton.setTitle("✓", for: .normal)
+        addButton.titleLabel?.font = .systemFont(ofSize: 30)
+        addButton.setTitleColor(.gray, for: .normal)
+        NSLayoutConstraint.activate([
+            addButton.widthAnchor.constraint(equalToConstant: 50),
+            addButton.heightAnchor.constraint(equalToConstant: 50),
+            addButton.trailingAnchor.constraint(equalTo: addViewController.view.trailingAnchor, constant: -16),
+            addButton.topAnchor.constraint(equalTo: addViewController.view.topAnchor, constant: 16)
+        ])
+        
+        addViewController.viewModel.isButtonAble.subscribe {
+            if $0.element! == true{
+                addButton.backgroundColor = .green
+                addButton.isEnabled = true
+            } else {
+                addButton.backgroundColor = .systemGray4
+                addButton.isEnabled = false
+            }
+        }.disposed(by: disposeBag)
+        
+        addViewController.viewModel.isButtonAble.subscribe {
+            print($0)
+        }.disposed(by: disposeBag)
+        
+        addButton.addAction(UIAction(handler: { _ in
+            self.dismiss(animated: true)
+            let typeOfSelectedItem = try! addViewController.viewModel.selectedItem.value().keys
+            let sum = try! addViewController.viewModel.sum.value()
+            let selectedItem = try! addViewController.viewModel.typeOfSelectedItem.value()
+            var stringSelectedItem = ""
+            for item in typeOfSelectedItem{
+                if item == "Category"{
+                    
+                    for (category, item) in CategoryCostsDesignElements().getCategoryEmoji(){
+                        if item == selectedItem{
+                            stringSelectedItem = category
+                        }
+                    }
+                    
+                } else {
+                    
+                    //Goals
+                    
+                }
+            }
+            print(stringSelectedItem)
+            
+            addViewController.viewModel.newValuesForCost(sumCost: sum, category: stringSelectedItem, label: "rrfw4rfrw", date: Date())
+            addViewController.viewModel.saveRealm()
+            self.viewModel.fetchObjectsAfterAddingNewCost()
+            
+            
+        }), for: .touchUpInside)
+        
         self.present(addViewController, animated: true)
     }
+    
 }
 extension CostViewController: UIScrollViewDelegate{
     
