@@ -116,7 +116,7 @@ extension AddCostController{
                     
                     self.viewModel.isItemSelected.on(.next(true))
                     self.viewModel.buttonStatus()
-                    self.viewModel.isNotGoalsShow()
+                    self.viewModel.goalsShow.on(.next(false))
                     self.viewModel.selectedItem.on(.next(["Category": "\(($0.element!.row))"]))
                     self.viewModel.typeOfSelectedItem.on(.next(cell.label.text!))
                     
@@ -130,7 +130,7 @@ extension AddCostController{
                     cell.labelSelected.isHidden = true
                     self.viewModel.buttonStatus()
                     self.animateVisabilityGoals()
-                    self.viewModel.isGoalsShow()
+                    self.viewModel.goalsShow.on(.next(true))
                     
                 }
                 
@@ -150,7 +150,7 @@ extension AddCostController{
                     self.animateVisabilityGoals()
                     self.viewModel.isItemSelected.on(.next(false))
                     self.viewModel.buttonStatus()
-                    self.viewModel.isGoalsShow()
+                    self.viewModel.goalsShow.on(.next(true))
                     
                 }
                 self.viewModel.selectedItem.on(.next(["Category": "\(($0.element!.row))"]))
@@ -202,7 +202,7 @@ extension AddCostController{
                     
                     self.viewModel.isItemSelected.on(.next(true))
                     self.viewModel.buttonStatus()
-                    self.viewModel.isNotCategoriesShow()
+                    self.viewModel.categoryShow.on(.next(false))
                     self.viewModel.selectedItem.on(.next(["Goal": "\(($0.element!.row))"]))
                     self.viewModel.typeOfSelectedItem.on(.next(cell.pictureLabel.text!))
     
@@ -215,7 +215,8 @@ extension AddCostController{
                     cell.greenView.isHidden = true
                     cell.labelSelected.isHidden = true
                     self.animateVisabilityCategories()
-                    self.viewModel.isCategoriesShow()
+                    self.viewModel.categoryShow.on(.next(true))
+                    
                 }
             
             } else {
@@ -233,7 +234,7 @@ extension AddCostController{
                     self.animateVisabilityCategories()
                     self.viewModel.isItemSelected.on(.next(false))
                     self.viewModel.buttonStatus()
-                    self.viewModel.isCategoriesShow()
+                    self.viewModel.categoryShow.on(.next(true))
                     
                 }
                 

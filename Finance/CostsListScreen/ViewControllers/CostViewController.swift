@@ -182,7 +182,7 @@ class CostViewController: UIViewController {
                     
                 } else {
                     
-                    //Goals
+                    stringSelectedItem = "goals"
                     
                 }
             }
@@ -206,6 +206,7 @@ extension CostViewController: UIScrollViewDelegate{
                 
         let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, CostRealm>>{_, tableView, indexPath, item in
             let cell = tableView.dequeueReusableCell(withIdentifier: "CostCell", for: indexPath) as! CostCell
+            print(item.category)
             cell.labelCost.text = "\(item.sumCost)₽"
             cell.labelCategory.text = CategoryCostsDesignElements().getRussianLabelText()[item.category]
             cell.labelComment.text = item.label

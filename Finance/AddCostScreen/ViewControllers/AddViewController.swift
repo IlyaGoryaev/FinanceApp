@@ -156,6 +156,7 @@ extension AddCostController{
         dateCollectionView.cellForItem(at: IndexPath(item: 2, section: 0))?.isSelected = true
     }
     
+    
     private func setupDateButton(){
         
         calendarButton.setTitle("🗓️", for: .normal)
@@ -218,10 +219,12 @@ extension AddCostController{
         textField.font = .systemFont(ofSize: 30)
         textField.layer.borderWidth = 1
         textField.layer.cornerRadius = 10
+        
         NSLayoutConstraint.activate([
             textField.widthAnchor.constraint(equalToConstant: view.frame.width - 16),
             textField.heightAnchor.constraint(equalToConstant: 50)
         ])
+        
         textField.rx.text.subscribe {
             if let sumInt = Int($0.element!!){
                 self.viewModel.sum.on(.next(sumInt))
@@ -231,6 +234,7 @@ extension AddCostController{
                 self.viewModel.buttonStatus()
             }
         }.disposed(by: disposeBag)
+        
         self.viewModel.sum.subscribe {
             print($0)
         }.disposed(by: disposeBag)
