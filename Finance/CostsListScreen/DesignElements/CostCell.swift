@@ -55,9 +55,15 @@ extension CostCell{
         view.layer.cornerRadius = 10
         categoryColorView.layer.cornerRadius = 10
         categoryColorView.layer.maskedCorners = [.layerMinXMaxYCorner, .layerMinXMinYCorner]
-        view.layer.shadowOpacity = 0.25
-        categoryColorView.layer.shadowOpacity = 0.25
-        circleView.backgroundColor = .systemGray6
+        view.layer.shadowOpacity = 0.14
+        view.layer.shadowOffset = .zero
+        view.layer.shouldRasterize = true
+        view.layer.shadowRadius = 10
+        categoryColorView.layer.shadowOpacity = 0.14
+        categoryColorView.layer.shadowOffset = .zero
+        categoryColorView.layer.shouldRasterize = true
+        categoryColorView.layer.shadowRadius = 10
+        circleView.backgroundColor = .white
         circleView.layer.cornerRadius = 35
     }
     
@@ -69,19 +75,19 @@ extension CostCell{
         addSubview(stackViewCategory)
         circleView.addSubview(emojiLabel)
         NSLayoutConstraint.activate([
-            view.heightAnchor.constraint(equalToConstant: 80),
-            view.topAnchor.constraint(equalTo: topAnchor, constant: 5),
+            view.heightAnchor.constraint(equalToConstant: 70),
+            view.topAnchor.constraint(equalTo: topAnchor, constant: 15),
             view.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 10),
             view.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -10),
-            view.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -5),
+            view.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -15),
             labelCost.trailingAnchor.constraint(equalTo: view.trailingAnchor, constant: -10),
             labelCost.centerYAnchor.constraint(equalTo: view.centerYAnchor),
-            categoryColorView.heightAnchor.constraint(equalToConstant: 80),
+            categoryColorView.heightAnchor.constraint(equalToConstant: 70),
             categoryColorView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             categoryColorView.widthAnchor.constraint(equalToConstant: 10),
             categoryColorView.topAnchor.constraint(equalTo: view.topAnchor),
-            circleView.heightAnchor.constraint(equalToConstant: 70),
-            circleView.widthAnchor.constraint(equalToConstant: 70),
+            circleView.heightAnchor.constraint(equalToConstant: 50),
+            circleView.widthAnchor.constraint(equalToConstant: 50),
             circleView.leadingAnchor.constraint(equalTo: categoryColorView.trailingAnchor, constant: 10),
             circleView.centerYAnchor.constraint(equalTo: categoryColorView.centerYAnchor),
             emojiLabel.centerXAnchor.constraint(equalTo: circleView.centerXAnchor),

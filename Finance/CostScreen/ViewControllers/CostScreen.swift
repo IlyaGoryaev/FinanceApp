@@ -37,7 +37,7 @@ class CostScreen: UIViewController {
     
     weak var delegate: CostScreenDelegate?
     
-    //MARK: Тестовые кнопки
+    //MARK: Кнопки периода
     let buttons = Buttons()
     
     //MARK: Инициализация viewModel
@@ -50,8 +50,8 @@ class CostScreen: UIViewController {
     var visualEffectView: UIVisualEffectView!
     
     //MARK: Высота контролллера в двух режимах
-    let cardHeightPercentage = 0.95//переделать
-    let cardHandleAreaHeightPercentage = 0.35// переделать
+    let cardHeightPercentage = 0.95
+    let cardHandleAreaHeightPercentage = 0.35
     
     //MARK: Свойства, которые отвечает за состояние вида
     var cardVisible = false
@@ -70,7 +70,7 @@ class CostScreen: UIViewController {
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
         navigationController?.navigationBar.isHidden = true
-        self.cardViewController.viewModel.getDayStatistics()
+        //self.cardViewController.viewModel.getDayStatistics()
         viewModel.getCircleDay()
         viewModel.getDayLabelText()
     }
@@ -83,7 +83,6 @@ class CostScreen: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        print(self.view.frame.height / self.view.frame.width)
         //MARK: Настройка кнопки меню
         menuIcon.translatesAutoresizingMaskIntoConstraints = false
         menuIcon.backgroundColor = .white
@@ -120,7 +119,10 @@ class CostScreen: UIViewController {
         ])
         addButton.backgroundColor = .white
         addButton.layer.cornerRadius = 25
-        addButton.layer.shadowOpacity = 0.4
+        addButton.layer.shadowOpacity = 0.15
+        addButton.layer.shadowOffset = .zero
+        addButton.layer.shouldRasterize = true
+        addButton.layer.shadowRadius = 10
         addButton.addTarget(self, action: #selector(addMenu), for: .touchUpInside)
         
         
@@ -128,7 +130,7 @@ class CostScreen: UIViewController {
             self.arrayOfCategoriesSection = $0
         }.disposed(by: disposeBag)
         
-        //MARK: Настройка тестовых кнопок
+        //MARK: Настройка кнопок периода
         buttons.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(buttons)
         NSLayoutConstraint.activate([
@@ -165,17 +167,17 @@ class CostScreen: UIViewController {
         
         //кнопка не работает после добавления child View Controller
         
-        setUpCard()
+//        setUpCard()
         
         setUpButtons()
         
-        self.cardViewController.collectionView.rx.itemSelected.subscribe { indexPath in
-            let cell = self.cardViewController.collectionView.cellForItem(at: indexPath.element!) as? CellForCostScreen
-            let controller = ListSortedCostsViewController(category: (cell?.categoryLabel.text)!, nibName: nil, bundle: nil)
-            controller.view.backgroundColor = cell?.colorImage.backgroundColor
-            self.navigationController?.navigationBar.isHidden = false
-            self.navigationController?.pushViewController(controller, animated: true)
-        }.disposed(by: disposeBag)
+//        self.cardViewController.collectionView.rx.itemSelected.subscribe { indexPath in
+//            let cell = self.cardViewController.collectionView.cellForItem(at: indexPath.element!) as? CellForCostScreen
+//            let controller = ListSortedCostsViewController(category: (cell?.categoryLabel.text)!, nibName: nil, bundle: nil)
+//            controller.view.backgroundColor = cell?.colorImage.backgroundColor
+//            self.navigationController?.navigationBar.isHidden = false
+//            self.navigationController?.pushViewController(controller, animated: true)
+//        }.disposed(by: disposeBag)
     }
     
     
@@ -281,39 +283,30 @@ class CostScreen: UIViewController {
     
     
     //MARK: Функция настройки карточки
-    func setUpCard(){
-        cardViewController = CardViewController()
-        self.addChild(cardViewController)
-        self.didMove(toParent: self)
-        
-        self.view.addSubview(cardViewController.view)
-        cardViewController.didMove(toParent: self)
-        cardViewController.view.frame = CGRect(x: 0, y: self.view.frame.height - (self.view.frame.height * cardHandleAreaHeightPercentage), width: self.view.frame.width, height: self.view.frame.height * cardHeightPercentage)
-        
-        cardViewController.view.clipsToBounds = true
-        self.cardViewController.view.layer.cornerRadius = 20
-        cardViewController.view.layer.masksToBounds = false
-        
-        cardViewController.view.layer.shadowRadius = 20
-        cardViewController.view.layer.shadowColor = UIColor.black.cgColor
-        cardViewController.view.layer.shadowPath = UIBezierPath(roundedRect: cardViewController.view.bounds, cornerRadius: cardViewController.view.layer.cornerRadius).cgPath
-        cardViewController.view.layer.shadowOffset = CGSize(width: 0.0, height: 3.0)
-        cardViewController.view.layer.shadowOpacity = 0.15
-        
-        
-        let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeUp(recognizer: )))
-        swipeGestureRecognizer.direction = .up
-        cardViewController.view.addGestureRecognizer(swipeGestureRecognizer)
-    }
-    
-    //    @objc func handleCardTap(recognizer: UITapGestureRecognizer){
-    //        switch recognizer.state{
-    //        case .ended:
-    //            animateTransitionIfNeeded(state: nextState, duration: 0.9)
-    //        default:
-    //            break
-    //        }
-    //    }
+//    func setUpCard(){
+//        cardViewController = CardViewController()
+//        self.addChild(cardViewController)
+//        self.didMove(toParent: self)
+//
+//        self.view.addSubview(cardViewController.view)
+//        cardViewController.didMove(toParent: self)
+//        cardViewController.view.frame = CGRect(x: 0, y: self.view.frame.height - (self.view.frame.height * cardHandleAreaHeightPercentage), width: self.view.frame.width, height: self.view.frame.height * cardHeightPercentage)
+//
+//        cardViewController.view.clipsToBounds = true
+//        self.cardViewController.view.layer.cornerRadius = 20
+//        cardViewController.view.layer.masksToBounds = false
+//
+//        cardViewController.view.layer.shadowRadius = 20
+//        cardViewController.view.layer.shadowColor = UIColor.black.cgColor
+//        cardViewController.view.layer.shadowPath = UIBezierPath(roundedRect: cardViewController.view.bounds, cornerRadius: cardViewController.view.layer.cornerRadius).cgPath
+//        cardViewController.view.layer.shadowOffset = CGSize(width: 0.0, height: 3.0)
+//        cardViewController.view.layer.shadowOpacity = 0.15
+//
+//
+//        let swipeGestureRecognizer = UISwipeGestureRecognizer(target: self, action: #selector(handleSwipeUp(recognizer: )))
+//        swipeGestureRecognizer.direction = .up
+//        cardViewController.view.addGestureRecognizer(swipeGestureRecognizer)
+//    }
     
     @objc func handleSwipeUp(recognizer: UISwipeGestureRecognizer){
         switch recognizer.direction{

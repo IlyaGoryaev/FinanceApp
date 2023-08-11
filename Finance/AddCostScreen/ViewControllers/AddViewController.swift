@@ -19,6 +19,10 @@ class AddCostController: UIViewController, UIScrollViewDelegate {
     let viewModel = AddCostViewModel()
 
     
+    let buttonsSubCategories = ButtonsSubCategories()
+    let categoriesStackView = UIStackView()
+    
+    
     //MARK: Инициализация текстового поля
     let textField = UITextField()
     private lazy var scrollView: UIScrollView = {
@@ -128,12 +132,44 @@ class AddCostController: UIViewController, UIScrollViewDelegate {
             bindCollectionViewGoals()
         }
         setupDateStackView()
+        setupSubCategoriesStackView()
         
     }
     
     
 }
 extension AddCostController{
+    
+    private func setupSubCategoriesStackView(){
+        
+        let labelSubCategories = UILabel()
+        labelSubCategories.text = "Подкатегории"
+        labelSubCategories.textColor = .gray
+        
+        stackView.addArrangedSubview(labelSubCategories)
+        
+        categoriesStackView.axis = .horizontal
+        categoriesStackView.spacing = 10
+        categoriesStackView.alignment = .center
+        categoriesStackView.distribution = .fill
+        
+        buttonsSubCategories.initButtons(names: CategoryCostsDesignElements().getSubCategory()["health"])
+        
+        let spacer = UIView()
+        spacer.isUserInteractionEnabled = false
+        spacer.setContentHuggingPriority(.defaultLow, for: .horizontal)
+        spacer.setContentCompressionResistancePriority(.fittingSizeLevel, for: .horizontal)
+        NSLayoutConstraint.activate([
+            spacer.widthAnchor.constraint(equalToConstant: 170)
+        ])
+        
+        [self.buttonsSubCategories, spacer].forEach {
+            categoriesStackView.addArrangedSubview($0)
+        }
+        stackView.addArrangedSubview(categoriesStackView)
+        
+        
+    }
     
     private func setupDateStackView(){
         setupDateCollectionView()
@@ -183,7 +219,10 @@ extension AddCostController{
         exitButton.backgroundColor = .white
         view.addSubview(exitButton)
         exitButton.layer.cornerRadius = 25
-        exitButton.layer.shadowOpacity = 0.4
+        exitButton.layer.shadowOpacity = 0.15
+        exitButton.layer.shadowOffset = .zero
+        exitButton.layer.shouldRasterize = true
+        exitButton.layer.shadowRadius = 10
         exitButton.setTitle("✕", for: .normal)
         exitButton.titleLabel?.font = .systemFont(ofSize: 30)
         exitButton.setTitleColor(.gray, for: .normal)

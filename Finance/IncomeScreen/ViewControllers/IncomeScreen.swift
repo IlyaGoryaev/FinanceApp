@@ -10,10 +10,29 @@ class IncomeScreen: UIViewController {
     
     //MARK: Кнопка бокового меню
     let menuIcon = MenuIcon()
+    
+    //MARK: Кнопки периода
+    let buttons = Buttons()
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        //MARK: Настройка кнопки меню
+        
+        //MARK: Настройка кнопок периода
+        buttons.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(buttons)
+        NSLayoutConstraint.activate([
+            buttons.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            buttons.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 40)
+        ])
+        
+        setupMenuButton()
+
+    }
+    
+    
+    
+    //MARK: Настройка кнопки меню
+    func setupMenuButton(){
         menuIcon.translatesAutoresizingMaskIntoConstraints = false
         menuIcon.backgroundColor = .white
         view.addSubview(menuIcon)
@@ -25,8 +44,8 @@ class IncomeScreen: UIViewController {
         ])
         let tapMenuIconGesture = UITapGestureRecognizer(target: self, action: #selector(tappedMenuButton))
         menuIcon.addGestureRecognizer(tapMenuIconGesture)
-
     }
+    
     @objc func tappedMenuButton(){
         self.delegate?.didTapButtonMenu()
     }

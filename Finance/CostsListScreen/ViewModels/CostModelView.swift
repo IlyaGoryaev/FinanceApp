@@ -34,7 +34,12 @@ class CostModelView{
         array = array.sorted { cost1, cost2 in
             cost1.date >= cost2.date
         }
-        costs.on(.next([SectionModel(model: DateShare.shared.convertFuncDay(dateComponents: dateComponents), items: array)]))
+        if array != []{
+            costs.on(.next([SectionModel(model: DateShare.shared.convertFuncDay(dateComponents: dateComponents), items: array)]))
+        } else {
+            costs.on(.next([SectionModel(model: "", items: [CostRealm]())]))
+        }
+        
     }
     
     func fetchMonthCosts(){
@@ -52,7 +57,6 @@ class CostModelView{
             dateComponents.day = Calendar.current.component(.day, from: cost.date)
             dateComponents.month = Calendar.current.component(.month, from: cost.date)
             dateComponents.year = Calendar.current.component(.year, from: cost.date)
-            let stringDate = DateShare.shared.convertFuncDay(dateComponents: dateComponents)
             if costsArray[dateComponents.day!] == [nil]{
                 costsArray[dateComponents.day!] = [cost]
             } else {
@@ -97,13 +101,16 @@ class CostModelView{
             dailyArray = dailyArray.sorted { cost1, cost2 in
                 cost1.date >= cost2.date
             }
-            array.append(SectionModel(model: DateShare().convertFuncDay(dateComponents: dateComponents), items: dailyArray))
+            if dailyArray != []{
+                array.append(SectionModel(model: DateShare().convertFuncDay(dateComponents: dateComponents), items: dailyArray))
+            }
             dateComponents.day! -= 1
         }
         costs.on(.next(array as! [SectionModel<String, CostRealm>]))
         
     }
     
+
     func fetchObjectsAfterAddingNewCost(){
         
         let selectedIndex = try! selectedIndex.value()

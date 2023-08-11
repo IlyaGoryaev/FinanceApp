@@ -17,10 +17,27 @@ class GoalsService{
         })
     }
     
+    func getDictGoalObjects() -> [String: String]{
+        guard let storage else { return [:] }
+        var dictGoalObjects: [String: String] = [:]
+        let objects = storage.objects(GoalObject.self).toArray()
+        for object in objects {
+            dictGoalObjects[object.costId] = object.picture
+        }
+        return dictGoalObjects
+    }
+    
     func getGoalModel(name: String) -> [GoalObject]{
         guard let storage else { return [] }
         return storage.objects(GoalObject.self).where {
             $0.costId == name
+        }.toArray()
+    }
+    
+    func getGoalModelByPicture(picture: String) -> [GoalObject]{
+        guard let storage else { return [] }
+        return storage.objects(GoalObject.self).where {
+            $0.picture == picture
         }.toArray()
     }
     

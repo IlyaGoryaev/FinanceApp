@@ -50,6 +50,8 @@
 		9D4C78642A82240000B79C01 /* DateCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C78632A82240000B79C01 /* DateCell.swift */; };
 		9D4C78662A82896200B79C01 /* ExtensionSetupCollectionViews.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C78652A82896200B79C01 /* ExtensionSetupCollectionViews.swift */; };
 		9D4C78692A838A0500B79C01 /* SaveSumObjects.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C78682A838A0500B79C01 /* SaveSumObjects.swift */; };
+		9D4C786B2A84E9E800B79C01 /* CostForGoalCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C786A2A84E9E800B79C01 /* CostForGoalCell.swift */; };
+		9D4C786D2A8617C600B79C01 /* ButtonsSubCategories.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C786C2A8617C600B79C01 /* ButtonsSubCategories.swift */; };
 		9D7364972A6E8CCD00528949 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7364962A6E8CCD00528949 /* AppDelegate.swift */; };
 		9D7364992A6E8CCD00528949 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D7364982A6E8CCD00528949 /* SceneDelegate.swift */; };
 		9D73649E2A6E8CCD00528949 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D73649C2A6E8CCD00528949 /* Main.storyboard */; };
@@ -117,6 +119,8 @@
 		9D4C78632A82240000B79C01 /* DateCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateCell.swift; sourceTree = "<group>"; };
 		9D4C78652A82896200B79C01 /* ExtensionSetupCollectionViews.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionSetupCollectionViews.swift; sourceTree = "<group>"; };
 		9D4C78682A838A0500B79C01 /* SaveSumObjects.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveSumObjects.swift; sourceTree = "<group>"; };
+		9D4C786A2A84E9E800B79C01 /* CostForGoalCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostForGoalCell.swift; sourceTree = "<group>"; };
+		9D4C786C2A8617C600B79C01 /* ButtonsSubCategories.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsSubCategories.swift; sourceTree = "<group>"; };
 		9D7364932A6E8CCD00528949 /* Finance.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Finance.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		9D7364962A6E8CCD00528949 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		9D7364982A6E8CCD00528949 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
@@ -284,6 +288,7 @@
 				9D4C785F2A81134900B79C01 /* CategoryCell.swift */,
 				9D4C78612A8116A700B79C01 /* AddCostGoalCell.swift */,
 				9D4C78632A82240000B79C01 /* DateCell.swift */,
+				9D4C786C2A8617C600B79C01 /* ButtonsSubCategories.swift */,
 			);
 			path = DesignElements;
 			sourceTree = "<group>";
@@ -318,6 +323,7 @@
 			isa = PBXGroup;
 			children = (
 				9DA0D65F2A6E8F2E00DFD80F /* CostCell.swift */,
+				9D4C786A2A84E9E800B79C01 /* CostForGoalCell.swift */,
 				9D4C78472A7EBE9900B79C01 /* DateCollectionViewCell.swift */,
 			);
 			path = DesignElements;
@@ -393,8 +399,8 @@
 			isa = PBXGroup;
 			children = (
 				9D4C78322A7D28E900B79C01 /* DesignElements */,
-				9D4C78312A7D28DE00B79C01 /* ViewControllers */,
 				9D4C78302A7D28D200B79C01 /* ViewModels */,
+				9D4C78312A7D28DE00B79C01 /* ViewControllers */,
 			);
 			path = IncomeScreen;
 			sourceTree = "<group>";
@@ -732,12 +738,14 @@
 				9D2A23122A7451D300CD86F4 /* CostScreen.swift in Sources */,
 				9D4C78662A82896200B79C01 /* ExtensionSetupCollectionViews.swift in Sources */,
 				9DA0D6692A6E8FA500DFD80F /* CostModelView.swift in Sources */,
+				9D4C786B2A84E9E800B79C01 /* CostForGoalCell.swift in Sources */,
 				9DA0D66D2A6E8FD700DFD80F /* Categories.swift in Sources */,
 				9D4C77FA2A79ABC200B79C01 /* ListSortedCostsViewModel.swift in Sources */,
 				9DA0D6602A6E8F2E00DFD80F /* CostCell.swift in Sources */,
 				9D4C78502A7FB5CB00B79C01 /* GoalsService.swift in Sources */,
 				9D4C77F62A797DEC00B79C01 /* CostCategoryModel.swift in Sources */,
 				9D4C78022A7A4C2C00B79C01 /* SumCostModelsService.swift in Sources */,
+				9D4C786D2A8617C600B79C01 /* ButtonsSubCategories.swift in Sources */,
 				9D4C784C2A7FB29B00B79C01 /* GoalViewModel.swift in Sources */,
 				9D4C77F42A797D3900B79C01 /* CardViewModel.swift in Sources */,
 				9D4C78462A7D343F00B79C01 /* SettingsScreen.swift in Sources */,

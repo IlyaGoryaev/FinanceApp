@@ -13,9 +13,14 @@ extension AddCostController{
         collectionViewGoals.layer.cornerRadius = 10
         stackView.addArrangedSubview(labelGoals)
         stackView.addArrangedSubview(collectionViewGoals)
+        print(GoalsService().getAllGoalModels().count)
+        var heightOfCollectionView = Double(GoalsService().getAllGoalModels().count) / 5.0 > Double(GoalsService().getAllGoalModels().count / 5) ? Int(GoalsService().getAllGoalModels().count / 5 + 1) * 60 + Int(GoalsService().getAllGoalModels().count / 5 + 1) * 10 + 32 : Int(GoalsService().getAllGoalModels().count / 5) * 60 + Int(GoalsService().getAllGoalModels().count / 5) * 10 + 32
+        if GoalsService().getAllGoalModels().count / 5 <= 1{
+            heightOfCollectionView = heightOfCollectionView - 10
+        }
         NSLayoutConstraint.activate([
             collectionViewGoals.widthAnchor.constraint(equalToConstant: view.frame.width - 16),
-            collectionViewGoals.heightAnchor.constraint(equalToConstant: 100)
+            collectionViewGoals.heightAnchor.constraint(equalToConstant: CGFloat(heightOfCollectionView))
         ])
     }
     
@@ -80,7 +85,7 @@ extension AddCostController{
         stackView.addArrangedSubview(collectionViewCategory)
         NSLayoutConstraint.activate([
             collectionViewCategory.widthAnchor.constraint(equalToConstant: view.frame.width - 16),
-            collectionViewCategory.heightAnchor.constraint(equalToConstant: 180)
+            collectionViewCategory.heightAnchor.constraint(equalToConstant: 230)
         ])
     }
     
@@ -100,6 +105,17 @@ extension AddCostController{
         
         collectionViewCategory.rx.itemSelected.subscribe {
             
+            let cellForSubs = self.collectionViewCategory.cellForItem(at: $0.element!) as! CategoryCell
+            
+            var selectedCategory: String = ""
+            
+            for (category, image) in CategoryCostsDesignElements().getCategoryEmoji(){
+                if cellForSubs.label.text == image{
+                    selectedCategory = category
+                }
+            }
+            
+            self.buttonsSubCategories.initButtons(names: CategoryCostsDesignElements().getSubCategory()[selectedCategory])
             
             let selectedIndex = try! self.viewModel.selectedItem.value()["Category"]
             

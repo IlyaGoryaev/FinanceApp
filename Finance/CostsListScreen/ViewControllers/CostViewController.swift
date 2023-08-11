@@ -19,6 +19,7 @@ class CostViewController: UIViewController {
         table.separatorStyle = .none
         table.translatesAutoresizingMaskIntoConstraints = false
         table.register(CostCell.self, forCellReuseIdentifier: "CostCell")
+        table.register(CostForGoalCell.self, forCellReuseIdentifier: "CostForGoalCell")
         table.allowsSelection = false
         return table
     }()
@@ -59,14 +60,17 @@ class CostViewController: UIViewController {
         case 0:
             viewModel.fetchDayCosts()
             viewModel.selectedIndex.on(.next(0))
+            print(try! viewModel.costs.value())
             break
         case 1:
             viewModel.fetchWeekCosts()
             viewModel.selectedIndex.on(.next(1))
+            print(try! viewModel.costs.value())
             break
         case 2:
             viewModel.fetchMonthCosts()
             viewModel.selectedIndex.on(.next(2))
+            print(try! viewModel.costs.value())
             break
         default:
             break
@@ -123,7 +127,28 @@ class CostViewController: UIViewController {
     
     override func viewWillAppear(_ animated: Bool) {
         viewModel.fetchDayCosts()
-        print("Appear")
+//        let array = try! viewModel.costs.value()
+//        let view = UIView()
+//        let pictureView = UIImageView(image: UIImage(named: "30_p-1024x893"))
+//        view.translatesAutoresizingMaskIntoConstraints = false
+//        pictureView.translatesAutoresizingMaskIntoConstraints = false
+//        pictureView.contentMode = .scaleAspectFit
+//        
+//        view.backgroundColor = .white
+//        if array[0].items.count == 0{
+//            self.view.addSubview(view)
+//            view.addSubview(pictureView)
+//            NSLayoutConstraint.activate([
+//                view.topAnchor.constraint(equalTo: self.view.safeAreaLayoutGuide.topAnchor, constant: 100),
+//                view.leadingAnchor.constraint(equalTo: self.view.leadingAnchor),
+//                view.trailingAnchor.constraint(equalTo: self.view.trailingAnchor),
+//                view.bottomAnchor.constraint(equalTo: self.view.bottomAnchor),
+//                pictureView.centerYAnchor.constraint(equalTo: view.centerYAnchor),
+//                pictureView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+//                pictureView.widthAnchor.constraint(equalToConstant: 300),
+//                pictureView.heightAnchor.constraint(equalToConstant: 300)
+//            ])
+//        }
     }
     
     
@@ -140,7 +165,10 @@ class CostViewController: UIViewController {
         addButton.backgroundColor = .systemGray4
         addViewController.view.addSubview(addButton)
         addButton.layer.cornerRadius = 25
-        addButton.layer.shadowOpacity = 0.4
+        addButton.layer.shadowOpacity = 0.15
+        addButton.layer.shadowOffset = .zero
+        addButton.layer.shadowRadius = 10
+        addButton.layer.shouldRasterize = true
         addButton.setTitle("✓", for: .normal)
         addButton.titleLabel?.font = .systemFont(ofSize: 30)
         addButton.setTitleColor(.gray, for: .normal)
@@ -161,35 +189,37 @@ class CostViewController: UIViewController {
             }
         }.disposed(by: disposeBag)
         
-        addViewController.viewModel.isButtonAble.subscribe {
-            print($0)
-        }.disposed(by: disposeBag)
-        
         addButton.addAction(UIAction(handler: { _ in
             self.dismiss(animated: true)
-            let typeOfSelectedItem = try! addViewController.viewModel.selectedItem.value().keys
+            let selectedItem = try! addViewController.viewModel.selectedItem.value()
             let sum = try! addViewController.viewModel.sum.value()
-            let selectedItem = try! addViewController.viewModel.typeOfSelectedItem.value()
+            let typeOfSelectedItem = try! addViewController.viewModel.typeOfSelectedItem.value()
             var stringSelectedItem = ""
-            for item in typeOfSelectedItem{
+            for item in selectedItem.keys{
                 if item == "Category"{
                     
                     for (category, item) in CategoryCostsDesignElements().getCategoryEmoji(){
-                        if item == selectedItem{
+                        if item == typeOfSelectedItem{
                             stringSelectedItem = category
                         }
                     }
                     
+                    addViewController.viewModel.newValuesForCost(sumCost: sum, category: stringSelectedItem, label: "rrfw4rfrw", date: try! addViewController.viewModel.dateSelected.value())
+                    addViewController.viewModel.saveRealmCost()
+                    
                 } else {
                     
+                    let goalStorage = GoalsService()
+                    let goalObject = goalStorage.getGoalModelByPicture(picture: typeOfSelectedItem)
+                    addViewController.viewModel.updateGoalObject(picture: typeOfSelectedItem, sum: sum, goalObject: goalObject[0])
                     stringSelectedItem = "goals"
+                    addViewController.viewModel.newValuesForCost(sumCost: sum, category: stringSelectedItem, label: goalObject[0].costId, date: try! addViewController.viewModel.dateSelected.value())
+                    addViewController.viewModel.saveRealmGoal()
                     
                 }
             }
-            print(stringSelectedItem)
             
-            addViewController.viewModel.newValuesForCost(sumCost: sum, category: stringSelectedItem, label: "rrfw4rfrw", date: try! addViewController.viewModel.dateSelected.value())
-            addViewController.viewModel.saveRealm()
+            
             self.viewModel.fetchObjectsAfterAddingNewCost()
             
             
@@ -205,16 +235,30 @@ extension CostViewController: UIScrollViewDelegate{
         table.rx.setDelegate(self).disposed(by: disposeBag)
                 
         let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, CostRealm>>{_, tableView, indexPath, item in
-            let cell = tableView.dequeueReusableCell(withIdentifier: "CostCell", for: indexPath) as! CostCell
-            print(item.category)
-            cell.labelCost.text = "\(item.sumCost)₽"
-            cell.labelCategory.text = CategoryCostsDesignElements().getRussianLabelText()[item.category]
-            cell.labelComment.text = item.label
-            cell.labelCost.font = .boldSystemFont(ofSize: 20)
-            cell.labelCategory.font = .italicSystemFont(ofSize: 15)
-            cell.categoryColorView.backgroundColor = CategoryCostsDesignElements().getCategoryColors()[item.category]
-            cell.emojiLabel.text = CategoryCostsDesignElements().getCategoryEmoji()[item.category]
-            return cell
+            if item.category == "goals"{
+                let cell = tableView.dequeueReusableCell(withIdentifier: "CostForGoalCell", for: indexPath) as! CostForGoalCell
+                cell.labelCost.text = "\(item.sumCost)₽"
+                cell.nameGoalLabel.text = item.label
+                cell.nameGoalLabel.font = .boldSystemFont(ofSize: 20)
+                cell.nameGoalLabel.textColor = .gray
+                cell.labelCost.font = .boldSystemFont(ofSize: 20)
+                cell.labelPicture.text = GoalsService().getDictGoalObjects()[item.label]
+                return cell
+                
+            } else {
+                
+                let cell = tableView.dequeueReusableCell(withIdentifier: "CostCell", for: indexPath) as! CostCell
+                print(item.category)
+                cell.labelCost.text = "\(item.sumCost)₽"
+                cell.labelCategory.text = CategoryCostsDesignElements().getRussianLabelText()[item.category]
+                cell.labelComment.text = item.label
+                cell.labelCost.font = .boldSystemFont(ofSize: 20)
+                cell.labelCategory.font = .italicSystemFont(ofSize: 15)
+                cell.categoryColorView.backgroundColor = CategoryCostsDesignElements().getCategoryColors()[item.category]
+                cell.emojiLabel.text = CategoryCostsDesignElements().getCategoryEmoji()[item.category]
+                return cell
+            }
+            
         } titleForHeaderInSection: { dataSource, sectionIndex in
             return dataSource[sectionIndex].model
         }
