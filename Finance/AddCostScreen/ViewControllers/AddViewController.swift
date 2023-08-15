@@ -13,6 +13,7 @@ class AddCostController: UIViewController, UIScrollViewDelegate {
     let dateView = UIView()
     let dateStackView = UIStackView()
     let calendarButton = UIButton()
+    let labelSubCategories = UILabel()
     
     
     let disposeBag = DisposeBag()
@@ -25,6 +26,9 @@ class AddCostController: UIViewController, UIScrollViewDelegate {
     
     //MARK: Инициализация текстового поля
     let textField = UITextField()
+    
+    
+    //MARK: Scroll View
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .systemGray6
@@ -32,6 +36,9 @@ class AddCostController: UIViewController, UIScrollViewDelegate {
         scrollView.contentSize = contentSize
         return scrollView
     }()
+    
+    
+    
     
     
     //MARK: Контейнер для ScrollView
@@ -142,7 +149,7 @@ extension AddCostController{
     
     private func setupSubCategoriesStackView(){
         
-        let labelSubCategories = UILabel()
+        
         labelSubCategories.text = "Подкатегории"
         labelSubCategories.textColor = .gray
         
@@ -152,22 +159,17 @@ extension AddCostController{
         categoriesStackView.spacing = 10
         categoriesStackView.alignment = .center
         categoriesStackView.distribution = .fill
+       
         
         buttonsSubCategories.initButtons(names: CategoryCostsDesignElements().getSubCategory()["health"])
         
-        let spacer = UIView()
-        spacer.isUserInteractionEnabled = false
-        spacer.setContentHuggingPriority(.defaultLow, for: .horizontal)
-        spacer.setContentCompressionResistancePriority(.fittingSizeLevel, for: .horizontal)
-        NSLayoutConstraint.activate([
-            spacer.widthAnchor.constraint(equalToConstant: 170)
-        ])
-        
-        [self.buttonsSubCategories, spacer].forEach {
+        [self.buttonsSubCategories].forEach {
             categoriesStackView.addArrangedSubview($0)
         }
-        stackView.addArrangedSubview(categoriesStackView)
         
+        stackView.addArrangedSubview(categoriesStackView)
+        labelSubCategories.isHidden = true
+        categoriesStackView.isHidden = true
         
     }
     
@@ -189,7 +191,8 @@ extension AddCostController{
         self.viewModel.isItemSelected.subscribe {
             self.dateStackView.isHidden = !$0.element!
         }.disposed(by: disposeBag)
-        dateCollectionView.cellForItem(at: IndexPath(item: 2, section: 0))?.isSelected = true
+        
+        
     }
     
     
@@ -207,6 +210,35 @@ extension AddCostController{
             calendarButton.heightAnchor.constraint(equalToConstant: 60)
         ])
         
+        calendarButton.addAction(UIAction(handler: { _ in
+            self.showCalendarViewControllerInACustomizedSheet()
+            self.calendarButton.backgroundColor = .systemPink
+        }), for: .touchUpInside)
+        
+    }
+    
+    func showCalendarViewControllerInACustomizedSheet() {
+        let viewControllerToPresent = CalendarController()
+        if let sheet = viewControllerToPresent.sheetPresentationController {
+            sheet.detents = [.medium()]
+            sheet.prefersGrabberVisible = true
+        }
+        
+        viewControllerToPresent.viewModel.selectedDate.subscribe {
+            self.viewModel.fetchDates()
+            var dateComponents = DateComponents()
+            dateComponents.day = Calendar.current.component(.day, from: $0)
+            dateComponents.month = Calendar.current.component(.month, from: $0)
+            dateComponents.year = Calendar.current.component(.year, from: $0)
+            self.calendarButton.setTitle(DateShare.shared.convertFuncDayWithoutYear(dateComponents: dateComponents), for: .normal)
+            self.calendarButton.titleLabel?.font = .boldSystemFont(ofSize: 20)
+            self.calendarButton.setTitleColor(.label, for: .normal)
+            self.viewModel.dateSelected.on(.next($0))
+            self.viewModel.isDateSelected.on(.next(true))
+            self.viewModel.buttonStatus()
+        }.disposed(by: disposeBag)
+        
+        present(viewControllerToPresent, animated: true, completion: nil)
     }
     
     

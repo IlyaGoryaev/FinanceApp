@@ -35,7 +35,7 @@ class CellForCostScreen: UICollectionViewCell {
             colorImage.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             colorImage.widthAnchor.constraint(equalToConstant: 16),
             colorImage.heightAnchor.constraint(equalToConstant: 16),
-            percentLabel.topAnchor.constraint(equalTo: topAnchor, constant: 16),
+            percentLabel.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16),
             percentLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
         ])
         

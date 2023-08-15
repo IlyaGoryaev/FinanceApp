@@ -24,14 +24,22 @@ class ButtonsSubCategories: UIStackView{
         nameButtons = names
         axis = .vertical
         alignment = .leading
-        spacing = 5
+        spacing = 15
         for name in nameButtons!{
-            var button = UIButton()
+            let button = UIButton()
             button.titleLabel?.numberOfLines = 1
             button.titleLabel?.adjustsFontSizeToFitWidth = true
             button.titleLabel?.lineBreakMode = .byClipping
             button.setTitle(name, for: .normal)
             button.setTitleColor(.black, for: .normal)
+            button.backgroundColor = .white
+            button.titleLabel?.font = .systemFont(ofSize: 18)
+            button.layer.cornerRadius = 5
+            button.layer.shadowOffset = .zero
+            button.layer.shadowOpacity = 0.2
+            button.layer.shadowRadius = 10
+            button.layer.shadowColor = UIColor.black.cgColor
+            button.contentEdgeInsets = UIEdgeInsets(top: 4, left: 8, bottom: 4, right: 8)
             buttons.append(button)
         }
         buttons.forEach{

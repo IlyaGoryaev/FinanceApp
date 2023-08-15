@@ -106,9 +106,24 @@ class CostModelView{
             }
             dateComponents.day! -= 1
         }
+
+        print(7 - daysWeek)
         costs.on(.next(array as! [SectionModel<String, CostRealm>]))
         
     }
+    
+//    func fetchDates(){
+//        //MARK: Добавление дат
+//        var array: [Date] = []
+//        let now = Date() + (60 * 60 * 5)
+//        array.append(now)
+//        array.append(now + (60 * 60 * 24))
+//        array.insert(now - (60 * 60 * 24), at: 0)
+//        array.insert(now - (60 * 60 * 24 * 2), at: 0)
+//
+//        datesForSelection.on(.next(array))
+//
+//    }
     
 
     func fetchObjectsAfterAddingNewCost(){

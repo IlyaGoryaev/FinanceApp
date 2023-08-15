@@ -27,37 +27,18 @@ class AddCostViewModel{
     
     var isButtonAble = BehaviorSubject(value: false)
     
+    var subCategories = BehaviorSubject(value: "")
+    
     var cost = BehaviorSubject(value: CostRealm(costId: UUID().uuidString, date: Date(), sumCost: 0, label: "", category: "food"))
     
-    func fetchDates(){//Исправить 
-        
+    func fetchDates(){
+        //MARK: Добавление дат 
         var array: [Date] = []
-        
-        var dateComponents = DateComponents()
-        dateComponents.day = Calendar.current.component(.day, from: Date())
-        dateComponents.month = Calendar.current.component(.month, from: Date())
-        dateComponents.year = Calendar.current.component(.year, from: Date())
-                
-        
-        array.append(Calendar.current.date(from: dateComponents)!)
-        
-        if dateComponents.day! - 1 < 1{
-            dateComponents.month! -= 1
-            dateComponents.day = 30//Исправить
-            
-        } else {
-            dateComponents.day! -= 1
-        }
-        
-        array.insert(Calendar.current.date(from: dateComponents)!, at: 0)
-        
-        dateComponents.day! -= 1
-        
-        array.insert(Calendar.current.date(from: dateComponents)!, at: 0)
-        
-        dateComponents.day! += 3
-        
-        array.append(Calendar.current.date(from: dateComponents)!)
+        let now = Date() + (60 * 60 * 5)
+        array.append(now)
+        array.append(now + (60 * 60 * 24))
+        array.insert(now - (60 * 60 * 24), at: 0)
+        array.insert(now - (60 * 60 * 24 * 2), at: 0)
         
         datesForSelection.on(.next(array))
         
