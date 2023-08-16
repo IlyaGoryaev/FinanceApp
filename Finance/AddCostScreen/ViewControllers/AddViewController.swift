@@ -116,6 +116,7 @@ class AddCostController: UIViewController, UIScrollViewDelegate {
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        
         view.backgroundColor = .systemGray6
         view.addSubview(scrollView)
         NSLayoutConstraint.activate([
@@ -134,13 +135,14 @@ class AddCostController: UIViewController, UIScrollViewDelegate {
         bindCollectionViewCategory()
         
         viewModel.fetchGoalObjects()
+        
         if try! viewModel.goals.value() != []{
             setupCollectionViewGoals()
             bindCollectionViewGoals()
         }
         setupDateStackView()
         setupSubCategoriesStackView()
-        
+        print(try! viewModel.datesForSelection.value())
     }
     
     
@@ -159,18 +161,23 @@ extension AddCostController{
         categoriesStackView.spacing = 10
         categoriesStackView.alignment = .center
         categoriesStackView.distribution = .fill
+
        
         
         buttonsSubCategories.initButtons(names: CategoryCostsDesignElements().getSubCategory()["health"])
         
+        
         [self.buttonsSubCategories].forEach {
             categoriesStackView.addArrangedSubview($0)
         }
+        categoriesStackView.translatesAutoresizingMaskIntoConstraints = false
+        
+        
         
         stackView.addArrangedSubview(categoriesStackView)
+        categoriesStackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 16).isActive = true
         labelSubCategories.isHidden = true
         categoriesStackView.isHidden = true
-        
     }
     
     private func setupDateStackView(){

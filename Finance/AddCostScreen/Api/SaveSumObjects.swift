@@ -9,7 +9,7 @@ class SaveSumObjects{
         
         //Дневная модель
         let costSumDay = storageSum.getDayObjectForKey(day: dateComponents.day!, month: dateComponents.month!, year: dateComponents.year!)
-        if costSumDay == []{
+        if costSumDay.isEmpty{
             let sumModelDay = SumCostDayModel(costId: DateShare.shared.convertFuncDay(dateComponents: dateComponents), dayValue: dateComponents.day!, monthValue: dateComponents.month!, yearValue: dateComponents.year!, keyValue: "day")
             sumModelDay.dictOfSumByCategories[category]! += sumCost
             try! storageSum.saveNewModel(object: sumModelDay)
@@ -23,7 +23,7 @@ class SaveSumObjects{
         
         //Месячная модель
         let costSumMonth = storageSum.getMonthObjectForKey(month: dateComponents.month!, year: dateComponents.year!)
-        if costSumMonth == []{
+        if costSumMonth.isEmpty{
             let sumModelMonth = SumCostMonthModel(costId: DateShare.shared.convertFuncMonth(dateComponents: dateComponents), yearValue: dateComponents.year!, monthValue: dateComponents.month!, keyValue: "month")
             sumModelMonth.dictOfSumByCategories[category]! += sumCost
             try! storageSum.saveNewModel(object: sumModelMonth)
@@ -36,7 +36,7 @@ class SaveSumObjects{
         
         //Годовая модель
         let costSumYear = storageSum.getYearObjectForKey(year: dateComponents.year!)
-        if costSumYear == []{
+        if costSumYear.isEmpty{
             let sumYearModel = SumCostYearModel(costId: String(Calendar.current.component(.year, from: Date())), yearValue: dateComponents.year!, keyValue: "year")
             sumYearModel.dictOfSumByCategories[category]! += sumCost
             try! storageSum.saveNewModel(object: sumYearModel)

@@ -11,21 +11,29 @@ class CircleCategories{
     func getCategoriesLayer(percentDict: [Categories.RawValue: Double]) -> [CAShapeLayer] {
         //MARK: Массив слоев для круговой диаграммы
         var layersArray: [CAShapeLayer] = []
+        
         //MARK: Массив радина для окружности
         var radiansArray: [CGFloat] = []
+        
         //MARK: Угол, с которого начинается построение окружности
         var startAngle = -1.57
+        
         //MARK: Массив процентов, которой определяет слой для каждого категории
         var array: [Double] = []
+        
         //MARK: Cумма процентов, которые из-за маленького размера нельзя поместить в отдельную категорию, они будут объеденены в одну категорию
         var sumDeleted: Double = 0
+        
         //MARK: Массив категорий
         var tuplesArray1: [(Categories.RawValue, Double)] = []
+        
         //MARK: Если трат за день нет, то возвращается серая окружность
         if percentDict == [:]{
             return [configureSingleLayer(degreesInPath: 360)]
         }
+        
         var isExtraCategory = false
+        print(percentDict)
         //MARK: Сортировка категорий по размеру
         for (category, number) in percentDict{
             if number < 0.05{
@@ -39,9 +47,11 @@ class CircleCategories{
         array.sort { first, second in
             first > second
         }
+        
         tuplesArray1.sort { firstTuple, secondTuple in
             firstTuple.1 > secondTuple.1
         }
+        
         print("T1:\(tuplesArray1)")
         print(sumDeleted)
         if sumDeleted >= 0.05{
@@ -54,20 +64,23 @@ class CircleCategories{
             array[array.count - 1] = array[array.count - 1] - (sumPercent - 1)
         }
         
+//        if sumPercent < 1{
+//            array[array.count - 1] += 1 - sumPercent
+//        }
+        
         if round(sumPercent / 0.1) * 0.1 == 1.0{
             for item in array {
                 var radian = deg2rad(360 * item)
                 radian = round(radian / 0.01) * 0.01
                 radiansArray.append(radian)// Item в долях
             }
-            print(radiansArray.reduce(0, +))
             
             if isExtraCategory{
                 for i in 0...radiansArray.count - 2 {
                     layersArray.append(configureLayer(startAngle: startAngle, degreesInPath: radiansArray[i], color: CategoryCostsDesignElements().getCategoryColors()[tuplesArray1[i].0]!))
                     startAngle = startAngle + radiansArray[i]
                 }
-                layersArray.append(configureLayer(startAngle: startAngle, degreesInPath: radiansArray[radiansArray.count - 1], color: .black))
+                layersArray.append(configureLayer(startAngle: startAngle, degreesInPath: radiansArray[radiansArray.count - 1], color: #colorLiteral(red: 0.7223421931, green: 0.8589904904, blue: 0.9465125203, alpha: 1)))
             } else {
                 for i in 0...radiansArray.count - 1 {
                     layersArray.append(configureLayer(startAngle: startAngle, degreesInPath: radiansArray[i], color: CategoryCostsDesignElements().getCategoryColors()[tuplesArray1[i].0]!))
@@ -158,7 +171,7 @@ class CircleCategories{
     
     private func configurePath(startAngle: CGFloat, degreesInPath: CGFloat, x: Int, y: Int) -> CGPath{
         UIBezierPath(arcCenter: CGPoint(x: x, y: y),
-                     radius: CGFloat(circleValue),
+                     radius: CGFloat(circleValue - 20),
                      startAngle: startAngle,
                      endAngle: startAngle + degreesInPath,
                      clockwise: true).cgPath

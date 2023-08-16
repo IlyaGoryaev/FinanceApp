@@ -13,9 +13,14 @@ extension AddCostController{
         collectionViewGoals.layer.cornerRadius = 10
         stackView.addArrangedSubview(labelGoals)
         stackView.addArrangedSubview(collectionViewGoals)
-        print(GoalsService().getAllGoalModels().count)
-        var heightOfCollectionView = Double(GoalsService().getAllGoalModels().count) / 5.0 > Double(GoalsService().getAllGoalModels().count / 5) ? Int(GoalsService().getAllGoalModels().count / 5 + 1) * 60 + Int(GoalsService().getAllGoalModels().count / 5 + 1) * 10 + 32 : Int(GoalsService().getAllGoalModels().count / 5) * 60 + Int(GoalsService().getAllGoalModels().count / 5) * 10 + 32
-        if GoalsService().getAllGoalModels().count / 5 <= 1{
+        var constant: Double = 0.0
+        if self.view.frame.height > 820{
+            constant = 5.0
+        } else {
+            constant = 4.0
+        }
+        var heightOfCollectionView = Double(GoalsService().getAllGoalModels().count) / constant > Double(GoalsService().getAllGoalModels().count / Int(constant)) ? Int(GoalsService().getAllGoalModels().count / Int(constant) + 1) * 60 + Int(GoalsService().getAllGoalModels().count / Int(constant) + 1) * 10 + 32 : Int(GoalsService().getAllGoalModels().count / Int(constant)) * 60 + Int(GoalsService().getAllGoalModels().count / Int(constant)) * 10 + 32
+        if GoalsService().getAllGoalModels().count / Int(constant) <= 1{
             heightOfCollectionView = heightOfCollectionView - 10
         }
         
@@ -27,7 +32,7 @@ extension AddCostController{
     
     
     func setupDateCollectionView(){
-        
+        print("height: \(self.view.frame.height)")
         stackView.addArrangedSubview(dateCollectionView)
         dateCollectionView.backgroundColor = .systemGray6
         NSLayoutConstraint.activate([
@@ -42,9 +47,13 @@ extension AddCostController{
             let indexPath = IndexPath(row: index, section: 0)
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! DateCell
             var dateComponents = DateComponents()
-            dateComponents.day = Calendar.current.component(.day, from: item)
-            dateComponents.month = Calendar.current.component(.month, from: item)
-            dateComponents.year = Calendar.current.component(.year, from: item)
+            dateComponents.day = Calendar.autoupdatingCurrent.component(.day, from: item)
+            dateComponents.month = Calendar.autoupdatingCurrent.component(.month, from: item)
+            dateComponents.year = Calendar.autoupdatingCurrent.component(.year, from: item)
+            print(item)
+            //    .component(.day, from: item))
+            print(dateComponents)
+            print(DateShare.shared.convertFuncDayWithoutYear(dateComponents: dateComponents))
             cell.label.text = DateShare.shared.convertFuncDayWithoutYear(dateComponents: dateComponents)
             cell.backgroundColor = .systemGray5
             cell.layer.cornerRadius = 10
@@ -59,11 +68,12 @@ extension AddCostController{
         
         dateCollectionView.rx.itemSelected.subscribe {
             let cell = self.dateCollectionView.cellForItem(at: $0.element!) as! DateCell
-            cell.backgroundColor = .systemPink
+            cell.backgroundColor = #colorLiteral(red: 0.985034883, green: 0.8090179563, blue: 0.7341457605, alpha: 1)
             self.calendarButton.backgroundColor = .systemGray5
             self.calendarButton.setTitle("🗓️", for: .normal)
             self.calendarButton.titleLabel?.font = .boldSystemFont(ofSize: 40)
             let arrayDates = try! self.viewModel.datesForSelection.value()
+            //Тестирование добавления дат
             self.viewModel.dateSelected.on(.next(arrayDates[$0.element!.row]))
             self.viewModel.isDateSelected.on(.next(true))
             self.viewModel.buttonStatus()
@@ -82,7 +92,14 @@ extension AddCostController{
     
     
     func setupCollectionViewCategory(){
+        var constant: Double = 0.0
+        if self.view.frame.height > 820{
+            constant = 5.0
+        } else {
+            constant = 4.0
+        }
         
+        var heightOfCollectionView = Double(Categories.allCases.count) / constant > Double(Categories.allCases.count / Int(constant)) ? Int(Categories.allCases.count / Int(constant) + 1) * 60 + Int(Categories.allCases.count / Int(constant) + 1) * 10 + 32 : Int(Categories.allCases.count / Int(constant)) * 60 + Int(Categories.allCases.count / Int(constant)) * 10 + 32
         labelCategory.text = "Категории"
         labelCategory.textColor = .gray
         collectionViewCategory.backgroundColor = .white
@@ -92,7 +109,7 @@ extension AddCostController{
         
         NSLayoutConstraint.activate([
             collectionViewCategory.widthAnchor.constraint(equalToConstant: view.frame.width - 16),
-            collectionViewCategory.heightAnchor.constraint(equalToConstant: 230)
+            collectionViewCategory.heightAnchor.constraint(equalToConstant: CGFloat(heightOfCollectionView))
         ])
     }
     
@@ -112,6 +129,7 @@ extension AddCostController{
         
         collectionViewCategory.rx.itemSelected.subscribe {
             
+            
             let cellForSubs = self.collectionViewCategory.cellForItem(at: $0.element!) as! CategoryCell
             
             var selectedCategory: String = ""
@@ -122,7 +140,38 @@ extension AddCostController{
                 }
             }
             
+            if selectedCategory == "other"{
+                self.labelSubCategories.isHidden = true
+            }
+            
             self.buttonsSubCategories.initButtons(names: CategoryCostsDesignElements().getSubCategory()[selectedCategory])
+            
+            for item in self.buttonsSubCategories.arrangedSubviews{
+                let button = item as! UIButton
+                
+                
+                button.addAction(UIAction(handler: { _ in
+                    if button.backgroundColor == .white{
+                        self.viewModel.subCategories.on(.next(button.titleLabel!.text!))
+                        button.backgroundColor = #colorLiteral(red: 0.00656094728, green: 0.4661049843, blue: 0.9988914132, alpha: 1)
+                        button.setTitleColor(.white, for: .normal)
+                        for buttonItem in self.buttonsSubCategories.arrangedSubviews{
+                            if buttonItem != button{
+                                buttonItem.isHidden = true
+                            }
+                        }
+                    } else {
+                        self.viewModel.subCategories.on(.next(""))
+                        button.backgroundColor = .white
+                        button.setTitleColor(.gray, for: .normal)
+                        for buttonItem in self.buttonsSubCategories.arrangedSubviews{
+                            if buttonItem != button{
+                                buttonItem.isHidden = false
+                            }
+                        }
+                    }
+                }), for: .touchUpInside)
+            }
             
             let selectedIndex = try! self.viewModel.selectedItem.value()["Category"]
             

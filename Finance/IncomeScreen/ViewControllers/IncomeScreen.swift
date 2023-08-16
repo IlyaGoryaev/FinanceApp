@@ -9,7 +9,17 @@ class IncomeScreen: UIViewController {
     weak var delegate: IncomeScreenDelegate?
     
     //MARK: Кнопка бокового меню
-    let menuIcon = MenuIcon()
+    let menuIcon = MenuIcon.build(color: .brown, frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+    
+    let addButton = UIButton()
+    
+    //MARK: Круговая диаграмма трат
+    let viewWithCircleContainer = UIView()
+    let label = UILabel()
+    let subLabel = UILabel()
+    
+    //MARK: Labels
+    let categoryLabel = UILabel()
     
     //MARK: Кнопки периода
     let buttons = Buttons()
@@ -45,6 +55,7 @@ class IncomeScreen: UIViewController {
         let tapMenuIconGesture = UITapGestureRecognizer(target: self, action: #selector(tappedMenuButton))
         menuIcon.addGestureRecognizer(tapMenuIconGesture)
     }
+    
     
     @objc func tappedMenuButton(){
         self.delegate?.didTapButtonMenu()

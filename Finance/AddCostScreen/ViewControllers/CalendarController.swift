@@ -23,7 +23,9 @@ class CalendarController: UIViewController {
         calendarView.translatesAutoresizingMaskIntoConstraints = false
         calendarView.calendar = .current
         calendarView.locale = .current
+        calendarView.timeZone = .current
         calendarView.fontDesign = .rounded
+        calendarView.calendar.firstWeekday = 2
         calendarView.layer.cornerRadius = 12
         calendarView.backgroundColor = .white
         calendarView.delegate = self

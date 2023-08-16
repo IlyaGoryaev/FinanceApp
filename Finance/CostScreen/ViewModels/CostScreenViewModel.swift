@@ -11,6 +11,10 @@ class CostScreenViewModel{
     var percentArray = BehaviorSubject(value: ["auto": 0.0])
     var categories = BehaviorSubject(value: [SectionModel(model: "", items: [CostCategoryModel]())])
     var goals = BehaviorSubject(value: [SectionModel(model: "", items: [GoalObject]())])
+    var extraValueDay = BehaviorSubject(value: false)
+    var extraValueMonth = BehaviorSubject(value: false)
+    var extraValueYear = BehaviorSubject(value: false)
+    var extraValue = BehaviorSubject(value: false)
     
     func fetchGoalObjects(){
         let goalsService = GoalsService()
@@ -90,8 +94,9 @@ class CostScreenViewModel{
             let percent = Int(round(value * 100) / 100 * 100)
             if value != 0{
                 if percent > 4{
-                    percents += percent
                     array.append(CostCategoryModel(costsSum: dict.1[category]!, percents: percent, category: Categories(rawValue: String(category))!, color: CategoryCostsDesignElements().getCategoryColors()[category]!))
+                } else {
+                    percents += percent
                 }
             }
         }
@@ -99,8 +104,10 @@ class CostScreenViewModel{
         array = array.sorted { model1, model2 in
             model1.percents > model2.percents
         }
+        
         if percents != 0{
-            array.append(CostCategoryModel(costsSum: 1000, percents: 100 - percents, category: .auto, color: .black))
+            array.append(CostCategoryModel(costsSum: 1000, percents: percents, category: .auto, color: .black))
+            extraValueDay.on(.next(true))
         }
         
         
@@ -120,8 +127,10 @@ class CostScreenViewModel{
             let percent = Int(round(value * 100) / 100 * 100)
             if value != 0{
                 if percent > 4{
-                    persents += percent
+                    
                     array.append(CostCategoryModel(costsSum: dict.1[category]!, percents: percent, category: Categories(rawValue: String(category))!, color: CategoryCostsDesignElements().getCategoryColors()[category]!))
+                } else {
+                    persents += percent
                 }
             }
         }
@@ -131,7 +140,8 @@ class CostScreenViewModel{
         })
         
         if persents != 0{
-            array.append(CostCategoryModel(costsSum: 1000, percents: 100 - persents, category: .auto, color: .black))
+            array.append(CostCategoryModel(costsSum: 1000, percents: persents, category: .auto, color: .black))
+            extraValueMonth.on(.next(true))
         }
         
         
@@ -146,8 +156,11 @@ class CostScreenViewModel{
             let percent = Int(round(value * 100) / 100 * 100)
             if value != 0{
                 if percent > 4{
-                    persents += percent
+                    print(percent)
                     array.append(CostCategoryModel(costsSum: dict.1[category]!, percents: percent, category: Categories(rawValue: String(category))!, color: CategoryCostsDesignElements().getCategoryColors()[category]!))
+                } else {
+                    print(percent)
+                    persents += percent
                 }
             }
         }
@@ -157,7 +170,8 @@ class CostScreenViewModel{
         })
         
         if persents != 0{
-            array.append(CostCategoryModel(costsSum: 1000, percents: 100 - persents, category: .auto, color: .black))
+            array.append(CostCategoryModel(costsSum: 1000, percents: persents, category: .auto, color: .black))
+            extraValueYear.on(.next(true))
         }
         
         categories.on(.next([SectionModel(model: "Категории Расходов", items: array)]))

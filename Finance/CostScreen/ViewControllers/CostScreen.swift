@@ -3,11 +3,6 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 
-//Решить проблему с добалением view в стек
-//компановка элементов
-//Удаление слоев
-//Распознавание жестов над слоями
-//рефакторинг кода
 protocol CostScreenDelegate: AnyObject{
     func didTapButtonMenu()
 }
@@ -28,12 +23,6 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
     let categoryLabel = UILabel()
     
     let searchImage = UIImageView()
-    
-    //MARK: Состояния вида, которые расширяется и скалдывается
-    enum CardState{
-        case expand
-        case collapsed
-    }
     
     lazy var collectionViewCategoriesPercantage: UICollectionView = {
         let collectionViewFlowLayout = UICollectionViewFlowLayout()
@@ -199,6 +188,7 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
             self.label.isHidden = boolValue
             self.subLabel.isHidden = boolValue
         }.disposed(by: disposeBag)
+        self.viewModel.extraValue.on(.next(try! self.viewModel.extraValueDay.value()))
     }
     
     
@@ -271,6 +261,7 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
                 self.viewWithCircleContainer.layer.addSublayer(layer)
                 print(layer)
             }
+            self.viewModel.extraValue.on(.next(try! self.viewModel.extraValueDay.value()))
         }), for:  .touchUpInside)
         
         buttons.buttonMonth.addAction(UIAction(handler: { _ in
@@ -290,6 +281,7 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
                 self.viewWithCircleContainer.layer.addSublayer(layer)
                 print(layer)
             }
+            self.viewModel.extraValue.on(.next(try! self.viewModel.extraValueMonth.value()))
         }), for: .touchUpInside)
         
         buttons.buttonYear.addAction(UIAction(handler: { _ in
@@ -309,6 +301,7 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
                 self.viewWithCircleContainer.layer.addSublayer(layer)
                 print(layer)
             }
+            self.viewModel.extraValue.on(.next(try! self.viewModel.extraValueYear.value()))
         }), for: .touchUpInside)
     }
 }
@@ -336,7 +329,8 @@ extension CostScreen{
         
         let dataSource = RxCollectionViewSectionedReloadDataSource<SectionModel<String, CostCategoryModel>> { _, collectionView, indexPath, item in
             let indexOfLast = try! self.viewModel.categories.value()[0].items.count - 1
-            if indexPath.row == indexOfLast{
+            let boolValue = try! self.viewModel.extraValue.value()
+            if indexPath.row == indexOfLast && boolValue{
                 let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExtraCell", for: indexPath) as! ExtraCell
                 cell.percentLabel.text = "\(item.percents)%"
                 cell.layer.shadowColor = UIColor.lightGray.cgColor
@@ -364,6 +358,7 @@ extension CostScreen{
         collectionViewCategoriesPercantage.rx.setDelegate(self).disposed(by: disposeBag)
         
         collectionViewCategoriesPercantage.rx.itemSelected.subscribe {
+            print($0)
             self.showCalendarViewControllerInACustomizedSheet(category: "auto")
         }.disposed(by: disposeBag)
         

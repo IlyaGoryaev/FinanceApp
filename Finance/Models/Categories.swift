@@ -11,4 +11,17 @@ enum Categories: String, CaseIterable{
     case pets
     case workExpenses
     case other
+    case gifts
+    case clothes
+    case familyExpenses
+}
+
+enum IncomeCategories: String, CaseIterable{
+    case salary
+    case investment
+    case gifts
+    case scholarship
+    case businessIncome
+    case salesIncome
+    case rentIncome
 }

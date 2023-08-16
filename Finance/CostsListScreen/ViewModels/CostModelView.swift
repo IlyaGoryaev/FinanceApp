@@ -18,10 +18,10 @@ class CostModelView{
             dateComponents.day = Calendar.current.component(.day, from: date)
             dateComponents.month = Calendar.current.component(.month, from: date)
             dateComponents.year = Calendar.current.component(.year, from: date)
+            print(date)
             arraySection.append(SectionModel(model: DateShare.shared.convertFuncDay(dateComponents: dateComponents), items: storage.fetchByDate(day: Calendar.current.component(.day, from: date), month: Calendar.current.component(.month, from: date), year: Calendar.current.component(.year, from: date)).reversed()))
         }
         costs.on(.next(arraySection as! [SectionModel<String, CostRealm>]))
-        print(storage.fetchAllDates())
     }
     
     func fetchDayCosts(){
@@ -39,7 +39,7 @@ class CostModelView{
         } else {
             costs.on(.next([SectionModel(model: "", items: [CostRealm]())]))
         }
-        
+        print(array)
     }
     
     func fetchMonthCosts(){
@@ -89,42 +89,46 @@ class CostModelView{
         
     }
     func fetchWeekCosts(){
-        let storage = StorageService()
-        var array: [any SectionModelType] = []
-        var dateComponents = DateComponents()
-        dateComponents.day = Calendar.current.component(.day, from: Date())
-        dateComponents.month = Calendar.current.component(.month, from: Date())
-        dateComponents.year = Calendar.current.component(.year, from: Date())
-        let daysWeek = Calendar.current.component(.weekday, from: Date()) == 1 ? 7 : Calendar.current.component(.weekday, from: Date()) - 1
-        for _ in 0...daysWeek - 1{
-            var dailyArray = storage.fetchByDate(day: dateComponents.day!, month: dateComponents.month!, year: dateComponents.year!)
-            dailyArray = dailyArray.sorted { cost1, cost2 in
-                cost1.date >= cost2.date
-            }
-            if dailyArray != []{
-                array.append(SectionModel(model: DateShare().convertFuncDay(dateComponents: dateComponents), items: dailyArray))
-            }
-            dateComponents.day! -= 1
-        }
-
-        print(7 - daysWeek)
-        costs.on(.next(array as! [SectionModel<String, CostRealm>]))
         
+        var array: [any SectionModelType] = []
+        let now = Date() + (60 * 60 * 5)
+        let daysWeek = Calendar.current.component(.weekday, from: Date()) == 1 ? 7 : Calendar.current.component(.weekday, from: Date()) - 1
+        var datesBefore = daysWeek - 1
+        var datesAfter = 7 - daysWeek
+        for i in 1...datesBefore{
+            var date: Date = now - TimeInterval((60 * 60 * 24 * i))
+            insertElement(array: &array, date: date, isInsert: false)
+            
+        }
+        insertElement(array: &array, date: now, isInsert: true)
+        for i in 1...datesAfter{
+            var date: Date = now + TimeInterval((60 * 60 * 24 * i))
+            insertElement(array: &array, date: date, isInsert: true)
+        }
+        costs.on(.next(array as! [SectionModel<String, CostRealm>]))
     }
     
-//    func fetchDates(){
-//        //MARK: Добавление дат
-//        var array: [Date] = []
-//        let now = Date() + (60 * 60 * 5)
-//        array.append(now)
-//        array.append(now + (60 * 60 * 24))
-//        array.insert(now - (60 * 60 * 24), at: 0)
-//        array.insert(now - (60 * 60 * 24 * 2), at: 0)
-//
-//        datesForSelection.on(.next(array))
-//
-//    }
     
+    func insertElement(array: inout [any SectionModelType], date: Date, isInsert: Bool){
+        let storage = StorageService()
+        var dateComponents = DateComponents()
+        dateComponents.day = Calendar.current.component(.day, from: date)
+        dateComponents.month = Calendar.current.component(.month, from: date)
+        dateComponents.year = Calendar.current.component(.year, from: date)
+        var dailyArray = storage.fetchByDate(day: dateComponents.day!, month: dateComponents.month!, year: dateComponents.year!)
+        dailyArray = dailyArray.sorted { cost1, cost2 in
+            cost1.date >= cost2.date
+        }
+        if !dailyArray.isEmpty{
+            if isInsert{
+                array.insert(SectionModel(model: DateShare().convertFuncDay(dateComponents: dateComponents), items: dailyArray), at: 0)
+            } else {
+                array.append(SectionModel(model: DateShare().convertFuncDay(dateComponents: dateComponents), items: dailyArray))
+            }
+            
+        }
+        
+    }
 
     func fetchObjectsAfterAddingNewCost(){
         
@@ -141,6 +145,7 @@ class CostModelView{
         case 2:
             //Добавление только в первую секцию
             fetchMonthCosts()
+            
             break
         default:
             break

@@ -31,6 +31,8 @@ class AddCostViewModel{
     
     var cost = BehaviorSubject(value: CostRealm(costId: UUID().uuidString, date: Date(), sumCost: 0, label: "", category: "food"))
     
+    var subCategory = BehaviorSubject(value: "")
+    
     func fetchDates(){
         //MARK: Добавление дат 
         var array: [Date] = []
@@ -84,10 +86,12 @@ class AddCostViewModel{
         let storage = StorageService()
         let cost = try! cost.value()
         try! storage.saveOrUpdateObject(object: cost)
+        
         var dateComponents = DateComponents()
         dateComponents.day = Calendar.current.component(.day, from: cost.date)
         dateComponents.month = Calendar.current.component(.month, from: cost.date)
         dateComponents.year = Calendar.current.component(.year, from: cost.date)
+        print(dateComponents)
         
         SaveSumObjects.saveSumObjects(dateComponents: dateComponents, category: cost.category, sumCost: cost.sumCost)
     }
