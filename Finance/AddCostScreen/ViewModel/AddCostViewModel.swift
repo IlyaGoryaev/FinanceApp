@@ -36,7 +36,7 @@ class AddCostViewModel{
     func fetchDates(){
         //MARK: Добавление дат 
         var array: [Date] = []
-        let now = Date() + (60 * 60 * 5)
+        let now = Date()
         array.append(now)
         array.append(now + (60 * 60 * 24))
         array.insert(now - (60 * 60 * 24), at: 0)
@@ -50,7 +50,7 @@ class AddCostViewModel{
         
         let goalsService = GoalsService()
         let models = goalsService.getAllGoalModels()
-        if models == []{
+        if models.isEmpty{
             goals.on(.next([]))
         } else {
             goals.on(.next([SectionModel(model: "", items: goalsService.getAllGoalModels())]))
@@ -83,21 +83,21 @@ class AddCostViewModel{
     }
     
     func saveRealmCost(){
-        let storage = StorageService()
+        let storage = CostStorageService()
         let cost = try! cost.value()
         try! storage.saveOrUpdateObject(object: cost)
         
         var dateComponents = DateComponents()
+        dateComponents.timeZone = .current
         dateComponents.day = Calendar.current.component(.day, from: cost.date)
         dateComponents.month = Calendar.current.component(.month, from: cost.date)
         dateComponents.year = Calendar.current.component(.year, from: cost.date)
-        print(dateComponents)
         
-        SaveSumObjects.saveSumObjects(dateComponents: dateComponents, category: cost.category, sumCost: cost.sumCost)
+        SaveSumObjectCosts.saveSumObjects(dateComponents: dateComponents, category: cost.category, sumCost: cost.sumCost)
     }
     
     func saveRealmGoal(){
-        let storage = StorageService()
+        let storage = CostStorageService()
         let cost = try! cost.value()
         try! storage.saveOrUpdateObject(object: cost)
     }

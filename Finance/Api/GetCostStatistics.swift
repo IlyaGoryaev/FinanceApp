@@ -1,7 +1,7 @@
 import Foundation
 import RealmSwift
 
-class GetStatistic{
+class GetCostStatistic{
     private let storage: Realm?
     
     init() {

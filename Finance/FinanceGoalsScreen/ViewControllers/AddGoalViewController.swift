@@ -7,63 +7,158 @@ class AddGoalViewController: UIViewController, UIScrollViewDelegate {
     
     let disposeBag = DisposeBag()
     
+    //MARK: Кнопки наверху контроллера
+    let exitButton = UIButton()
     
-    lazy var collectionViewForIcons: UICollectionView = {
-        let collectionViewFlowLayout = UICollectionViewFlowLayout()
-        collectionViewFlowLayout.itemSize = CGSize(width: 40, height: 40)
-        collectionViewFlowLayout.sectionInset = UIEdgeInsets(top: 16, left: 16, bottom: 16, right: 16)
-        collectionViewFlowLayout.scrollDirection = .vertical
-        let collectionView = UICollectionView(frame: CGRect(), collectionViewLayout: collectionViewFlowLayout)
-        collectionView.register(CollectionViewForIconsCell.self, forCellWithReuseIdentifier: "Cell")
-        collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .white
-        collectionView.isScrollEnabled = false
-        return collectionView
+    //MARK: Инициализация текстового поля
+    let sumTextField = UITextField()
+    let goalNameTextField = UITextField()
+    
+    let viewModel = AddGoalViewModel()
+    
+    //MARK: Labels
+    let sumLabel = UILabel()
+    let goalNameLabel = UILabel()
+    
+    
+    //MARK: Scroll View
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.backgroundColor = .systemGray6
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        scrollView.contentSize = contentSize
+        return scrollView
     }()
+    
+    //MARK: Контейнер для ScrollView
+    lazy var contentView: UIView = {
+        let contentView = UIView()
+        contentView.backgroundColor = .systemGray6
+        contentView.frame.size = contentSize
+        return contentView
+    }()
+    
+    //MARK: StackView в котором располагаются элементы
+    lazy var stackView: UIStackView = {
+        let stackView = UIStackView()
+        stackView.axis = .vertical
+        stackView.alignment = .center
+        stackView.spacing = 20
+        return stackView
+    }()
+    
+    //MARK: Размер контента внутри scrollView
+    private var contentSize: CGSize {
+        CGSize(width: view.frame.width, height: view.frame.height)
+    }
 
     override func viewDidLoad() {
         super.viewDidLoad()
-        setupCollectionViewForIcon()
-        bindCollectionViewForIcon()
-
+        view.backgroundColor = .systemGray6
+        view.addSubview(scrollView)
+        NSLayoutConstraint.activate([
+            scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 82)
+        ])
+        scrollView.addSubview(contentView)
+        contentView.addSubview(stackView)
+        setupViewConstraints()
+        setupTextField()
+        setupGoalNameTexField()
         
+        setupExitButton()
     }
 }
 extension AddGoalViewController{
     
-    private func setupCollectionViewForIcon(){
-        view.addSubview(collectionViewForIcons)
+    private func setupViewConstraints(){
+        stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
-            collectionViewForIcons.leadingAnchor.constraint(equalTo: view.leadingAnchor),
-            collectionViewForIcons.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            collectionViewForIcons.heightAnchor.constraint(equalToConstant: 320),
-            collectionViewForIcons.centerYAnchor.constraint(equalTo: view.centerYAnchor)
+            stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
+            stackView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor),
+            stackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor),
         ])
     }
     
-    private func bindCollectionViewForIcon(){
+    private func setupGoalNameTexField(){
         
-        let data = Observable.just(["🏖️", "🚗", "🥂", "⚽️", "🎤", "🚛", "✈️", "🛳️" ,"🚀", "🚁", "🚲", "🎲", "🏢", "🏠", "💻", "🖥️", "🖨️", "📱" ,"⌚️", "📷", "💿", "🔫", "💎", "⚙️", "🛶", "💵", "👫", "👠" ,"👕", "💍", "🕶️", "👓", "🐶", "🌳", "🪵", "🍏", "🎂", "🥅" ,"⛳️", "🏆", ])
+        goalNameLabel.text = "Название"
+        goalNameLabel.textColor = .gray
+        stackView.addArrangedSubview(goalNameLabel)
         
-        data.bind(to: collectionViewForIcons.rx.items){collectionView, index, item in
-            let indexPath = IndexPath(item: index, section: 0)
-            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CollectionViewForIconsCell
-            cell.label.text = item
-            cell.label.font = .boldSystemFont(ofSize: 40)
-            return cell
-        }.disposed(by: disposeBag)
+        stackView.addArrangedSubview(goalNameTextField)
+        goalNameTextField.borderStyle = .roundedRect
+        goalNameTextField.layer.borderColor = UIColor.gray.cgColor
+        goalNameTextField.placeholder = "Путешествие"
+        goalNameTextField.textAlignment = .right
+        goalNameTextField.font = .systemFont(ofSize: 30)
+        goalNameTextField.layer.borderWidth = 1
+        goalNameTextField.layer.cornerRadius = 10
         
-        collectionViewForIcons.rx.itemSelected.subscribe {
-            
-            
-        }.disposed(by: disposeBag)
+        NSLayoutConstraint.activate([
+            goalNameTextField.widthAnchor.constraint(equalToConstant: view.frame.width - 16),
+            goalNameTextField.heightAnchor.constraint(equalToConstant: 50)
+        ])
         
-        collectionViewForIcons.rx.itemDeselected.subscribe {
-            
-            
-        }.disposed(by: disposeBag)
-        
-        collectionViewForIcons.rx.setDelegate(self).disposed(by: disposeBag)
     }
     
+    private func setupTextField(){
+        
+        sumLabel.text = "Cумма цели"
+        sumLabel.textColor = .gray
+        stackView.addArrangedSubview(sumLabel)
+        
+        stackView.addArrangedSubview(sumTextField)
+        sumTextField.borderStyle = .roundedRect
+        sumTextField.layer.borderColor = UIColor.gray.cgColor
+        sumTextField.placeholder = "1000₽"
+        sumTextField.textAlignment = .right
+        sumTextField.font = .systemFont(ofSize: 30)
+        sumTextField.layer.borderWidth = 1
+        sumTextField.layer.cornerRadius = 10
+        
+        NSLayoutConstraint.activate([
+            sumTextField.widthAnchor.constraint(equalToConstant: view.frame.width - 16),
+            sumTextField.heightAnchor.constraint(equalToConstant: 50)
+        ])
+        
+        sumTextField.rx.text.subscribe {
+            if let sumInt = Int($0.element!!){
+                self.viewModel.sum.on(.next(sumInt))
+                //self.viewModel.buttonStatus()
+            } else {
+                self.viewModel.sum.on(.next(0))
+                //self.viewModel.buttonStatus()
+            }
+        }.disposed(by: disposeBag)
+
+        self.viewModel.sum.subscribe {
+            print($0)
+        }.disposed(by: disposeBag)
+    }
+    
+    private func setupExitButton(){
+        exitButton.translatesAutoresizingMaskIntoConstraints = false
+        exitButton.backgroundColor = .white
+        view.addSubview(exitButton)
+        exitButton.layer.cornerRadius = 25
+        exitButton.layer.shadowOpacity = 0.15
+        exitButton.layer.shadowOffset = .zero
+        exitButton.layer.shouldRasterize = true
+        exitButton.layer.shadowRadius = 10
+        exitButton.setTitle("✕", for: .normal)
+        exitButton.titleLabel?.font = .systemFont(ofSize: 30)
+        exitButton.setTitleColor(.gray, for: .normal)
+        NSLayoutConstraint.activate([
+            exitButton.widthAnchor.constraint(equalToConstant: 50),
+            exitButton.heightAnchor.constraint(equalToConstant: 50),
+            exitButton.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
+            exitButton.topAnchor.constraint(equalTo: view.topAnchor, constant: 16)
+        ])
+        exitButton.addAction(UIAction(handler: { _ in
+            self.dismiss(animated: true)
+        }), for: .touchUpInside)
+    }
 }

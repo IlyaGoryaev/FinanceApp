@@ -32,7 +32,6 @@ extension AddCostController{
     
     
     func setupDateCollectionView(){
-        print("height: \(self.view.frame.height)")
         stackView.addArrangedSubview(dateCollectionView)
         dateCollectionView.backgroundColor = .systemGray6
         NSLayoutConstraint.activate([
@@ -47,13 +46,14 @@ extension AddCostController{
             let indexPath = IndexPath(row: index, section: 0)
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! DateCell
             var dateComponents = DateComponents()
-            dateComponents.day = Calendar.autoupdatingCurrent.component(.day, from: item)
-            dateComponents.month = Calendar.autoupdatingCurrent.component(.month, from: item)
-            dateComponents.year = Calendar.autoupdatingCurrent.component(.year, from: item)
-            print(item)
-            //    .component(.day, from: item))
-            print(dateComponents)
-            print(DateShare.shared.convertFuncDayWithoutYear(dateComponents: dateComponents))
+            var calendar = Calendar.current
+            calendar.timeZone = .current
+            calendar.locale = .current
+            dateComponents.timeZone = .current
+            dateComponents.calendar = .current
+            dateComponents.day = calendar.component(.day, from: item)
+            dateComponents.month = calendar.component(.month, from: item)
+            dateComponents.year = calendar.component(.year, from: item)
             cell.label.text = DateShare.shared.convertFuncDayWithoutYear(dateComponents: dateComponents)
             cell.backgroundColor = .systemGray5
             cell.layer.cornerRadius = 10

@@ -4,14 +4,14 @@ import RxCocoa
 import RxDataSources
 import RealmSwift
 
-class CostModelView{
+class IncomeModelView{
     
-    var costs = BehaviorSubject(value: [SectionModel(model: "", items: [CostRealm]())])
-        
+    var incomes = BehaviorSubject(value: [SectionModel(model: "", items: [IncomeRealm]())])
+    
     var selectedIndex = BehaviorSubject(value: 0)
-        
-    func fetchCosts(){
-        let storage = CostStorageService()
+    
+    func fetchIncomes(){
+        let storage = IncomeStorageService()
         var arraySection: [any SectionModelType] = []
         for date in storage.fetchAllDates().sorted().reversed(){
             var dateComponents = DateComponents()
@@ -21,11 +21,11 @@ class CostModelView{
             dateComponents.year = Calendar.current.component(.year, from: date)
             arraySection.append(SectionModel(model: DateShare.shared.convertFuncDay(dateComponents: dateComponents), items: storage.fetchByDate(day: Calendar.current.component(.day, from: date), month: Calendar.current.component(.month, from: date), year: Calendar.current.component(.year, from: date)).reversed()))
         }
-        costs.on(.next(arraySection as! [SectionModel<String, CostRealm>]))
+        incomes.on(.next(arraySection as! [SectionModel<String, IncomeRealm>]))
     }
     
-    func fetchDayCosts(){
-        let storage = CostStorageService()
+    func fetchDayIncomes(){
+        let storage = IncomeStorageService()
         var array = storage.fetchByDate(day: Calendar.current.component(.day, from: Date()), month: Calendar.current.component(.month, from: Date()), year: Calendar.current.component(.year, from: Date()))
         var dateComponents = DateComponents()
         dateComponents.timeZone = .current
@@ -36,16 +36,16 @@ class CostModelView{
             cost1.date >= cost2.date
         }
         if array != []{
-            costs.on(.next([SectionModel(model: DateShare.shared.convertFuncDay(dateComponents: dateComponents), items: array)]))
+            incomes.on(.next([SectionModel(model: DateShare.shared.convertFuncDay(dateComponents: dateComponents), items: array)]))
         } else {
-            costs.on(.next([SectionModel(model: "", items: [CostRealm]())]))
+            incomes.on(.next([SectionModel(model: "", items: [IncomeRealm]())]))
         }
     }
     
-    func fetchMonthCosts(){
-        let storage = CostStorageService()
+    func fetchMonthIncomes(){
+        let storage = IncomeStorageService()
         var monthArray: [any SectionModelType] = []
-        var costsArray: [[CostRealm?]] = [[CostRealm?]].init(repeating: [nil], count: 32)
+        var costsArray: [[IncomeRealm?]] = [[IncomeRealm?]].init(repeating: [nil], count: 32)
         var dateComponents = DateComponents()
         dateComponents.timeZone = .current
         dateComponents.month = Calendar.current.component(.month, from: Date())
@@ -64,7 +64,6 @@ class CostModelView{
             } else {
                 costsArray[dateComponents.day!].append(cost)
             }
-            print(cost)
             
             
         }
@@ -80,18 +79,18 @@ class CostModelView{
                 dateComponents.day = i
                 dateComponents.month = Calendar.current.component(.month, from: Date())
                 dateComponents.year = Calendar.current.component(.year, from: Date())
-                monthArray.append(SectionModel(model: DateShare.shared.convertFuncDay(dateComponents: dateComponents), items: costsArray[i] as! [CostRealm]))
+                monthArray.append(SectionModel(model: DateShare.shared.convertFuncDay(dateComponents: dateComponents), items: costsArray[i] as! [IncomeRealm]))
             }
             
             i -= 1
             
         }
         
-        costs.on(.next(monthArray as! [SectionModel<String, CostRealm>]))
-        
-        
+        incomes.on(.next(monthArray as! [SectionModel<String, IncomeRealm>]))
     }
-    func fetchWeekCosts(){
+    
+    
+    func fetchWeekIncomes(){
         
         var array: [any SectionModelType] = []
         let now = Date() + (60 * 60 * 5)
@@ -108,12 +107,11 @@ class CostModelView{
             var date: Date = now + TimeInterval((60 * 60 * 24 * i))
             insertElement(array: &array, date: date, isInsert: true)
         }
-        costs.on(.next(array as! [SectionModel<String, CostRealm>]))
+        incomes.on(.next(array as! [SectionModel<String, IncomeRealm>]))
     }
     
-    
     func insertElement(array: inout [any SectionModelType], date: Date, isInsert: Bool){
-        let storage = CostStorageService()
+        let storage = IncomeStorageService()
         var dateComponents = DateComponents()
         dateComponents.timeZone = .current
         dateComponents.day = Calendar.current.component(.day, from: date)
@@ -133,22 +131,21 @@ class CostModelView{
         }
         
     }
-
-    func fetchObjectsAfterAddingNewCost(){
+    
+    
+    func fetchObjectsAfterAddingNewIncome(){
         
         let selectedIndex = try! selectedIndex.value()
         
         switch selectedIndex{
         case 0:
-            fetchDayCosts()
+            fetchDayIncomes()
             break
         case 1:
-            //Добавление только в первую секцию
-            fetchWeekCosts()
+            fetchWeekIncomes()
             break
         case 2:
-            //Добавление только в первую секцию
-            fetchMonthCosts()
+            fetchMonthIncomes()
             
             break
         default:

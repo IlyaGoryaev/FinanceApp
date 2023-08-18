@@ -1,14 +1,12 @@
-
 import UIKit
 import RxSwift
 import RxCocoa
 import RxDataSources
 
-class CostViewController: UIViewController {
+class IncomeViewController: UIViewController {
     
-    
-    private var viewModel = CostModelView()
-    
+    private var viewModel = IncomeModelView()
+
     let exitButton = UIButton()
     let addButton = UIButton()
     
@@ -18,16 +16,13 @@ class CostViewController: UIViewController {
         let table = UITableView()
         table.separatorStyle = .none
         table.translatesAutoresizingMaskIntoConstraints = false
-        table.register(CostCell.self, forCellReuseIdentifier: "CostCell")
-        table.register(CostForGoalCell.self, forCellReuseIdentifier: "CostForGoalCell")
+        table.register(IncomeCell.self, forCellReuseIdentifier: "IncomeCell")
         table.allowsSelection = false
         return table
     }()
     
-    
-    
     let disposeBag = DisposeBag()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setUpTableView()
@@ -37,6 +32,10 @@ class CostViewController: UIViewController {
         setUpButtons()
         setupSegmentControl()
         
+    }
+    
+    override func viewWillAppear(_ animated: Bool) {
+        self.viewModel.fetchDayIncomes()
     }
     
     func setupSegmentControl(){
@@ -58,19 +57,19 @@ class CostViewController: UIViewController {
     @objc func changeValue(sender: UISegmentedControl){
         switch sender.selectedSegmentIndex{
         case 0:
-            viewModel.fetchDayCosts()
+            viewModel.fetchDayIncomes()
             viewModel.selectedIndex.on(.next(0))
-            print(try! viewModel.costs.value())
+            print(try! viewModel.incomes.value())
             break
         case 1:
-            viewModel.fetchWeekCosts()
+            viewModel.fetchWeekIncomes()
             viewModel.selectedIndex.on(.next(1))
-            print(try! viewModel.costs.value())
+            print(try! viewModel.incomes.value())
             break
         case 2:
-            viewModel.fetchMonthCosts()
+            viewModel.fetchMonthIncomes()
             viewModel.selectedIndex.on(.next(2))
-            print(try! viewModel.costs.value())
+            print(try! viewModel.incomes.value())
             break
         default:
             break
@@ -125,18 +124,12 @@ class CostViewController: UIViewController {
         ])
     }
     
-    override func viewWillAppear(_ animated: Bool) {
-        viewModel.fetchDayCosts()
-    }
-    
-    
     @objc func tappedExitButton(){
         self.navigationController?.popViewController(animated: true)
     }
     
-    
     @objc func tappedAddButton(){
-        let addViewController = AddCostController()
+        let addViewController = AddIncomeViewController()
         
         let addButton = UIButton()
         addButton.translatesAutoresizingMaskIntoConstraints = false
@@ -174,32 +167,20 @@ class CostViewController: UIViewController {
             let typeOfSelectedItem = try! addViewController.viewModel.typeOfSelectedItem.value()
             var stringSelectedItem = ""
             for item in selectedItem.keys{
-                if item == "Category"{
-                    
-                    for (category, item) in CategoryCostsDesignElements().getCategoryEmoji(){
+                    for (category, item) in CategoryIncomeDesignElements().getCategoryEmoji(){
                         if item == typeOfSelectedItem{
                             stringSelectedItem = category
                         }
                     }
                     
-                    addViewController.viewModel.newValuesForCost(sumCost: sum, category: stringSelectedItem, label: try! addViewController.viewModel.subCategories.value(), date: try! addViewController.viewModel.dateSelected.value())
-                    addViewController.viewModel.saveRealmCost()
+                    addViewController.viewModel.newValuesForIncome(sumCost: sum, category: stringSelectedItem, label: "Income", date: try! addViewController.viewModel.dateSelected.value())
+                    addViewController.viewModel.saveRealmIncome()
                     print(try! addViewController.viewModel.dateSelected.value())
                     
-                } else {
-                    
-                    let goalStorage = GoalsService()
-                    let goalObject = goalStorage.getGoalModelByPicture(picture: typeOfSelectedItem)
-                    addViewController.viewModel.updateGoalObject(picture: typeOfSelectedItem, sum: sum, goalObject: goalObject[0])
-                    stringSelectedItem = "goals"
-                    addViewController.viewModel.newValuesForCost(sumCost: sum, category: stringSelectedItem, label: goalObject[0].costId, date: try! addViewController.viewModel.dateSelected.value())
-                    addViewController.viewModel.saveRealmGoal()
-                    
-                }
             }
             
             
-            self.viewModel.fetchObjectsAfterAddingNewCost()
+            self.viewModel.fetchObjectsAfterAddingNewIncome()
             
             
         }), for: .touchUpInside)
@@ -208,35 +189,22 @@ class CostViewController: UIViewController {
     }
     
 }
-extension CostViewController: UIScrollViewDelegate{
+extension IncomeViewController: UIScrollViewDelegate{
     
     func bindTable(){
         table.rx.setDelegate(self).disposed(by: disposeBag)
                 
-        let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, CostRealm>>{_, tableView, indexPath, item in
-            if item.category == "goals"{
-                let cell = tableView.dequeueReusableCell(withIdentifier: "CostForGoalCell", for: indexPath) as! CostForGoalCell
-                cell.labelCost.text = "\(item.sumCost)₽"
-                cell.nameGoalLabel.text = item.label
-                cell.nameGoalLabel.font = .boldSystemFont(ofSize: 20)
-                cell.nameGoalLabel.textColor = .gray
-                cell.labelCost.font = .boldSystemFont(ofSize: 20)
-                cell.labelPicture.text = GoalsService().getDictGoalObjects()[item.label]
-                return cell
-                
-            } else {
-                
-                let cell = tableView.dequeueReusableCell(withIdentifier: "CostCell", for: indexPath) as! CostCell
-                print(item.category)
-                cell.labelCost.text = "\(item.sumCost)₽"
-                cell.labelCategory.text = CategoryCostsDesignElements().getRussianLabelText()[item.category]
-                cell.labelComment.text = item.label
-                cell.labelCost.font = .boldSystemFont(ofSize: 20)
-                cell.labelCategory.font = .italicSystemFont(ofSize: 15)
-                cell.categoryColorView.backgroundColor = CategoryCostsDesignElements().getCategoryColors()[item.category]
-                cell.emojiLabel.text = CategoryCostsDesignElements().getCategoryEmoji()[item.category]
-                return cell
-            }
+        let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, IncomeRealm>>{_, tableView, indexPath, item in
+            
+            let cell = tableView.dequeueReusableCell(withIdentifier: "IncomeCell", for: indexPath) as! IncomeCell
+            cell.labelIncome.text = "\(item.sumIncome)₽"
+            cell.labelCategory.text = CategoryIncomeDesignElements().getRussianLabelText()[item.category]
+            cell.labelComment.text = item.label
+            cell.labelIncome.font = .boldSystemFont(ofSize: 20)
+            cell.labelCategory.font = .italicSystemFont(ofSize: 15)
+            cell.categoryColorView.backgroundColor = CategoryIncomeDesignElements().getCategoryColors()[item.category]
+            cell.emojiLabel.text = CategoryIncomeDesignElements().getCategoryEmoji()[item.category]
+            return cell
             
         } titleForHeaderInSection: { dataSource, sectionIndex in
             return dataSource[sectionIndex].model
@@ -246,6 +214,9 @@ extension CostViewController: UIScrollViewDelegate{
             //Удаление
         }.disposed(by: disposeBag)
         
-        self.viewModel.costs.bind(to: self.table.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+        self.viewModel.incomes.bind(to: self.table.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
     }
+    
+    
+    
 }

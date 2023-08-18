@@ -3,13 +3,12 @@ import RxCocoa
 import RxSwift
 import RxDataSources
 
-
-class CostScreenViewModel{
+class IncomeScreenViewModel{
     
-    var labelText = BehaviorSubject(value: "\(CostStorageService().fetchSumCurrentDay())")
+    var labelText = BehaviorSubject(value: "\(IncomeStorageService().fetchSumCurrentDay())")
     var subLabelText = BehaviorSubject(value: "Cегодня")
     var percentArray = BehaviorSubject(value: ["auto": 0.0])
-    var categories = BehaviorSubject(value: [SectionModel(model: "", items: [CostCategoryModel]())])
+    var categories = BehaviorSubject(value: [SectionModel(model: "", items: [IncomeCategoryModel]())])
     var extraValueDay = BehaviorSubject(value: false)
     var extraValueMonth = BehaviorSubject(value: false)
     var extraValueYear = BehaviorSubject(value: false)
@@ -19,23 +18,24 @@ class CostScreenViewModel{
     
     func getDayLabelText(){
         subLabelText.on(.next("Сегодня"))
-        labelText.on(.next("\(CostStorageService().fetchSumCurrentDay())"))
+        labelText.on(.next("\(IncomeStorageService().fetchSumCurrentDay())"))
     }
     
     func getMonthLabelText(){
         subLabelText.on(.next("В этом месяце"))
-        labelText.on(.next("\(CostStorageService().fetchSumCurrentMonth())"))
+        labelText.on(.next("\(IncomeStorageService().fetchSumCurrentMonth())"))
     }
+    
     
     func getYearLabelText(){
         subLabelText.on(.next("В этом году"))
-        labelText.on(.next("\(CostStorageService().fetchSumCurrentYear())"))
+        labelText.on(.next("\(IncomeStorageService().fetchSumCurrentYear())"))
     }
     
     //Исправить
     func getCircleYear(){
-        let dict = GetCostStatistic().getYearPercent()
-        var array: [Categories.RawValue: Double] = [:]
+        let dict = GetIncomeStatistic().getYearPercent()
+        var array: [IncomeCategories.RawValue: Double] = [:]
         for (category, item) in dict.0{
             if item != 0{
                 array[category] = round(item * 100) / 100
@@ -44,14 +44,13 @@ class CostScreenViewModel{
         percentArray.on(.next(array))
     }
     
-    //Исправить
     func getCircleDay(){
         var dateComponents = DateComponents()
         dateComponents.day = Calendar.current.component(.day, from: Date())
         dateComponents.month = Calendar.current.component(.month, from: Date())
         dateComponents.year = Calendar.current.component(.year, from: Date())
-        let dict = GetCostStatistic().getDayPercent(dateComponents: dateComponents)
-        var array: [Categories.RawValue: Double] = [:]
+        let dict = GetIncomeStatistic().getDayPercent(dateComponents: dateComponents)
+        var array: [IncomeCategories.RawValue: Double] = [:]
         for (category, item) in dict.0{
             if item != 0{
                 array[category] = round(item * 100) / 100
@@ -60,14 +59,13 @@ class CostScreenViewModel{
         percentArray.on(.next(array))
         
     }
-        
-        //Исправить
+    
     func getCircleMonth(){
         var dateComponents = DateComponents()
         dateComponents.month = Calendar.current.component(.month, from: Date())
         dateComponents.year = Calendar.current.component(.year, from: Date())
-        let dict = GetCostStatistic().getMonthPercent(dateComponents: dateComponents)
-        var array: [Categories.RawValue: Double] = [:]
+        let dict = GetIncomeStatistic().getMonthPercent(dateComponents: dateComponents)
+        var array: [IncomeCategories.RawValue: Double] = [:]
         for (category, item) in dict.0{
             if item != 0{
                 array[category] = round(item * 100) / 100
@@ -78,19 +76,20 @@ class CostScreenViewModel{
         percentArray.on(.next(array))
     }
     
+    
     func getDayStatistics(){
         var dateComponents = DateComponents()
         dateComponents.day = Calendar.current.component(.day, from: Date())
         dateComponents.month = Calendar.current.component(.month, from: Date())
         dateComponents.year = Calendar.current.component(.year, from: Date())
-        let dict = GetCostStatistic().getDayPercent(dateComponents: dateComponents)
+        let dict = GetIncomeStatistic().getDayPercent(dateComponents: dateComponents)
         var percents = 0
-        var array: [CostCategoryModel] = []
+        var array: [IncomeCategoryModel] = []
         for (category, value) in dict.0{
             let percent = Int(round(value * 100) / 100 * 100)
             if value != 0{
                 if percent > 4{
-                    array.append(CostCategoryModel(costsSum: dict.1[category]!, percents: percent, category: Categories(rawValue: String(category))!, color: CategoryCostsDesignElements().getCategoryColors()[category]!))
+                    array.append(IncomeCategoryModel(incomeSum: dict.1[category]!, percents: percent, category: IncomeCategories(rawValue: String(category))!, color: CategoryIncomeDesignElements().getCategoryColors()[category]!))
                 } else {
                     percents += percent
                 }
@@ -102,13 +101,11 @@ class CostScreenViewModel{
         }
         
         if percents != 0{
-            array.append(CostCategoryModel(costsSum: 1000, percents: percents, category: .auto, color: .black))
+            array.append(IncomeCategoryModel(incomeSum: 1000, percents: percents, category: .businessIncome, color: .black))
             extraValueDay.on(.next(true))
         }
         
-        
-        
-        categories.on(.next([SectionModel(model: "Категории Расходов", items: array)]))
+        categories.on(.next([SectionModel(model: "Категории доходов", items: array)]))
         
     }
     
@@ -116,15 +113,15 @@ class CostScreenViewModel{
         var dateComponents = DateComponents()
         dateComponents.month = Calendar.current.component(.month, from: Date())
         dateComponents.year = Calendar.current.component(.year, from: Date())
-        let dict = GetCostStatistic().getMonthPercent(dateComponents: dateComponents)
-        var array: [CostCategoryModel] = []
+        let dict = GetIncomeStatistic().getMonthPercent(dateComponents: dateComponents)
+        var array: [IncomeCategoryModel] = []
         var persents = 0
         for (category, value) in dict.0{
             let percent = Int(round(value * 100) / 100 * 100)
             if value != 0{
                 if percent > 4{
                     
-                    array.append(CostCategoryModel(costsSum: dict.1[category]!, percents: percent, category: Categories(rawValue: String(category))!, color: CategoryCostsDesignElements().getCategoryColors()[category]!))
+                    array.append(IncomeCategoryModel(incomeSum: dict.1[category]!, percents: percent, category: IncomeCategories(rawValue: String(category))!, color: CategoryIncomeDesignElements().getCategoryColors()[category]!))
                 } else {
                     persents += percent
                 }
@@ -136,24 +133,25 @@ class CostScreenViewModel{
         })
         
         if persents != 0{
-            array.append(CostCategoryModel(costsSum: 1000, percents: persents, category: .auto, color: .black))
+            array.append(IncomeCategoryModel(incomeSum: 1000, percents: persents, category: .businessIncome, color: .black))
             extraValueMonth.on(.next(true))
         }
         
         
-        categories.on(.next([SectionModel(model: "Категории Расходов", items: array)]))
+        categories.on(.next([SectionModel(model: "Категории доходов", items: array)]))
     }
     
+    
     func getYearStatistics(){
-        let dict = GetCostStatistic().getYearPercent()
-        var array: [CostCategoryModel] = []
+        let dict = GetIncomeStatistic().getYearPercent()
+        var array: [IncomeCategoryModel] = []
         var persents = 0
         for (category, value) in dict.0{
             let percent = Int(round(value * 100) / 100 * 100)
             if value != 0{
                 if percent > 4{
                     print(percent)
-                    array.append(CostCategoryModel(costsSum: dict.1[category]!, percents: percent, category: Categories(rawValue: String(category))!, color: CategoryCostsDesignElements().getCategoryColors()[category]!))
+                    array.append(IncomeCategoryModel(incomeSum: dict.1[category]!, percents: percent, category: IncomeCategories(rawValue: String(category))!, color: CategoryIncomeDesignElements().getCategoryColors()[category]!))
                 } else {
                     print(percent)
                     persents += percent
@@ -166,11 +164,13 @@ class CostScreenViewModel{
         })
         
         if persents != 0{
-            array.append(CostCategoryModel(costsSum: 1000, percents: persents, category: .auto, color: .black))
+            array.append(IncomeCategoryModel(incomeSum: 1000, percents: persents, category: .businessIncome, color: .black))
             extraValueYear.on(.next(true))
         }
         
-        categories.on(.next([SectionModel(model: "Категории Расходов", items: array)]))
+        categories.on(.next([SectionModel(model: "Категории доходов", items: array)]))
         
     }
+    
 }
+

@@ -9,8 +9,7 @@ protocol FinanceGoalsScreenProtocol: AnyObject{
 
 class FinanceGoalsScreen: UIViewController {
 
-    //MARK: Кнопка бокового меню
-    let menuIcon = MenuIcon()
+    
     
     let addButton = UIButton()
     
@@ -49,6 +48,24 @@ class FinanceGoalsScreen: UIViewController {
     
     @objc func tappedAddButton(){
         let controller = AddGoalViewController()
+        let addButton = UIButton()
+        addButton.translatesAutoresizingMaskIntoConstraints = false
+        addButton.backgroundColor = .systemGray4
+        controller.view.addSubview(addButton)
+        addButton.layer.cornerRadius = 25
+        addButton.layer.shadowOpacity = 0.15
+        addButton.layer.shadowOffset = .zero
+        addButton.layer.shadowRadius = 10
+        addButton.layer.shouldRasterize = true
+        addButton.setTitle("✓", for: .normal)
+        addButton.titleLabel?.font = .systemFont(ofSize: 30)
+        addButton.setTitleColor(.gray, for: .normal)
+        NSLayoutConstraint.activate([
+            addButton.widthAnchor.constraint(equalToConstant: 50),
+            addButton.heightAnchor.constraint(equalToConstant: 50),
+            addButton.trailingAnchor.constraint(equalTo: controller.view.trailingAnchor, constant: -16),
+            addButton.topAnchor.constraint(equalTo: controller.view.topAnchor, constant: 16)
+        ])
         controller.view.backgroundColor = .white
         self.present(controller, animated: true)
     }
@@ -56,19 +73,8 @@ class FinanceGoalsScreen: UIViewController {
 
 }
 extension FinanceGoalsScreen: UIScrollViewDelegate{
+    
     private func setMenuButton(){
-        //MARK: Настройка кнопки меню
-        menuIcon.translatesAutoresizingMaskIntoConstraints = false
-        menuIcon.backgroundColor = .white
-        view.addSubview(menuIcon)
-        NSLayoutConstraint.activate([
-            menuIcon.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            menuIcon.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            menuIcon.heightAnchor.constraint(equalToConstant: 50),
-            menuIcon.widthAnchor.constraint(equalToConstant: 50)
-        ])
-        let tapMenuIconGesture = UITapGestureRecognizer(target: self, action: #selector(tappedMenuButton))
-        menuIcon.addGestureRecognizer(tapMenuIconGesture)
     }
     
     func setUpCollectionView(){
@@ -109,7 +115,9 @@ extension FinanceGoalsScreen: UIScrollViewDelegate{
         addButton.setTitleColor(.gray, for: .normal)
         addButton.layer.cornerRadius = 25
         addButton.backgroundColor = .white
-        addButton.layer.shadowOpacity = 0.4
+        addButton.layer.shadowOpacity = 0.15
+        addButton.layer.shadowOffset = .zero
+        addButton.layer.shadowRadius = 10
         view.addSubview(addButton)
         NSLayoutConstraint.activate([
             addButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),

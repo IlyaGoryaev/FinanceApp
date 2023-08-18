@@ -2,13 +2,8 @@ import UIKit
 import RxSwift
 import RxCocoa
 import RxDataSources
-
-protocol CostScreenDelegate: AnyObject{
-    func didTapButtonMenu()
-}
-
 class CostScreen: UIViewController, UIScrollViewDelegate {
-    
+        
     //MARK: Кнопка бокового меню
     let menuIcon = MenuIcon.build(color: .brown, frame: CGRect(x: 0, y: 0, width: 40, height: 40))
     
@@ -21,12 +16,14 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
     
     //MARK: Labels
     let categoryLabel = UILabel()
+    let noCost = UILabel()
     
     let searchImage = UIImageView()
-    
+    //390.0
+    //844.0
     lazy var collectionViewCategoriesPercantage: UICollectionView = {
         let collectionViewFlowLayout = UICollectionViewFlowLayout()
-        collectionViewFlowLayout.itemSize = CGSize(width: 164, height: 150)
+        collectionViewFlowLayout.itemSize = CGSize(width: view.frame.width * 0.42, height: view.frame.height * 0.18)
         collectionViewFlowLayout.sectionInset = UIEdgeInsets(top: 8, left: 16, bottom: 8, right: 16)
         collectionViewFlowLayout.scrollDirection = .horizontal
         collectionViewFlowLayout.minimumLineSpacing = 20
@@ -45,9 +42,6 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
     var arrayOfCategoriesSection = [Categories.RawValue: Double]()
     
     let disposeBag = DisposeBag()
-    
-    
-    weak var delegate: CostScreenDelegate?
     
     //MARK: Кнопки периода
     let buttons = Buttons()
@@ -94,36 +88,38 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
         return stackView
     }()
     
+    override func viewWillAppear(_ animated: Bool) {
+        let chosen = try! self.viewModel.categoryChosen.value()
+        switch chosen{
+        case 1:
+            setupDay()
+            break
+        case 2:
+            setupMonth()
+            break
+        case 3:
+            setupYear()
+            break
+        default:
+            break
+        }
+    }
     
-    
-    var height = UIApplication.shared.delegate?.window?!.windowScene?.keyWindow?.frame.height
     
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .white
+        navigationController?.navigationBar.isHidden = true
         view.addSubview(scrollView)
         NSLayoutConstraint.activate([
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             scrollView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             scrollView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
-            scrollView.topAnchor.constraint(equalTo: view.topAnchor, constant: 80)
+            scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor)
         ])
         scrollView.addSubview(contentView)
         contentView.addSubview(stackView)
         setupViewConstraints()
-        
-        //MARK: Настройка кнопки меню
-        menuIcon.translatesAutoresizingMaskIntoConstraints = false
-        menuIcon.backgroundColor = .white
-        view.addSubview(menuIcon)
-        NSLayoutConstraint.activate([
-            menuIcon.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            menuIcon.topAnchor.constraint(equalTo: view.topAnchor,  constant: 45),
-            menuIcon.heightAnchor.constraint(equalToConstant: 34),
-            menuIcon.widthAnchor.constraint(equalToConstant: 34)
-        ])
-        let tapMenuIconGesture = UITapGestureRecognizer(target: self, action: #selector(tappedMenuButton))
-        menuIcon.addGestureRecognizer(tapMenuIconGesture)
         
         //MARK: Настройка кнопок периода
         setUpButtons()
@@ -131,12 +127,11 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
         
         setupLabel()
         stackView.addArrangedSubview(buttons)
-        viewModel.getCircleDay()
         
         addButton.translatesAutoresizingMaskIntoConstraints = false
-        addButton.setTitle("+", for: .normal)
+        addButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
+        addButton.tintColor = .gray
         addButton.titleLabel?.font = .boldSystemFont(ofSize: 30)
-        addButton.setTitleColor(.gray, for: .normal)
         viewWithCircleContainer.addSubview(addButton)
         NSLayoutConstraint.activate([
             addButton.trailingAnchor.constraint(equalTo: viewWithCircleContainer.trailingAnchor, constant: 16),
@@ -166,17 +161,12 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
         viewWithCircleContainer.backgroundColor = .white
         
         
-        
-        //MARK: Добавление слоев круговой диаграммы
-        for layer in CircleCategories(circleValue: Int(view.frame.width * 0.76) / 2).getCategoriesLayer(percentDict: arrayOfCategoriesSection){
-            viewWithCircleContainer.layer.addSublayer(layer)
-            print(layer)
-        }
-        
+        stackView.addArrangedSubview(noCost)
+        noCost.text = "За данный период нет расходов"
+        noCost.textColor = .gray
+        noCost.font = .boldSystemFont(ofSize: 20)
         
         bindCollectionView()
-        viewModel.getDayStatistics()
-        viewModel.fetchGoalObjects()
         setupCollectionView()
         setUpPictureSearch()
         
@@ -190,12 +180,6 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
         }.disposed(by: disposeBag)
         self.viewModel.extraValue.on(.next(try! self.viewModel.extraValueDay.value()))
     }
-    
-    
-    @objc func tappedMenuButton(){
-        self.delegate?.didTapButtonMenu()
-    }
-    
     
     @objc func addMenu(){
         let controller = CostViewController()
@@ -248,60 +232,21 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
             self.buttons.buttonDay.setTitleColor(.black, for: .normal)
             self.buttons.buttonMonth.setTitleColor(.systemGray2, for: .normal)
             self.buttons.buttonYear.setTitleColor(.systemGray2, for: .normal)
-            self.viewModel.getDayStatistics()
-            self.viewModel.getDayLabelText()
-            self.viewModel.getCircleDay()
-            self.viewWithCircleContainer.layer.sublayers?.forEach({
-                $0.isHidden = true
-            })
-            self.addButton.isHidden = false
-            self.label.isHidden = false
-            self.subLabel.isHidden = false
-            for layer in CircleCategories(circleValue: Int(self.view.frame.width * 0.76) / 2).getCategoriesLayer(percentDict: self.arrayOfCategoriesSection){
-                self.viewWithCircleContainer.layer.addSublayer(layer)
-                print(layer)
-            }
-            self.viewModel.extraValue.on(.next(try! self.viewModel.extraValueDay.value()))
+            self.setupDay()
         }), for:  .touchUpInside)
         
         buttons.buttonMonth.addAction(UIAction(handler: { _ in
             self.buttons.buttonDay.setTitleColor(.systemGray2, for: .normal)
             self.buttons.buttonMonth.setTitleColor(.black, for: .normal)
             self.buttons.buttonYear.setTitleColor(.systemGray2, for: .normal)
-            self.viewModel.getMonthStatistics()
-            self.viewModel.getMonthLabelText()
-            self.viewModel.getCircleMonth()
-            self.viewWithCircleContainer.layer.sublayers?.forEach({
-                $0.isHidden = true
-            })
-            self.addButton.isHidden = false
-            self.label.isHidden = false
-            self.subLabel.isHidden = false
-            for layer in CircleCategories(circleValue: Int(self.view.frame.width * 0.76) / 2).getCategoriesLayer(percentDict: self.arrayOfCategoriesSection){
-                self.viewWithCircleContainer.layer.addSublayer(layer)
-                print(layer)
-            }
-            self.viewModel.extraValue.on(.next(try! self.viewModel.extraValueMonth.value()))
+            self.setupMonth()
         }), for: .touchUpInside)
         
         buttons.buttonYear.addAction(UIAction(handler: { _ in
             self.buttons.buttonDay.setTitleColor(.systemGray2, for: .normal)
             self.buttons.buttonMonth.setTitleColor(.systemGray2, for: .normal)
             self.buttons.buttonYear.setTitleColor(.black, for: .normal)
-            self.viewModel.getYearStatistics()
-            self.viewModel.getYearLabelText()
-            self.viewModel.getCircleYear()
-            self.viewWithCircleContainer.layer.sublayers?.forEach({
-                $0.isHidden = true
-            })
-            self.addButton.isHidden = false
-            self.label.isHidden = false
-            self.subLabel.isHidden = false
-            for layer in CircleCategories(circleValue: Int(self.view.frame.width * 0.76) / 2).getCategoriesLayer(percentDict: self.arrayOfCategoriesSection){
-                self.viewWithCircleContainer.layer.addSublayer(layer)
-                print(layer)
-            }
-            self.viewModel.extraValue.on(.next(try! self.viewModel.extraValueYear.value()))
+            self.setupYear()
         }), for: .touchUpInside)
     }
 }
@@ -317,7 +262,7 @@ extension CostScreen{
         stackView.setCustomSpacing(40, after: viewWithCircleContainer)
         collectionViewCategoriesPercantage.backgroundColor = .white
         NSLayoutConstraint.activate([
-            collectionViewCategoriesPercantage.heightAnchor.constraint(equalToConstant: 220),
+            collectionViewCategoriesPercantage.heightAnchor.constraint(equalToConstant: view.frame.height * 0.26),
             collectionViewCategoriesPercantage.widthAnchor.constraint(equalToConstant: view.frame.width)
         
         ])
@@ -384,6 +329,76 @@ extension CostScreen{
             sheet.prefersGrabberVisible = true
         }
         present(viewControllerToPresent, animated: true)
+    }
+    
+    func setupDay(){
+        self.viewModel.getDayStatistics()
+        self.viewModel.getDayLabelText()
+        self.viewModel.getCircleDay()
+        if label.text != "0"{
+            noCost.isHidden = true
+        } else {
+            noCost.isHidden = false
+        }
+        
+        self.viewWithCircleContainer.layer.sublayers?.forEach({
+            $0.isHidden = true
+        })
+        self.addButton.isHidden = false
+        self.label.isHidden = false
+        self.subLabel.isHidden = false
+        for layer in CircleCategories(circleValue: Int(self.view.frame.width * 0.76) / 2).getCategoriesLayerCost(percentDict: self.arrayOfCategoriesSection){
+            self.viewWithCircleContainer.layer.addSublayer(layer)
+            print(layer)
+        }
+        self.viewModel.extraValue.on(.next(try! self.viewModel.extraValueDay.value()))
+        self.viewModel.categoryChosen.on(.next(1))
+    }
+    
+    func setupMonth(){
+        self.viewModel.getMonthStatistics()
+        self.viewModel.getMonthLabelText()
+        self.viewModel.getCircleMonth()
+        if label.text != "0"{
+            noCost.isHidden = true
+        } else {
+            noCost.isHidden = false
+        }
+        self.viewWithCircleContainer.layer.sublayers?.forEach({
+            $0.isHidden = true
+        })
+        self.addButton.isHidden = false
+        self.label.isHidden = false
+        self.subLabel.isHidden = false
+        for layer in CircleCategories(circleValue: Int(self.view.frame.width * 0.76) / 2).getCategoriesLayerCost(percentDict: self.arrayOfCategoriesSection){
+            self.viewWithCircleContainer.layer.addSublayer(layer)
+            print(layer)
+        }
+        self.viewModel.extraValue.on(.next(try! self.viewModel.extraValueMonth.value()))
+        self.viewModel.categoryChosen.on(.next(2))
+    }
+    
+    func setupYear(){
+        self.viewModel.getYearStatistics()
+        self.viewModel.getYearLabelText()
+        self.viewModel.getCircleYear()
+        if label.text != "0"{
+            noCost.isHidden = true
+        } else {
+            noCost.isHidden = false
+        }
+        self.viewWithCircleContainer.layer.sublayers?.forEach({
+            $0.isHidden = true
+        })
+        self.addButton.isHidden = false
+        self.label.isHidden = false
+        self.subLabel.isHidden = false
+        for layer in CircleCategories(circleValue: Int(self.view.frame.width * 0.76) / 2).getCategoriesLayerCost(percentDict: self.arrayOfCategoriesSection){
+            self.viewWithCircleContainer.layer.addSublayer(layer)
+            print(layer)
+        }
+        self.viewModel.extraValue.on(.next(try! self.viewModel.extraValueYear.value()))
+        self.viewModel.categoryChosen.on(.next(3))
     }
     
 }

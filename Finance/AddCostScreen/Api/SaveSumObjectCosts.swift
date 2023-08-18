@@ -1,6 +1,6 @@
 import Foundation
 
-class SaveSumObjects{
+class SaveSumObjectCosts{
     
     //MARK: Данный класс создан для того, чтобы сразу получать актуальные данные из Realm при необходимости, не высчитывая их каждый раз. Данные сохраняются в дневную модель, которая хранит в себе словарь из сумм расходов по каждой из доступных категорий, в месячную модель, которая аналогично хранит данные за месяц и в годовую модель
     static func saveSumObjects(dateComponents: DateComponents, category: String, sumCost: Int){

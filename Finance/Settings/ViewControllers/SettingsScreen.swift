@@ -14,18 +14,6 @@ class SettingsScreen: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        //MARK: Настройка кнопки меню
-        menuIcon.translatesAutoresizingMaskIntoConstraints = false
-        menuIcon.backgroundColor = .white
-        view.addSubview(menuIcon)
-        NSLayoutConstraint.activate([
-            menuIcon.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
-            menuIcon.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
-            menuIcon.heightAnchor.constraint(equalToConstant: 50),
-            menuIcon.widthAnchor.constraint(equalToConstant: 50)
-        ])
-        let tapMenuIconGesture = UITapGestureRecognizer(target: self, action: #selector(tappedMenuButton))
-        menuIcon.addGestureRecognizer(tapMenuIconGesture)
 
     }
     @objc func tappedMenuButton(){

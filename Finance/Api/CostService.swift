@@ -1,7 +1,7 @@
 import Foundation
 import RealmSwift
 
-final class StorageService{
+final class CostStorageService{
     private let storage: Realm?
     
     init() {
@@ -21,30 +21,16 @@ final class StorageService{
         return storage.objects(CostRealm.self).filter("monthValue = \(month)").filter("yearValue = \(year)").toArray()
     }
     
-    func fecthObjectsMonth(month: Int, year: Int){
-        guard let storage else { return  }
-        var monthObjects = storage.objects(CostRealm.self).filter("monthValue = \(month)").filter("yearValue = \(year)").toArray()
-        
-    }
     
     func fetchObjectByYear(year: Int) -> [CostRealm]{
         guard let storage else { return [] }
         return storage.objects(CostRealm.self).filter("yearValue = \(year)").toArray()
     }
     
-    func fetchAll() -> [CostRealm]{
-        guard let storage else { return [] }
-        return storage.objects(CostRealm.self).toArray().reversed()
-    }
     
     func fetchByDate(day: Int, month: Int, year: Int) -> [CostRealm]{
         guard let storage else { return [] }
         return storage.objects(CostRealm.self).filter("dayValue = \(day)").filter("monthValue = \(month)").filter("yearValue = \(year)").toArray()
-    }
-    
-    func fetchSumAllTime() -> Int{
-        guard let storage else { return 0 }
-        return storage.objects(CostRealm.self).sum(ofProperty:"sumCost")
     }
     
     func fetchSumByDate(day: Int, month: Int, year: Int) -> Int{
@@ -54,10 +40,7 @@ final class StorageService{
     
     func fetchSumCurrentDay() -> Int{
         guard let storage else { return 0 }
-        print(Date())
         return storage.objects(CostRealm.self).filter("dayValue = \(Calendar.current.component(.day, from: Date()))").filter("monthValue = \(Calendar.current.component(.month, from: Date()))").filter("yearValue = \(Calendar.current.component(.year, from: Date()))").sum(ofProperty: "sumCost")
-        
-        
     }
     
     func fetchSumCurrentMonth() -> Int{
@@ -85,9 +68,6 @@ final class StorageService{
         }
         return Array(Set(arrayDates))
     }
-    
-    //Функция получения данных интервала
-    
 }
 extension Results{
     func toArray() -> [Element]{
