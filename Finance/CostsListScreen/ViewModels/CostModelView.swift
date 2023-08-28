@@ -98,10 +98,12 @@ class CostModelView{
         let daysWeek = Calendar.current.component(.weekday, from: Date()) == 1 ? 7 : Calendar.current.component(.weekday, from: Date()) - 1
         var datesBefore = daysWeek - 1
         var datesAfter = 7 - daysWeek
-        for i in 1...datesBefore{
-            var date: Date = now - TimeInterval((60 * 60 * 24 * i))
-            insertElement(array: &array, date: date, isInsert: false)
-            
+        if datesBefore != 0{
+            for i in 1...datesBefore{
+                var date: Date = now - TimeInterval((60 * 60 * 24 * i))
+                insertElement(array: &array, date: date, isInsert: false)
+                
+            }
         }
         insertElement(array: &array, date: now, isInsert: true)
         for i in 1...datesAfter{

@@ -3,9 +3,6 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 class CostScreen: UIViewController, UIScrollViewDelegate {
-        
-    //MARK: Кнопка бокового меню
-    let menuIcon = MenuIcon.build(color: .brown, frame: CGRect(x: 0, y: 0, width: 40, height: 40))
     
     let addButton = UIButton()
     
@@ -19,8 +16,7 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
     let noCost = UILabel()
     
     let searchImage = UIImageView()
-    //390.0
-    //844.0
+
     lazy var collectionViewCategoriesPercantage: UICollectionView = {
         let collectionViewFlowLayout = UICollectionViewFlowLayout()
         collectionViewFlowLayout.itemSize = CGSize(width: view.frame.width * 0.42, height: view.frame.height * 0.18)
@@ -32,7 +28,7 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
         collectionView.register(ExtraCell.self, forCellWithReuseIdentifier: "ExtraCell")
 
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = .systemBackground
         collectionView.isScrollEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
@@ -52,7 +48,7 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
     //MARK: ScrollView
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.backgroundColor = .white
+        scrollView.backgroundColor = .systemBackground
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.contentSize = contentSize
         scrollView.showsVerticalScrollIndicator = false
@@ -62,7 +58,7 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
     //MARK: Контейнер для ScrollView
     lazy var contentView: UIView = {
         let contentView = UIView()
-        contentView.backgroundColor = .white
+        contentView.backgroundColor = .systemBackground
         contentView.frame.size = contentSize
         return contentView
     }()
@@ -108,7 +104,7 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .systemBackground
         navigationController?.navigationBar.isHidden = true
         view.addSubview(scrollView)
         NSLayoutConstraint.activate([
@@ -130,7 +126,7 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
         
         addButton.translatesAutoresizingMaskIntoConstraints = false
         addButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
-        addButton.tintColor = .gray
+        addButton.tintColor = .systemGray
         addButton.titleLabel?.font = .boldSystemFont(ofSize: 30)
         viewWithCircleContainer.addSubview(addButton)
         NSLayoutConstraint.activate([
@@ -158,12 +154,12 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
             viewWithCircleContainer.widthAnchor.constraint(equalToConstant: view.frame.width * 0.76)
 
         ])
-        viewWithCircleContainer.backgroundColor = .white
+        viewWithCircleContainer.backgroundColor = .systemBackground
         
         
         stackView.addArrangedSubview(noCost)
         noCost.text = "За данный период нет расходов"
-        noCost.textColor = .gray
+        noCost.textColor = .systemGray
         noCost.font = .boldSystemFont(ofSize: 20)
         
         bindCollectionView()
@@ -198,8 +194,8 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
         }.disposed(by: disposeBag)
         label.font = .boldSystemFont(ofSize: 40)//Исправить под значение
         subLabel.font = .systemFont(ofSize: 20)
-        label.textColor = .black
-        subLabel.textColor = .gray
+        label.textColor = .label
+        subLabel.textColor = .systemGray
         label.translatesAutoresizingMaskIntoConstraints = false
         subLabel.translatesAutoresizingMaskIntoConstraints = false
         viewWithCircleContainer.addSubview(label)
@@ -229,7 +225,7 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
         buttons.buttonMonth.titleLabel?.font = .boldSystemFont(ofSize: self.view.frame.width * 0.09)
         buttons.buttonYear.titleLabel?.font = .boldSystemFont(ofSize: self.view.frame.width * 0.09)
         buttons.buttonDay.addAction(UIAction(handler: { _ in
-            self.buttons.buttonDay.setTitleColor(.black, for: .normal)
+            self.buttons.buttonDay.setTitleColor(.label, for: .normal)
             self.buttons.buttonMonth.setTitleColor(.systemGray2, for: .normal)
             self.buttons.buttonYear.setTitleColor(.systemGray2, for: .normal)
             self.setupDay()
@@ -237,7 +233,7 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
         
         buttons.buttonMonth.addAction(UIAction(handler: { _ in
             self.buttons.buttonDay.setTitleColor(.systemGray2, for: .normal)
-            self.buttons.buttonMonth.setTitleColor(.black, for: .normal)
+            self.buttons.buttonMonth.setTitleColor(.label, for: .normal)
             self.buttons.buttonYear.setTitleColor(.systemGray2, for: .normal)
             self.setupMonth()
         }), for: .touchUpInside)
@@ -245,7 +241,7 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
         buttons.buttonYear.addAction(UIAction(handler: { _ in
             self.buttons.buttonDay.setTitleColor(.systemGray2, for: .normal)
             self.buttons.buttonMonth.setTitleColor(.systemGray2, for: .normal)
-            self.buttons.buttonYear.setTitleColor(.black, for: .normal)
+            self.buttons.buttonYear.setTitleColor(.label, for: .normal)
             self.setupYear()
         }), for: .touchUpInside)
     }
@@ -254,13 +250,13 @@ extension CostScreen{
     
     func setupCollectionView(){
         categoryLabel.text = "Категории расходов"
-        categoryLabel.textColor = .gray
+        categoryLabel.textColor = .systemGray
         categoryLabel.font = .systemFont(ofSize: 20)
         stackView.addArrangedSubview(categoryLabel)
         
         stackView.addArrangedSubview(collectionViewCategoriesPercantage)
         stackView.setCustomSpacing(40, after: viewWithCircleContainer)
-        collectionViewCategoriesPercantage.backgroundColor = .white
+        collectionViewCategoriesPercantage.backgroundColor = .systemBackground
         NSLayoutConstraint.activate([
             collectionViewCategoriesPercantage.heightAnchor.constraint(equalToConstant: view.frame.height * 0.26),
             collectionViewCategoriesPercantage.widthAnchor.constraint(equalToConstant: view.frame.width)
@@ -289,7 +285,7 @@ extension CostScreen{
                 cell.sumLabel.text = "\(item.costsSum)"
                 cell.percentLabel.text = "\(item.percents)%"
                 cell.colorImage.backgroundColor = item.color
-                cell.backgroundColor = .white
+                cell.backgroundColor = .systemBackground
                 cell.layer.shadowColor = UIColor.lightGray.cgColor
                 cell.layer.shadowOpacity = 0.25
                 cell.layer.shadowOffset = .zero

@@ -7,16 +7,45 @@
 
 import UIKit
 import RealmSwift
+import UserNotifications
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
-
+    let notificationCenter = UNUserNotificationCenter.current()
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         print(Realm.Configuration.defaultConfiguration.fileURL!)
+        notificationCenter.requestAuthorization(options: [.alert, .badge, .alert]) { granted, error in
+            guard granted else { return }
+            self.notificationCenter.getNotificationSettings { settings in
+                print(settings)
+                guard settings.authorizationStatus == .authorized else { return }
+                
+            }
+        }
+        sendNotifications()
         return true
     }
 
+    func sendNotifications(){
+        
+        let content = UNMutableNotificationContent()
+        content.title = "First Notification"
+        content.body = "My first notification"
+        content.sound = .default
+        
+        let trigger = UNTimeIntervalNotificationTrigger(timeInterval: 5, repeats: false)
+        
+        let request = UNNotificationRequest(identifier: "Notification",
+                                            content: content,
+                                            trigger: trigger)
+        notificationCenter.add(request){ error in
+            print(error?.localizedDescription)
+        }
+        
+    }
+    
+    
     // MARK: UISceneSession Lifecycle
 
     func application(_ application: UIApplication, configurationForConnecting connectingSceneSession: UISceneSession, options: UIScene.ConnectionOptions) -> UISceneConfiguration {

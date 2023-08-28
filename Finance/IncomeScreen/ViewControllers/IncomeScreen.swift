@@ -247,7 +247,7 @@ class IncomeScreen: UIViewController, UIScrollViewDelegate {
             self.buttons.buttonDay.setTitleColor(.systemGray2, for: .normal)
             self.buttons.buttonMonth.setTitleColor(.systemGray2, for: .normal)
             self.buttons.buttonYear.setTitleColor(.black, for: .normal)
-            
+            self.setupYear()
         }), for: .touchUpInside)
     }
 }

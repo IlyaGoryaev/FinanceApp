@@ -27,12 +27,15 @@
 		9D1A99D52A8EB68200A78AC2 /* TabBarController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1A99D42A8EB68200A78AC2 /* TabBarController.swift */; };
 		9D1A99D72A8F6C4E00A78AC2 /* AddGoalViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1A99D62A8F6C4E00A78AC2 /* AddGoalViewModel.swift */; };
 		9D1A99D92A8F766E00A78AC2 /* FinanceStatisticsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1A99D82A8F766E00A78AC2 /* FinanceStatisticsViewModel.swift */; };
+		9D1A99DB2A8F7D4C00A78AC2 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1A99DA2A8F7D4C00A78AC2 /* SettingsCell.swift */; };
+		9D1A99DE2A8F897B00A78AC2 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1A99DD2A8F897B00A78AC2 /* Theme.swift */; };
 		9D2A22B82A71076900CD86F4 /* AddCostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A22B72A71076900CD86F4 /* AddCostViewModel.swift */; };
 		9D2A22C42A71643300CD86F4 /* MochiyPopPOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D2A22C32A71643300CD86F4 /* MochiyPopPOne-Regular.ttf */; };
 		9D2A23122A7451D300CD86F4 /* CostScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A23112A7451D300CD86F4 /* CostScreen.swift */; };
 		9D2A231A2A7542B100CD86F4 /* ExtensionForGestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A23192A7542B100CD86F4 /* ExtensionForGestures.swift */; };
 		9D2A233C2A769CF700CD86F4 /* Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A233B2A769CF700CD86F4 /* Circle.swift */; };
 		9D334DAB2A8C071B003B8E4D /* ExtraCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D334DAA2A8C071B003B8E4D /* ExtraCell.swift */; };
+		9D398ACA2A9A5D8D00938F81 /* MenuStatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D398AC92A9A5D8D00938F81 /* MenuStatisticsView.swift */; };
 		9D4BDE3A2A782937007149EA /* CostScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4BDE392A782937007149EA /* CostScreenViewModel.swift */; };
 		9D4C77F62A797DEC00B79C01 /* CostCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C77F52A797DEC00B79C01 /* CostCategoryModel.swift */; };
 		9D4C77F82A799DEF00B79C01 /* GetListOfCategoriesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C77F72A799DEF00B79C01 /* GetListOfCategoriesService.swift */; };
@@ -75,6 +78,7 @@
 		9D73649E2A6E8CCD00528949 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D73649C2A6E8CCD00528949 /* Main.storyboard */; };
 		9D7364A02A6E8CCE00528949 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 9D73649F2A6E8CCE00528949 /* Assets.xcassets */; };
 		9D7364A32A6E8CCE00528949 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 9D7364A12A6E8CCE00528949 /* LaunchScreen.storyboard */; };
+		9D9B4FB32A9CA129003F64DA /* FinanceUnitTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9B4FB22A9CA129003F64DA /* FinanceUnitTests.swift */; };
 		9DA0D65A2A6E8EC000DFD80F /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 9DA0D6592A6E8EC000DFD80F /* Realm */; };
 		9DA0D65C2A6E8EC000DFD80F /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 9DA0D65B2A6E8EC000DFD80F /* RealmSwift */; };
 		9DA0D65E2A6E8F1200DFD80F /* CostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA0D65D2A6E8F1200DFD80F /* CostViewController.swift */; };
@@ -90,6 +94,16 @@
 		9DA0D6802A6FE0CD00DFD80F /* ButtonsStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA0D67F2A6FE0CD00DFD80F /* ButtonsStackView.swift */; };
 		CEC35E980CEBB7D6F303C8D3 /* Pods_Finance.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F90BBF5C34D9CE4AA548311 /* Pods_Finance.framework */; };
 /* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		9D9B4FB42A9CA129003F64DA /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 9D73648B2A6E8CCD00528949 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 9D7364922A6E8CCD00528949;
+			remoteInfo = Finance;
+		};
+/* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
 		5F90BBF5C34D9CE4AA548311 /* Pods_Finance.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_Finance.framework; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -114,12 +128,15 @@
 		9D1A99D42A8EB68200A78AC2 /* TabBarController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarController.swift; sourceTree = "<group>"; };
 		9D1A99D62A8F6C4E00A78AC2 /* AddGoalViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddGoalViewModel.swift; sourceTree = "<group>"; };
 		9D1A99D82A8F766E00A78AC2 /* FinanceStatisticsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinanceStatisticsViewModel.swift; sourceTree = "<group>"; };
+		9D1A99DA2A8F7D4C00A78AC2 /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
+		9D1A99DD2A8F897B00A78AC2 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		9D2A22B72A71076900CD86F4 /* AddCostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCostViewModel.swift; sourceTree = "<group>"; };
 		9D2A22C32A71643300CD86F4 /* MochiyPopPOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MochiyPopPOne-Regular.ttf"; sourceTree = "<group>"; };
 		9D2A23112A7451D300CD86F4 /* CostScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostScreen.swift; sourceTree = "<group>"; };
 		9D2A23192A7542B100CD86F4 /* ExtensionForGestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionForGestures.swift; sourceTree = "<group>"; };
 		9D2A233B2A769CF700CD86F4 /* Circle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Circle.swift; sourceTree = "<group>"; };
 		9D334DAA2A8C071B003B8E4D /* ExtraCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraCell.swift; sourceTree = "<group>"; };
+		9D398AC92A9A5D8D00938F81 /* MenuStatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuStatisticsView.swift; sourceTree = "<group>"; };
 		9D4BDE392A782937007149EA /* CostScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostScreenViewModel.swift; sourceTree = "<group>"; };
 		9D4C77F52A797DEC00B79C01 /* CostCategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostCategoryModel.swift; sourceTree = "<group>"; };
 		9D4C77F72A799DEF00B79C01 /* GetListOfCategoriesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetListOfCategoriesService.swift; sourceTree = "<group>"; };
@@ -164,6 +181,8 @@
 		9D73649F2A6E8CCE00528949 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		9D7364A22A6E8CCE00528949 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		9D7364A42A6E8CCE00528949 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		9D9B4FB02A9CA129003F64DA /* FinanceUnitTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = FinanceUnitTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		9D9B4FB22A9CA129003F64DA /* FinanceUnitTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FinanceUnitTests.swift; sourceTree = "<group>"; };
 		9DA0D65D2A6E8F1200DFD80F /* CostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostViewController.swift; sourceTree = "<group>"; };
 		9DA0D65F2A6E8F2E00DFD80F /* CostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostCell.swift; sourceTree = "<group>"; };
 		9DA0D6622A6E8F5300DFD80F /* CostRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostRealm.swift; sourceTree = "<group>"; };
@@ -186,6 +205,13 @@
 				9DA0D65C2A6E8EC000DFD80F /* RealmSwift in Frameworks */,
 				9DA0D65A2A6E8EC000DFD80F /* Realm in Frameworks */,
 				CEC35E980CEBB7D6F303C8D3 /* Pods_Finance.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9D9B4FAD2A9CA129003F64DA /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -292,6 +318,14 @@
 				9D1A99D42A8EB68200A78AC2 /* TabBarController.swift */,
 			);
 			path = CustomTabBar;
+			sourceTree = "<group>";
+		};
+		9D1A99DC2A8F896800A78AC2 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				9D1A99DD2A8F897B00A78AC2 /* Theme.swift */,
+			);
+			path = Theme;
 			sourceTree = "<group>";
 		};
 		9D2A22A62A703C7800CD86F4 /* Api */ = {
@@ -606,6 +640,7 @@
 		9D4C783A2A7D297D00B79C01 /* DesignElements */ = {
 			isa = PBXGroup;
 			children = (
+				9D398AC92A9A5D8D00938F81 /* MenuStatisticsView.swift */,
 			);
 			path = DesignElements;
 			sourceTree = "<group>";
@@ -638,6 +673,7 @@
 		9D4C783E2A7D29BE00B79C01 /* DesignElements */ = {
 			isa = PBXGroup;
 			children = (
+				9D1A99DA2A8F7D4C00A78AC2 /* SettingsCell.swift */,
 			);
 			path = DesignElements;
 			sourceTree = "<group>";
@@ -654,6 +690,7 @@
 			isa = PBXGroup;
 			children = (
 				9D7364952A6E8CCD00528949 /* Finance */,
+				9D9B4FB12A9CA129003F64DA /* FinanceUnitTests */,
 				9D7364942A6E8CCD00528949 /* Products */,
 				113A405B46A359BE78754FB2 /* Pods */,
 				9A19E3BF81C5F319C2000FBD /* Frameworks */,
@@ -664,6 +701,7 @@
 			isa = PBXGroup;
 			children = (
 				9D7364932A6E8CCD00528949 /* Finance.app */,
+				9D9B4FB02A9CA129003F64DA /* FinanceUnitTests.xctest */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -673,6 +711,7 @@
 			children = (
 				9D2A22C32A71643300CD86F4 /* MochiyPopPOne-Regular.ttf */,
 				9D7364A42A6E8CCE00528949 /* Info.plist */,
+				9D1A99DC2A8F896800A78AC2 /* Theme */,
 				9D1A99D32A8EB64C00A78AC2 /* CustomTabBar */,
 				9D1A99C02A8E769000A78AC2 /* AddIncomeScreen */,
 				9D1A99B82A8D88C200A78AC2 /* IncomesListScreen */,
@@ -691,6 +730,14 @@
 				9D2A22A62A703C7800CD86F4 /* Api */,
 			);
 			path = Finance;
+			sourceTree = "<group>";
+		};
+		9D9B4FB12A9CA129003F64DA /* FinanceUnitTests */ = {
+			isa = PBXGroup;
+			children = (
+				9D9B4FB22A9CA129003F64DA /* FinanceUnitTests.swift */,
+			);
+			path = FinanceUnitTests;
 			sourceTree = "<group>";
 		};
 		9DA0D67C2A6FD44800DFD80F /* Design Elements */ = {
@@ -732,6 +779,24 @@
 			productReference = 9D7364932A6E8CCD00528949 /* Finance.app */;
 			productType = "com.apple.product-type.application";
 		};
+		9D9B4FAF2A9CA129003F64DA /* FinanceUnitTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 9D9B4FB82A9CA129003F64DA /* Build configuration list for PBXNativeTarget "FinanceUnitTests" */;
+			buildPhases = (
+				9D9B4FAC2A9CA129003F64DA /* Sources */,
+				9D9B4FAD2A9CA129003F64DA /* Frameworks */,
+				9D9B4FAE2A9CA129003F64DA /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				9D9B4FB52A9CA129003F64DA /* PBXTargetDependency */,
+			);
+			name = FinanceUnitTests;
+			productName = FinanceUnitTests;
+			productReference = 9D9B4FB02A9CA129003F64DA /* FinanceUnitTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
 /* End PBXNativeTarget section */
 
 /* Begin PBXProject section */
@@ -744,6 +809,10 @@
 				TargetAttributes = {
 					9D7364922A6E8CCD00528949 = {
 						CreatedOnToolsVersion = 14.3.1;
+					};
+					9D9B4FAF2A9CA129003F64DA = {
+						CreatedOnToolsVersion = 14.3.1;
+						TestTargetID = 9D7364922A6E8CCD00528949;
 					};
 				};
 			};
@@ -764,6 +833,7 @@
 			projectRoot = "";
 			targets = (
 				9D7364922A6E8CCD00528949 /* Finance */,
+				9D9B4FAF2A9CA129003F64DA /* FinanceUnitTests */,
 			);
 		};
 /* End PBXProject section */
@@ -777,6 +847,13 @@
 				9D7364A02A6E8CCE00528949 /* Assets.xcassets in Resources */,
 				9D2A22C42A71643300CD86F4 /* MochiyPopPOne-Regular.ttf in Resources */,
 				9D73649E2A6E8CCD00528949 /* Main.storyboard in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		9D9B4FAE2A9CA129003F64DA /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -877,12 +954,15 @@
 				9D4C786D2A8617C600B79C01 /* ButtonsSubCategories.swift in Sources */,
 				9D4C784C2A7FB29B00B79C01 /* GoalViewModel.swift in Sources */,
 				9D4C78462A7D343F00B79C01 /* SettingsScreen.swift in Sources */,
+				9D1A99DE2A8F897B00A78AC2 /* Theme.swift in Sources */,
 				9D1A99B62A8D886000A78AC2 /* IncomeCategoryModel.swift in Sources */,
 				9D2A233C2A769CF700CD86F4 /* Circle.swift in Sources */,
 				9D1A99A62A8D7C5F00A78AC2 /* IncomeRealm.swift in Sources */,
 				9D4C781B2A7BD4D800B79C01 /* Buttons.swift in Sources */,
 				9D4C781D2A7CD8C500B79C01 /* MenuIcon.swift in Sources */,
 				9DA0D66B2A6E8FC300DFD80F /* DateInfo.swift in Sources */,
+				9D1A99DB2A8F7D4C00A78AC2 /* SettingsCell.swift in Sources */,
+				9D398ACA2A9A5D8D00938F81 /* MenuStatisticsView.swift in Sources */,
 				9D4C78522A7FCC6A00B79C01 /* AddGoalViewController.swift in Sources */,
 				9DA0D6632A6E8F5300DFD80F /* CostRealm.swift in Sources */,
 				9DA0D6712A6ED08300DFD80F /* DateStorage.swift in Sources */,
@@ -907,7 +987,23 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
+		9D9B4FAC2A9CA129003F64DA /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				9D9B4FB32A9CA129003F64DA /* FinanceUnitTests.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 /* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		9D9B4FB52A9CA129003F64DA /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 9D7364922A6E8CCD00528949 /* Finance */;
+			targetProxy = 9D9B4FB42A9CA129003F64DA /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
 		9D73649C2A6E8CCD00528949 /* Main.storyboard */ = {
@@ -1109,6 +1205,42 @@
 			};
 			name = Release;
 		};
+		9D9B4FB62A9CA129003F64DA /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 34UB5HMPNV;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ilyaagoryaev.FinanceUnitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Finance.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Finance";
+			};
+			name = Debug;
+		};
+		9D9B4FB72A9CA129003F64DA /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 34UB5HMPNV;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = ilyaagoryaev.FinanceUnitTests;
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Finance.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/Finance";
+			};
+			name = Release;
+		};
 /* End XCBuildConfiguration section */
 
 /* Begin XCConfigurationList section */
@@ -1126,6 +1258,15 @@
 			buildConfigurations = (
 				9D7364A82A6E8CCE00528949 /* Debug */,
 				9D7364A92A6E8CCE00528949 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		9D9B4FB82A9CA129003F64DA /* Build configuration list for PBXNativeTarget "FinanceUnitTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				9D9B4FB62A9CA129003F64DA /* Debug */,
+				9D9B4FB72A9CA129003F64DA /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;
