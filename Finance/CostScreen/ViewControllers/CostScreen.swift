@@ -104,6 +104,7 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
+        FirebaseGetIncomes.getIncomes()
         view.backgroundColor = .systemBackground
         navigationController?.navigationBar.isHidden = true
         view.addSubview(scrollView)

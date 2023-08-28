@@ -9,8 +9,6 @@ protocol FinanceGoalsScreenProtocol: AnyObject{
 
 class FinanceGoalsScreen: UIViewController {
 
-    
-    
     let addButton = UIButton()
     
     let disposeBag = DisposeBag()

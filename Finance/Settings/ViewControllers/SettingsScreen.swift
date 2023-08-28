@@ -7,6 +7,8 @@ class SettingsScreen: UIViewController, UIScrollViewDelegate {
     
     let settingsLabel = UILabel()
     
+    let synchronizationView = UIView()
+    
     let disposeBag = DisposeBag()
     
     lazy var table: UITableView = {
@@ -23,6 +25,7 @@ class SettingsScreen: UIViewController, UIScrollViewDelegate {
         
         setUpTableView()
         bindTable()
+        setupSynchronizationView()
 
         
         settingsLabel.text = "Настройки"
@@ -39,7 +42,7 @@ class SettingsScreen: UIViewController, UIScrollViewDelegate {
     func setUpTableView(){
         self.view.addSubview(table)
         NSLayoutConstraint.activate([
-            table.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 70),
+            table.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 150),
             table.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             table.trailingAnchor.constraint(equalTo: view.trailingAnchor),
             table.bottomAnchor.constraint(equalTo: view.bottomAnchor)
@@ -60,5 +63,38 @@ class SettingsScreen: UIViewController, UIScrollViewDelegate {
         
         table.rx.setDelegate(self).disposed(by: disposeBag)
         
+    }
+    
+    func setupSynchronizationView(){
+        synchronizationView.backgroundColor = .red
+        synchronizationView.layer.cornerRadius = 10
+        synchronizationView.translatesAutoresizingMaskIntoConstraints = false
+        view.addSubview(synchronizationView)
+        NSLayoutConstraint.activate([
+            synchronizationView.widthAnchor.constraint(equalToConstant: view.frame.width - 40),
+            synchronizationView.heightAnchor.constraint(equalToConstant: 80),
+            synchronizationView.centerXAnchor.constraint(equalTo: view.centerXAnchor),
+            synchronizationView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 145)
+        ])
+        
+        let label = UILabel()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        synchronizationView.addSubview(label)
+        
+        NSLayoutConstraint.activate([
+            label.centerYAnchor.constraint(equalTo: synchronizationView.centerYAnchor),
+            label.centerXAnchor.constraint(equalTo: synchronizationView.centerXAnchor)
+        ])
+        
+        label.text = "Синхронизация"
+        label.textColor = .white
+        let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tappedSynchronizationView))
+        synchronizationView.addGestureRecognizer(tapGesture)
+    }
+    
+    @objc func tappedSynchronizationView(){
+        let viewController = LoginViewController()
+        viewController.view.backgroundColor = .white
+        present(viewController, animated: true)
     }
 }

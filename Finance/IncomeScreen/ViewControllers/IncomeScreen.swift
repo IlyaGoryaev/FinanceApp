@@ -303,7 +303,8 @@ extension IncomeScreen{
         collectionViewCategoriesPercantage.rx.setDelegate(self).disposed(by: disposeBag)
         
         collectionViewCategoriesPercantage.rx.itemSelected.subscribe {
-            print($0)
+            let cell = self.collectionViewCategoriesPercantage.dequeueReusableCell(withReuseIdentifier: "Cell", for: $0) as! CellForIncomeScreen
+            print("Название ячейки: \(cell.categoryLabel.text)")
             self.showCalendarViewControllerInACustomizedSheet(category: "auto")
         }.disposed(by: disposeBag)
         

@@ -55,6 +55,7 @@ class AddIncomeViewModel{
     func saveRealmIncome(){
         let storage = IncomeStorageService()
         let income = try! income.value()
+        FirebaseAddIncome.addIncome(income: income)
         try! storage.saveOrUpdateObject(object: income)
         
         var dateComponents = DateComponents()

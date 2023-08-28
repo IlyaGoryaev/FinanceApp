@@ -30,3 +30,15 @@ final class IncomeRealm: Object{
         self.category = category
     }
 }
+struct IncomeUid: Decodable{
+    var uid: IncomeRealmFirebase
+}
+struct IncomeRealmFirebase: Decodable{
+    var dayValue: Int
+    var monthValue: Int
+    var yearValue: Int
+    var sumIncome: Int
+    var label: String
+    var date: String
+    var category: IncomeCategories.RawValue
+}

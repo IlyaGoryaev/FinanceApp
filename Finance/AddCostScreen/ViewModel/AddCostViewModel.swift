@@ -85,6 +85,7 @@ class AddCostViewModel{
     func saveRealmCost(){
         let storage = CostStorageService()
         let cost = try! cost.value()
+        FirebaseAddCost.addCost(cost: cost)
         try! storage.saveOrUpdateObject(object: cost)
         
         var dateComponents = DateComponents()

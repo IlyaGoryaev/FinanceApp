@@ -91,8 +91,6 @@ class CircleCategories{
             
         } else if sumPercent <= 1 {
             
-            
-            
             for item in percentDict {
                 radiansArray.append(deg2rad(360 * item.value))
             }
