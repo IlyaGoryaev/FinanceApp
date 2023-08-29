@@ -16,21 +16,35 @@ class FirebaseGetIncomes{
             
             guard let dataSnapshot = dataSnapshot else { return }
             
-            let decoder = try! JSONSerialization.data(withJSONObject: dataSnapshot.value as Any)
+            let data = dataSnapshot.value as! [String: Any]
             
-            let jsonDecoder = try! JSONSerialization.data(withJSONObject: decoder)
+            var array: [String: Any] = [:]
             
-            print(jsonDecoder)
-            
-            do {
-                let jsonDecoder = try JSONDecoder().decode([IncomeRealmFirebase].self, from: decoder)
-                print(jsonDecoder)
-            } catch let jsonError{
-                print(jsonError)
+            for item in data{
+                let data = try! JSONSerialization.data(withJSONObject: item.value)
+                let income = try! JSONDecoder().decode(IncomeRealmFirebase.self, from: data)
+                let incomeRealm = IncomeRealm(incomeId: item.key,
+                            date: Date(),
+                            sumIncome: income.sumIncome,
+                            label: income.label,
+                            category: income.category)
+                try! IncomeStorageService().saveOrUpdateObject(object: incomeRealm)
+                
+                var dateComponents = DateComponents()
+                dateComponents.timeZone = .current
+                dateComponents.day = Calendar.current.component(.day, from: incomeRealm.date)
+                dateComponents.month = Calendar.current.component(.month, from: incomeRealm.date)
+                dateComponents.year = Calendar.current.component(.year, from: incomeRealm.date)
+                
+                SaveSumObjectIncomes.saveSumObjectsIncome(dateComponents: dateComponents, category: incomeRealm.category, sumIncome: incomeRealm.sumIncome)
             }
             
+            print(array)
+            
+            //let decoder = try! JSONSerialization.data(withJSONObject: data)
             
             
+            //print(String(data: decoder, encoding: .utf8)!)
             
         }
         

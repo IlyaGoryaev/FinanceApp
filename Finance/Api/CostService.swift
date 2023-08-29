@@ -12,7 +12,7 @@ final class CostStorageService{
     func saveOrUpdateObject(object: Object) throws {
         guard let storage else { return }
         try storage.write {
-            storage.add(object)
+            storage.add(object, update: .all)
         }
     }
     

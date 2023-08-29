@@ -2,14 +2,13 @@ import UIKit
 import RxSwift
 import RxCocoa
 import RxDataSources
+import DGCharts
 class CostScreen: UIViewController, UIScrollViewDelegate {
     
     let addButton = UIButton()
     
     //MARK: Круговая диаграмма трат
-    let viewWithCircleContainer = UIView()
-    let label = UILabel()
-    let subLabel = UILabel()
+    let pieChart = PieChartView()
     
     //MARK: Labels
     let categoryLabel = UILabel()
@@ -25,10 +24,8 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
         collectionViewFlowLayout.minimumLineSpacing = 20
         let collectionView = UICollectionView(frame: CGRect(), collectionViewLayout: collectionViewFlowLayout)
         collectionView.register(CellForCostScreen.self, forCellWithReuseIdentifier: "Cell")
-        collectionView.register(ExtraCell.self, forCellWithReuseIdentifier: "ExtraCell")
-
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .systemBackground
+        collectionView.backgroundColor = UIColor(named: "FinanceBackgroundColor")
         collectionView.isScrollEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
@@ -48,7 +45,7 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
     //MARK: ScrollView
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.backgroundColor = .systemBackground
+        scrollView.backgroundColor = UIColor(named: "FinanceBackgroundColor")
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.contentSize = contentSize
         scrollView.showsVerticalScrollIndicator = false
@@ -58,7 +55,7 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
     //MARK: Контейнер для ScrollView
     lazy var contentView: UIView = {
         let contentView = UIView()
-        contentView.backgroundColor = .systemBackground
+        contentView.backgroundColor = UIColor(named: "FinanceBackgroundColor")
         contentView.frame.size = contentSize
         return contentView
     }()
@@ -104,8 +101,7 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        FirebaseGetIncomes.getIncomes()
-        view.backgroundColor = .systemBackground
+        view.backgroundColor = UIColor(named: "FinanceBackgroundColor")
         navigationController?.navigationBar.isHidden = true
         view.addSubview(scrollView)
         NSLayoutConstraint.activate([
@@ -122,42 +118,33 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
         setUpButtons()
         
         
-        setupLabel()
         stackView.addArrangedSubview(buttons)
         
         addButton.translatesAutoresizingMaskIntoConstraints = false
         addButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
-        addButton.tintColor = .systemGray
+        addButton.tintColor = .white
         addButton.titleLabel?.font = .boldSystemFont(ofSize: 30)
-        viewWithCircleContainer.addSubview(addButton)
+        pieChart.addSubview(addButton)
         NSLayoutConstraint.activate([
-            addButton.trailingAnchor.constraint(equalTo: viewWithCircleContainer.trailingAnchor, constant: 16),
-            addButton.bottomAnchor.constraint(equalTo: viewWithCircleContainer.bottomAnchor, constant: 16),
+            addButton.trailingAnchor.constraint(equalTo: pieChart.trailingAnchor, constant: -32),
+            addButton.bottomAnchor.constraint(equalTo: pieChart.bottomAnchor, constant: -32),
             addButton.heightAnchor.constraint(equalToConstant: 50),
             addButton.widthAnchor.constraint(equalToConstant: 50)
         ])
-        addButton.backgroundColor = .white
+        addButton.backgroundColor = UIColor(named: "FinanaceMainScreenCellColor")
         addButton.layer.cornerRadius = 25
         addButton.layer.shadowOpacity = 0.15
         addButton.layer.shadowOffset = .zero
+        addButton.layer.shadowColor = UIColor(named: "ShadowColor")?.cgColor
         addButton.layer.shouldRasterize = true
         addButton.layer.shadowRadius = 10
         addButton.addTarget(self, action: #selector(addMenu), for: .touchUpInside)
-
-
+        
+        
         viewModel.percentArray.subscribe {
             self.arrayOfCategoriesSection = $0
         }.disposed(by: disposeBag)
-    
-        stackView.addArrangedSubview(viewWithCircleContainer)
-        NSLayoutConstraint.activate([
-            viewWithCircleContainer.heightAnchor.constraint(equalToConstant: view.frame.width * 0.76),
-            viewWithCircleContainer.widthAnchor.constraint(equalToConstant: view.frame.width * 0.76)
-
-        ])
-        viewWithCircleContainer.backgroundColor = .systemBackground
-        
-        
+        setupPieChart()
         stackView.addArrangedSubview(noCost)
         noCost.text = "За данный период нет расходов"
         noCost.textColor = .systemGray
@@ -165,17 +152,17 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
         
         bindCollectionView()
         setupCollectionView()
-        setUpPictureSearch()
         
         viewModel.categories.subscribe {
             let boolValue = $0[0].items.isEmpty
             self.collectionViewCategoriesPercantage.isHidden = boolValue
             self.categoryLabel.isHidden = boolValue
             self.searchImage.isHidden = !boolValue
-            self.label.isHidden = boolValue
-            self.subLabel.isHidden = boolValue
+            //self.label.isHidden = boolValue
+            //self.subLabel.isHidden = boolValue
         }.disposed(by: disposeBag)
-        self.viewModel.extraValue.on(.next(try! self.viewModel.extraValueDay.value()))
+        
+        noCost.isHidden = true
     }
     
     @objc func addMenu(){
@@ -184,30 +171,6 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
         self.navigationController?.pushViewController(controller, animated: true)
     }
     
-    
-    //MARK: Настройка компонентов внутри круговой диаграммы
-    func setupLabel(){
-        viewModel.labelText.subscribe{
-            self.label.text = $0
-        }.disposed(by: disposeBag)
-        viewModel.subLabelText.subscribe {
-            self.subLabel.text = $0
-        }.disposed(by: disposeBag)
-        label.font = .boldSystemFont(ofSize: 40)//Исправить под значение
-        subLabel.font = .systemFont(ofSize: 20)
-        label.textColor = .label
-        subLabel.textColor = .systemGray
-        label.translatesAutoresizingMaskIntoConstraints = false
-        subLabel.translatesAutoresizingMaskIntoConstraints = false
-        viewWithCircleContainer.addSubview(label)
-        viewWithCircleContainer.addSubview(subLabel)
-        NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: viewWithCircleContainer.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: viewWithCircleContainer.centerYAnchor, constant: 10),
-            subLabel.centerXAnchor.constraint(equalTo: viewWithCircleContainer.centerXAnchor),
-            subLabel.bottomAnchor.constraint(equalTo: label.topAnchor, constant: -5)
-        ])
-    }
     
     
     private func setupViewConstraints(){
@@ -226,23 +189,23 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
         buttons.buttonMonth.titleLabel?.font = .boldSystemFont(ofSize: self.view.frame.width * 0.09)
         buttons.buttonYear.titleLabel?.font = .boldSystemFont(ofSize: self.view.frame.width * 0.09)
         buttons.buttonDay.addAction(UIAction(handler: { _ in
-            self.buttons.buttonDay.setTitleColor(.label, for: .normal)
+            self.buttons.buttonDay.setTitleColor(.white, for: .normal)
             self.buttons.buttonMonth.setTitleColor(.systemGray2, for: .normal)
             self.buttons.buttonYear.setTitleColor(.systemGray2, for: .normal)
             self.setupDay()
         }), for:  .touchUpInside)
-        
+
         buttons.buttonMonth.addAction(UIAction(handler: { _ in
             self.buttons.buttonDay.setTitleColor(.systemGray2, for: .normal)
-            self.buttons.buttonMonth.setTitleColor(.label, for: .normal)
+            self.buttons.buttonMonth.setTitleColor(.white, for: .normal)
             self.buttons.buttonYear.setTitleColor(.systemGray2, for: .normal)
             self.setupMonth()
         }), for: .touchUpInside)
-        
+
         buttons.buttonYear.addAction(UIAction(handler: { _ in
             self.buttons.buttonDay.setTitleColor(.systemGray2, for: .normal)
             self.buttons.buttonMonth.setTitleColor(.systemGray2, for: .normal)
-            self.buttons.buttonYear.setTitleColor(.label, for: .normal)
+            self.buttons.buttonYear.setTitleColor(.white, for: .normal)
             self.setupYear()
         }), for: .touchUpInside)
     }
@@ -251,13 +214,13 @@ extension CostScreen{
     
     func setupCollectionView(){
         categoryLabel.text = "Категории расходов"
-        categoryLabel.textColor = .systemGray
+        categoryLabel.textColor = .white
         categoryLabel.font = .systemFont(ofSize: 20)
         stackView.addArrangedSubview(categoryLabel)
         
         stackView.addArrangedSubview(collectionViewCategoriesPercantage)
-        stackView.setCustomSpacing(40, after: viewWithCircleContainer)
-        collectionViewCategoriesPercantage.backgroundColor = .systemBackground
+        stackView.setCustomSpacing(0, after: pieChart)
+        collectionViewCategoriesPercantage.backgroundColor = UIColor(named: "FinanceBackgroundColor")
         NSLayoutConstraint.activate([
             collectionViewCategoriesPercantage.heightAnchor.constraint(equalToConstant: view.frame.height * 0.26),
             collectionViewCategoriesPercantage.widthAnchor.constraint(equalToConstant: view.frame.width)
@@ -271,28 +234,19 @@ extension CostScreen{
         
         let dataSource = RxCollectionViewSectionedReloadDataSource<SectionModel<String, CostCategoryModel>> { _, collectionView, indexPath, item in
             let indexOfLast = try! self.viewModel.categories.value()[0].items.count - 1
-            let boolValue = try! self.viewModel.extraValue.value()
-            if indexPath.row == indexOfLast && boolValue{
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExtraCell", for: indexPath) as! ExtraCell
-                cell.percentLabel.text = "\(item.percents)%"
-                cell.layer.shadowColor = UIColor.lightGray.cgColor
-                cell.layer.shadowOpacity = 0.25
-                cell.layer.shadowOffset = .zero
-                cell.layer.shadowRadius = 20
-                return cell
-            } else {
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CellForCostScreen
-                cell.categoryLabel.text = CategoryCostsDesignElements().getRussianLabelText()[item.category.rawValue]
-                cell.sumLabel.text = "\(item.costsSum)"
-                cell.percentLabel.text = "\(item.percents)%"
-                cell.colorImage.backgroundColor = item.color
-                cell.backgroundColor = .systemBackground
-                cell.layer.shadowColor = UIColor.lightGray.cgColor
-                cell.layer.shadowOpacity = 0.25
-                cell.layer.shadowOffset = .zero
-                cell.layer.shadowRadius = 20
-                return cell
-            }
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CellForCostScreen
+            cell.categoryLabel.text = CategoryCostsDesignElements().getRussianLabelText()[item.category.rawValue]
+            cell.sumLabel.text = "\(item.costsSum)"
+            cell.percentLabel.text = "\(item.percents)%"
+            cell.sumLabel.textColor = .white
+            cell.percentLabel.textColor = .white
+            cell.colorImage.backgroundColor = item.color
+            cell.layer.shadowColor = UIColor(named: "ShadowColor")?.cgColor
+            cell.layer.shadowOpacity = 0.25
+            cell.layer.shadowOffset = .zero
+            cell.layer.shadowRadius = 20
+            cell.backgroundColor = UIColor(named: "FinanaceMainScreenCellColor")
+            return cell
         }
         
         viewModel.categories.bind(to: collectionViewCategoriesPercantage.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
@@ -306,19 +260,6 @@ extension CostScreen{
         
     }
     
-    func setUpPictureSearch(){
-        searchImage.image = UIImage(named: "SearchGlass")
-        searchImage.translatesAutoresizingMaskIntoConstraints = false
-        searchImage.contentMode = .scaleAspectFit
-        viewWithCircleContainer.addSubview(searchImage)
-        NSLayoutConstraint.activate([
-            searchImage.centerXAnchor.constraint(equalTo: viewWithCircleContainer.centerXAnchor),
-            searchImage.centerYAnchor.constraint(equalTo: viewWithCircleContainer.centerYAnchor),
-            searchImage.heightAnchor.constraint(equalToConstant: 100),
-            searchImage.widthAnchor.constraint(equalToConstant: 100)
-        ])
-    }
-    
     func showCalendarViewControllerInACustomizedSheet(category: String) {
         let viewControllerToPresent = ListSortedCostsViewController(category: category, nibName: nil, bundle: nil)
         if let sheet = viewControllerToPresent.sheetPresentationController {
@@ -329,73 +270,117 @@ extension CostScreen{
     }
     
     func setupDay(){
-        self.viewModel.getDayStatistics()
-        self.viewModel.getDayLabelText()
-        self.viewModel.getCircleDay()
-        if label.text != "0"{
-            noCost.isHidden = true
-        } else {
-            noCost.isHidden = false
+        var dateComponents = DateComponents()
+        dateComponents.day = Calendar.current.component(.day, from: Date())
+        dateComponents.month = Calendar.current.component(.month, from: Date())
+        dateComponents.year = Calendar.current.component(.year, from: Date())
+        let dict = GetCostStatistic().getDayPercent(dateComponents: dateComponents)
+        pieChart.drawCenterTextEnabled = true
+        
+        pieChart.centerText = "За сегодня"
+        
+        var entries = [PieChartDataEntry]()
+        var colors = [UIColor]()
+        for (category, value) in dict.0{
+            if value != 0{
+                entries.append(PieChartDataEntry(value: value * 100))
+                colors.append(CategoryCostsDesignElements().getCategoryColors()[category]!)
+            }
         }
         
-        self.viewWithCircleContainer.layer.sublayers?.forEach({
-            $0.isHidden = true
-        })
-        self.addButton.isHidden = false
-        self.label.isHidden = false
-        self.subLabel.isHidden = false
-        for layer in CircleCategories(circleValue: Int(self.view.frame.width * 0.76) / 2).getCategoriesLayerCost(percentDict: self.arrayOfCategoriesSection){
-            self.viewWithCircleContainer.layer.addSublayer(layer)
-            print(layer)
-        }
-        self.viewModel.extraValue.on(.next(try! self.viewModel.extraValueDay.value()))
+        let set = PieChartDataSet(entries: entries, label: String())
+        let data = PieChartData(dataSet: set)
+        set.colors = colors
+        pieChart.data = data
+        self.viewModel.getDayStatistics()
         self.viewModel.categoryChosen.on(.next(1))
     }
-    
+
     func setupMonth(){
+        
+        var dateComponents = DateComponents()
+        dateComponents.month = Calendar.current.component(.month, from: Date())
+        dateComponents.year = Calendar.current.component(.year, from: Date())
+        let dict = GetCostStatistic().getMonthPercent(dateComponents: dateComponents)
+        pieChart.drawCenterTextEnabled = true
+        
+        pieChart.centerText = "За месяц"
+        
+        var entries = [PieChartDataEntry]()
+        var colors = [UIColor]()
+        for (category, value) in dict.0{
+            if value != 0{
+                entries.append(PieChartDataEntry(value: value * 100))
+                colors.append(CategoryCostsDesignElements().getCategoryColors()[category]!)
+            }
+        }
+        
+        let set = PieChartDataSet(entries: entries, label: String())
+        let data = PieChartData(dataSet: set)
+        set.colors = colors
+        pieChart.data = data
         self.viewModel.getMonthStatistics()
-        self.viewModel.getMonthLabelText()
-        self.viewModel.getCircleMonth()
-        if label.text != "0"{
-            noCost.isHidden = true
-        } else {
-            noCost.isHidden = false
-        }
-        self.viewWithCircleContainer.layer.sublayers?.forEach({
-            $0.isHidden = true
-        })
-        self.addButton.isHidden = false
-        self.label.isHidden = false
-        self.subLabel.isHidden = false
-        for layer in CircleCategories(circleValue: Int(self.view.frame.width * 0.76) / 2).getCategoriesLayerCost(percentDict: self.arrayOfCategoriesSection){
-            self.viewWithCircleContainer.layer.addSublayer(layer)
-            print(layer)
-        }
-        self.viewModel.extraValue.on(.next(try! self.viewModel.extraValueMonth.value()))
         self.viewModel.categoryChosen.on(.next(2))
     }
-    
+
     func setupYear(){
+        let dict = GetCostStatistic().getYearPercent()
+        pieChart.drawCenterTextEnabled = true
+        
+        pieChart.centerText = "За год"
+        
+        var entries = [PieChartDataEntry]()
+        var colors = [UIColor]()
+        for (category, value) in dict.0{
+            if value != 0{
+                entries.append(PieChartDataEntry(value: value * 100))
+                colors.append(CategoryCostsDesignElements().getCategoryColors()[category]!)
+            }
+        }
+        
+        let set = PieChartDataSet(entries: entries, label: String())
+        let data = PieChartData(dataSet: set)
+        set.colors = colors
+        pieChart.data = data
         self.viewModel.getYearStatistics()
-        self.viewModel.getYearLabelText()
-        self.viewModel.getCircleYear()
-        if label.text != "0"{
-            noCost.isHidden = true
-        } else {
-            noCost.isHidden = false
-        }
-        self.viewWithCircleContainer.layer.sublayers?.forEach({
-            $0.isHidden = true
-        })
-        self.addButton.isHidden = false
-        self.label.isHidden = false
-        self.subLabel.isHidden = false
-        for layer in CircleCategories(circleValue: Int(self.view.frame.width * 0.76) / 2).getCategoriesLayerCost(percentDict: self.arrayOfCategoriesSection){
-            self.viewWithCircleContainer.layer.addSublayer(layer)
-            print(layer)
-        }
-        self.viewModel.extraValue.on(.next(try! self.viewModel.extraValueYear.value()))
         self.viewModel.categoryChosen.on(.next(3))
     }
+
     
+    private func setupPieChart(){
+        
+        var dateComponents = DateComponents()
+        dateComponents.day = Calendar.current.component(.day, from: Date())
+        dateComponents.month = Calendar.current.component(.month, from: Date())
+        dateComponents.year = Calendar.current.component(.year, from: Date())
+        let dict = GetCostStatistic().getDayPercent(dateComponents: dateComponents)
+        
+        stackView.addArrangedSubview(pieChart)
+        stackView.setCustomSpacing(0, after: buttons)
+        pieChart.drawCenterTextEnabled = true
+        pieChart.usePercentValuesEnabled = false
+            
+        pieChart.centerText = "За сегодня"
+        
+        var entries = [PieChartDataEntry]()
+        var colors = [UIColor]()
+        for (category, value) in dict.0{
+            if value != 0{
+                entries.append(PieChartDataEntry(value: value * 100))
+                colors.append(CategoryCostsDesignElements().getCategoryColors()[category]!)
+            }
+        }
+        
+        let set = PieChartDataSet(entries: entries, label: String())
+        let data = PieChartData(dataSet: set)
+        set.colors = colors
+        pieChart.data = data
+        
+        pieChart.snp.makeConstraints { make in
+            make.height.equalTo(view.frame.width)
+            make.width.equalTo(view.frame.width)
+        }
+        
+        pieChart.holeColor = NSUIColor(named: "FinanceBackgroundColor")
+    }
 }

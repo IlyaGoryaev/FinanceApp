@@ -33,8 +33,6 @@
 		9D2A22C42A71643300CD86F4 /* MochiyPopPOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D2A22C32A71643300CD86F4 /* MochiyPopPOne-Regular.ttf */; };
 		9D2A23122A7451D300CD86F4 /* CostScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A23112A7451D300CD86F4 /* CostScreen.swift */; };
 		9D2A231A2A7542B100CD86F4 /* ExtensionForGestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A23192A7542B100CD86F4 /* ExtensionForGestures.swift */; };
-		9D2A233C2A769CF700CD86F4 /* Circle.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A233B2A769CF700CD86F4 /* Circle.swift */; };
-		9D334DAB2A8C071B003B8E4D /* ExtraCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D334DAA2A8C071B003B8E4D /* ExtraCell.swift */; };
 		9D398ACA2A9A5D8D00938F81 /* MenuStatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D398AC92A9A5D8D00938F81 /* MenuStatisticsView.swift */; };
 		9D4BDE3A2A782937007149EA /* CostScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4BDE392A782937007149EA /* CostScreenViewModel.swift */; };
 		9D4C77F62A797DEC00B79C01 /* CostCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4C77F52A797DEC00B79C01 /* CostCategoryModel.swift */; };
@@ -118,6 +116,9 @@
 		9D9B50182A9CF36C003F64DA /* FirebaseAddCost.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9B50172A9CF36C003F64DA /* FirebaseAddCost.swift */; };
 		9D9B501A2A9CFE26003F64DA /* FirebaseAddIncome.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9B50192A9CFE26003F64DA /* FirebaseAddIncome.swift */; };
 		9D9B501C2A9D0241003F64DA /* FirebaseGetIncomes.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9B501B2A9D0241003F64DA /* FirebaseGetIncomes.swift */; };
+		9D9B501E2A9D228D003F64DA /* SettingsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9B501D2A9D228D003F64DA /* SettingsViewModel.swift */; };
+		9D9B50212A9D2382003F64DA /* FirebaseSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9B50202A9D2382003F64DA /* FirebaseSettings.swift */; };
+		9D9B50242A9D4EB1003F64DA /* DGCharts in Frameworks */ = {isa = PBXBuildFile; productRef = 9D9B50232A9D4EB1003F64DA /* DGCharts */; };
 		9DA0D65E2A6E8F1200DFD80F /* CostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA0D65D2A6E8F1200DFD80F /* CostViewController.swift */; };
 		9DA0D6602A6E8F2E00DFD80F /* CostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA0D65F2A6E8F2E00DFD80F /* CostCell.swift */; };
 		9DA0D6632A6E8F5300DFD80F /* CostRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA0D6622A6E8F5300DFD80F /* CostRealm.swift */; };
@@ -171,8 +172,6 @@
 		9D2A22C32A71643300CD86F4 /* MochiyPopPOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MochiyPopPOne-Regular.ttf"; sourceTree = "<group>"; };
 		9D2A23112A7451D300CD86F4 /* CostScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostScreen.swift; sourceTree = "<group>"; };
 		9D2A23192A7542B100CD86F4 /* ExtensionForGestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionForGestures.swift; sourceTree = "<group>"; };
-		9D2A233B2A769CF700CD86F4 /* Circle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Circle.swift; sourceTree = "<group>"; };
-		9D334DAA2A8C071B003B8E4D /* ExtraCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraCell.swift; sourceTree = "<group>"; };
 		9D398AC92A9A5D8D00938F81 /* MenuStatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuStatisticsView.swift; sourceTree = "<group>"; };
 		9D4BDE392A782937007149EA /* CostScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostScreenViewModel.swift; sourceTree = "<group>"; };
 		9D4C77F52A797DEC00B79C01 /* CostCategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostCategoryModel.swift; sourceTree = "<group>"; };
@@ -229,6 +228,8 @@
 		9D9B50172A9CF36C003F64DA /* FirebaseAddCost.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAddCost.swift; sourceTree = "<group>"; };
 		9D9B50192A9CFE26003F64DA /* FirebaseAddIncome.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseAddIncome.swift; sourceTree = "<group>"; };
 		9D9B501B2A9D0241003F64DA /* FirebaseGetIncomes.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseGetIncomes.swift; sourceTree = "<group>"; };
+		9D9B501D2A9D228D003F64DA /* SettingsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsViewModel.swift; sourceTree = "<group>"; };
+		9D9B50202A9D2382003F64DA /* FirebaseSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FirebaseSettings.swift; sourceTree = "<group>"; };
 		9DA0D65D2A6E8F1200DFD80F /* CostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostViewController.swift; sourceTree = "<group>"; };
 		9DA0D65F2A6E8F2E00DFD80F /* CostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostCell.swift; sourceTree = "<group>"; };
 		9DA0D6622A6E8F5300DFD80F /* CostRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostRealm.swift; sourceTree = "<group>"; };
@@ -272,6 +273,7 @@
 				9D9B4FE12A9CB02E003F64DA /* FirebaseCrashlytics in Frameworks */,
 				9D9B4FE72A9CB02E003F64DA /* FirebaseDynamicLinks in Frameworks */,
 				9D9B50032A9CB02F003F64DA /* FirebaseStorage in Frameworks */,
+				9D9B50242A9D4EB1003F64DA /* DGCharts in Frameworks */,
 				9D9B4FF32A9CB02F003F64DA /* FirebaseInAppMessaging-Beta in Frameworks */,
 				9D9B50012A9CB02F003F64DA /* FirebaseRemoteConfigSwift in Frameworks */,
 				9D9B4FDB2A9CB02E003F64DA /* FirebaseAppDistribution-Beta in Frameworks */,
@@ -481,8 +483,6 @@
 				9DA0D67D2A6FD47200DFD80F /* Button.swift */,
 				9D4C78072A7AE83500B79C01 /* CellForCostScreen.swift */,
 				9D4C781A2A7BD4D800B79C01 /* Buttons.swift */,
-				9D2A233B2A769CF700CD86F4 /* Circle.swift */,
-				9D334DAA2A8C071B003B8E4D /* ExtraCell.swift */,
 				9D4C786E2A865FE800B79C01 /* CostScreenGoalCell.swift */,
 				9DA0D67F2A6FE0CD00DFD80F /* ButtonsStackView.swift */,
 			);
@@ -724,6 +724,7 @@
 		9D4C783B2A7D29A100B79C01 /* Settings */ = {
 			isa = PBXGroup;
 			children = (
+				9D9B501F2A9D236F003F64DA /* API */,
 				9D4C783E2A7D29BE00B79C01 /* DesignElements */,
 				9D4C783D2A7D29B500B79C01 /* ViewModels */,
 				9D4C783C2A7D29AB00B79C01 /* ViewControllers */,
@@ -742,6 +743,7 @@
 		9D4C783D2A7D29B500B79C01 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				9D9B501D2A9D228D003F64DA /* SettingsViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -863,6 +865,14 @@
 			path = Api;
 			sourceTree = "<group>";
 		};
+		9D9B501F2A9D236F003F64DA /* API */ = {
+			isa = PBXGroup;
+			children = (
+				9D9B50202A9D2382003F64DA /* FirebaseSettings.swift */,
+			);
+			path = API;
+			sourceTree = "<group>";
+		};
 		9DA0D67C2A6FD44800DFD80F /* Design Elements */ = {
 			isa = PBXGroup;
 			children = (
@@ -925,6 +935,7 @@
 				9D9B50002A9CB02F003F64DA /* FirebaseRemoteConfigSwift */,
 				9D9B50022A9CB02F003F64DA /* FirebaseStorage */,
 				9D9B50042A9CB02F003F64DA /* FirebaseStorageCombine-Community */,
+				9D9B50232A9D4EB1003F64DA /* DGCharts */,
 			);
 			productName = Finance;
 			productReference = 9D7364932A6E8CCD00528949 /* Finance.app */;
@@ -980,6 +991,7 @@
 				9DA0D6582A6E8EC000DFD80F /* XCRemoteSwiftPackageReference "realm-swift" */,
 				9D9B4FB92A9CA710003F64DA /* XCRemoteSwiftPackageReference "SnapKit" */,
 				9D9B4FCF2A9CB02E003F64DA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				9D9B50222A9D4EB1003F64DA /* XCRemoteSwiftPackageReference "Charts" */,
 			);
 			productRefGroup = 9D7364942A6E8CCD00528949 /* Products */;
 			projectDirPath = "";
@@ -1073,8 +1085,10 @@
 				9D1A99BF2A8E643100A78AC2 /* CategoryIncomeDesignElements.swift in Sources */,
 				9D4C78422A7D2F8300B79C01 /* FinanceGoalsScreen.swift in Sources */,
 				9D7364972A6E8CCD00528949 /* AppDelegate.swift in Sources */,
+				9D9B50212A9D2382003F64DA /* FirebaseSettings.swift in Sources */,
 				9D1A99D22A8E87E600A78AC2 /* SetupCollectionView.swift in Sources */,
 				9D4C78272A7CE25B00B79C01 /* MenuViewController.swift in Sources */,
+				9D9B501E2A9D228D003F64DA /* SettingsViewModel.swift in Sources */,
 				9D7364992A6E8CCD00528949 /* SceneDelegate.swift in Sources */,
 				9D2A231A2A7542B100CD86F4 /* ExtensionForGestures.swift in Sources */,
 				9DA0D6652A6E8F7300DFD80F /* CostService.swift in Sources */,
@@ -1113,7 +1127,6 @@
 				9D4C78462A7D343F00B79C01 /* SettingsScreen.swift in Sources */,
 				9D1A99DE2A8F897B00A78AC2 /* Theme.swift in Sources */,
 				9D1A99B62A8D886000A78AC2 /* IncomeCategoryModel.swift in Sources */,
-				9D2A233C2A769CF700CD86F4 /* Circle.swift in Sources */,
 				9D1A99A62A8D7C5F00A78AC2 /* IncomeRealm.swift in Sources */,
 				9D4C781B2A7BD4D800B79C01 /* Buttons.swift in Sources */,
 				9D4C781D2A7CD8C500B79C01 /* MenuIcon.swift in Sources */,
@@ -1123,7 +1136,6 @@
 				9D4C78522A7FCC6A00B79C01 /* AddGoalViewController.swift in Sources */,
 				9DA0D6632A6E8F5300DFD80F /* CostRealm.swift in Sources */,
 				9DA0D6712A6ED08300DFD80F /* DateStorage.swift in Sources */,
-				9D334DAB2A8C071B003B8E4D /* ExtraCell.swift in Sources */,
 				9D1A99AC2A8D81D200A78AC2 /* GetIncomeStatistics.swift in Sources */,
 				9DA0D65E2A6E8F1200DFD80F /* CostViewController.swift in Sources */,
 				9D1A99BD2A8D891800A78AC2 /* IncomeViewController.swift in Sources */,
@@ -1450,6 +1462,14 @@
 				minimumVersion = 10.0.0;
 			};
 		};
+		9D9B50222A9D4EB1003F64DA /* XCRemoteSwiftPackageReference "Charts" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/danielgindi/Charts.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 5.0.0;
+			};
+		};
 		9DA0D6582A6E8EC000DFD80F /* XCRemoteSwiftPackageReference "realm-swift" */ = {
 			isa = XCRemoteSwiftPackageReference;
 			repositoryURL = "https://github.com/realm/realm-swift.git";
@@ -1610,6 +1630,11 @@
 			isa = XCSwiftPackageProductDependency;
 			package = 9D9B4FCF2A9CB02E003F64DA /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
 			productName = "FirebaseStorageCombine-Community";
+		};
+		9D9B50232A9D4EB1003F64DA /* DGCharts */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 9D9B50222A9D4EB1003F64DA /* XCRemoteSwiftPackageReference "Charts" */;
+			productName = DGCharts;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};

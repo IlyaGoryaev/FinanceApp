@@ -45,10 +45,11 @@ class TabBarController: UITabBarController {
         let height = tabBar.bounds.height + positionOnY * 2
         
         let roundLayer = CAShapeLayer()
-        roundLayer.fillColor = UIColor.white.cgColor
+        roundLayer.fillColor = UIColor.gray.cgColor
         roundLayer.shadowOpacity = 0.2
         roundLayer.shadowRadius = 20
         roundLayer.shadowOffset = .zero
+        roundLayer.shadowColor = UIColor.black.cgColor
         
         let bezierPath = UIBezierPath(roundedRect: CGRect(x: positionOnX * 2, y: tabBar.bounds.minY - positionOnY, width: width, height: height - 5), cornerRadius: height / 2)
         
@@ -59,7 +60,6 @@ class TabBarController: UITabBarController {
         tabBar.itemWidth = width / 6.5
         tabBar.itemPositioning = .centered
         
-        tabBar.tintColor = .black
+        tabBar.tintColor = .white
     }
-
 }

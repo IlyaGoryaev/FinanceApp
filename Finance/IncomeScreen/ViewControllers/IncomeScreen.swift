@@ -334,9 +334,6 @@ extension IncomeScreen{
         self.addButton.isHidden = false
         self.label.isHidden = false
         self.subLabel.isHidden = false
-        for layer in CircleCategories(circleValue: Int(self.view.frame.width * 0.76) / 2).getCategoriesIncomeLayer(percentDict: self.arrayOfCategoriesSection){
-            self.viewWithCircleContainer.layer.addSublayer(layer)
-        }
         self.viewModel.extraValue.on(.next(try! self.viewModel.extraValueDay.value()))
         self.viewModel.categoryChosen.on(.next(1))
     }
@@ -356,9 +353,7 @@ extension IncomeScreen{
         self.addButton.isHidden = false
         self.label.isHidden = false
         self.subLabel.isHidden = false
-        for layer in CircleCategories(circleValue: Int(self.view.frame.width * 0.76) / 2).getCategoriesIncomeLayer(percentDict: self.arrayOfCategoriesSection){
-            self.viewWithCircleContainer.layer.addSublayer(layer)
-        }
+
         self.viewModel.extraValue.on(.next(try! self.viewModel.extraValueMonth.value()))
         self.viewModel.categoryChosen.on(.next(2))
     }
@@ -378,9 +373,6 @@ extension IncomeScreen{
         self.addButton.isHidden = false
         self.label.isHidden = false
         self.subLabel.isHidden = false
-        for layer in CircleCategories(circleValue: Int(self.view.frame.width * 0.76) / 2).getCategoriesIncomeLayer(percentDict: self.arrayOfCategoriesSection){
-            self.viewWithCircleContainer.layer.addSublayer(layer)
-        }
         self.viewModel.extraValue.on(.next(try! self.viewModel.extraValueYear.value()))
         self.viewModel.categoryChosen.on(.next(3))
     }

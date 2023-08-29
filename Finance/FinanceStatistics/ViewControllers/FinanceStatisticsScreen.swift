@@ -6,12 +6,12 @@
 //
 
 import UIKit
+import DGCharts
 
 class FinanceStatisticsScreen: UIViewController {
     
-    let statisticsView = UIView()
-    let menuStatisticsView = MenuStatisticsView()
-    
+    let label = UILabel()
+            
     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
         scrollView.backgroundColor = .systemBackground
@@ -42,7 +42,7 @@ class FinanceStatisticsScreen: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = .lightGray
         view.addSubview(scrollView)
         NSLayoutConstraint.activate([
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -53,8 +53,7 @@ class FinanceStatisticsScreen: UIViewController {
         scrollView.addSubview(contentView)
         contentView.addSubview(stackView)
         setupViewConstraints()
-        setupStatisticsView()
-        setupMenuStatisticsView()
+        setupLabel()
     }
 }
 extension FinanceStatisticsScreen{
@@ -70,25 +69,15 @@ extension FinanceStatisticsScreen{
 }
 extension FinanceStatisticsScreen{
     
-    private func setupStatisticsView(){
-        statisticsView.translatesAutoresizingMaskIntoConstraints = false
-        statisticsView.backgroundColor = .red
-        stackView.addArrangedSubview(statisticsView)
-        NSLayoutConstraint.activate([
-            statisticsView.heightAnchor.constraint(equalToConstant: 400),
-            statisticsView.widthAnchor.constraint(equalToConstant: view.frame.width - 50)
-        ])
+    private func setupLabel(){
+        label.text = "В разработке"
+        stackView.addArrangedSubview(label)
+        label.snp.makeConstraints { make in
+            make.centerX.equalToSuperview()
+            make.centerY.equalToSuperview()
+        }
     }
     
-    private func setupMenuStatisticsView(){
-        
-        menuStatisticsView.translatesAutoresizingMaskIntoConstraints = false
-        stackView.addArrangedSubview(menuStatisticsView)
-        NSLayoutConstraint.activate([
-            menuStatisticsView.heightAnchor.constraint(equalToConstant: 200),
-            menuStatisticsView.widthAnchor.constraint(equalToConstant: view.frame.width - 40)
-        
-        ])
-    }
+    
     
 }

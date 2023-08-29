@@ -2,7 +2,6 @@ import UIKit
 import RxSwift
 import RxCocoa
 import RxDataSources
-
 class SettingsScreen: UIViewController, UIScrollViewDelegate {
     
     let settingsLabel = UILabel()
@@ -10,6 +9,10 @@ class SettingsScreen: UIViewController, UIScrollViewDelegate {
     let synchronizationView = UIView()
     
     let disposeBag = DisposeBag()
+    
+    let label = UILabel()
+    
+    let viewModel = SettingsViewModel()
     
     lazy var table: UITableView = {
         let table = UITableView()
@@ -37,6 +40,16 @@ class SettingsScreen: UIViewController, UIScrollViewDelegate {
             settingsLabel.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 16)
         ])
         
+    }
+    //MARK: убрать
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        viewModel.getUID()
+        if try! viewModel.authUID.value() != ""{
+            label.text = try! viewModel.authUID.value()
+        } else {
+            label.text = "Синхронизация"
+        }
     }
     
     func setUpTableView(){
@@ -77,7 +90,7 @@ class SettingsScreen: UIViewController, UIScrollViewDelegate {
             synchronizationView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 145)
         ])
         
-        let label = UILabel()
+        
         label.translatesAutoresizingMaskIntoConstraints = false
         synchronizationView.addSubview(label)
         
@@ -86,7 +99,9 @@ class SettingsScreen: UIViewController, UIScrollViewDelegate {
             label.centerXAnchor.constraint(equalTo: synchronizationView.centerXAnchor)
         ])
         
-        label.text = "Синхронизация"
+        
+        
+        
         label.textColor = .white
         let tapGesture = UITapGestureRecognizer(target: self, action: #selector(tappedSynchronizationView))
         synchronizationView.addGestureRecognizer(tapGesture)

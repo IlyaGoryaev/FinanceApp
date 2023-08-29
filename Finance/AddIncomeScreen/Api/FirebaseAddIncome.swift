@@ -19,11 +19,3 @@ final class FirebaseAddIncome{
     }
     
 }
-//@Persisted(primaryKey: true) var incomeId: String
-//@Persisted var dayValue: Int
-//@Persisted var monthValue: Int
-//@Persisted var yearValue: Int
-//@Persisted var sumIncome: Int
-//@Persisted var label: String
-//@Persisted var date: Date
-//@Persisted var category: IncomeCategories.RawValue

@@ -95,8 +95,6 @@ extension FinanceGoalsScreen: UIScrollViewDelegate{
             cell.image.text = item.picture
             cell.sumLableStatus.text = "\(item.currentSum)/\(item.goalSum)"
             cell.backgroundColor = .white
-            cell.layer.addSublayer(CircleCategories(circleValue: 50).configureLayer(degreesInPath: 360, x: 350 / 2, y: 250 / 2))
-            cell.layer.addSublayer(CircleCategories(circleValue: 50).configureFillLayer(degreesInPath: Int(360 * (Double(item.currentSum) / Double(item.goalSum))), x: 350 / 2, y: 250 / 2, color: .blue, lineWidth: 10))
             return cell
         }
         
