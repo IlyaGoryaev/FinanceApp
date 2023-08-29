@@ -22,13 +22,14 @@ class SettingsCell: UITableViewCell {
 extension SettingsCell{
     
     private func styleCell(){
-        view.backgroundColor = .white
+        self.backgroundColor = UIColor(named: "FinanceBackgroundColor")
+        view.backgroundColor = UIColor(named: "FinanaceMainScreenCellColor")
         view.translatesAutoresizingMaskIntoConstraints = false
         view.layer.cornerRadius = 20
-        view.layer.shadowOpacity = 0.14
+        view.layer.shadowOpacity = 0.4
         view.layer.shadowOffset = .zero
-        view.layer.shouldRasterize = true
         view.layer.shadowRadius = 10
+        view.layer.shadowColor = UIColor(named: "ShadowColor")?.cgColor
         
         label.translatesAutoresizingMaskIntoConstraints = false
         label.textColor = .gray
@@ -37,7 +38,7 @@ extension SettingsCell{
         
         arrowImage.translatesAutoresizingMaskIntoConstraints = false
         arrowImage.image = UIImage(systemName: "arrow.turn.up.right")
-        arrowImage.tintColor = .black
+        arrowImage.tintColor = UIColor(named: "BoldLabelsColor")
         
     }
     

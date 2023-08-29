@@ -9,10 +9,6 @@ class IncomeScreenViewModel{
     var subLabelText = BehaviorSubject(value: "Cегодня")
     var percentArray = BehaviorSubject(value: ["auto": 0.0])
     var categories = BehaviorSubject(value: [SectionModel(model: "", items: [IncomeCategoryModel]())])
-    var extraValueDay = BehaviorSubject(value: false)
-    var extraValueMonth = BehaviorSubject(value: false)
-    var extraValueYear = BehaviorSubject(value: false)
-    var extraValue = BehaviorSubject(value: false)
     var categoryChosen = BehaviorSubject(value: 1)
     
     
@@ -88,21 +84,12 @@ class IncomeScreenViewModel{
         for (category, value) in dict.0{
             let percent = Int(round(value * 100) / 100 * 100)
             if value != 0{
-                if percent > 4{
-                    array.append(IncomeCategoryModel(incomeSum: dict.1[category]!, percents: percent, category: IncomeCategories(rawValue: String(category))!, color: CategoryIncomeDesignElements().getCategoryColors()[category]!))
-                } else {
-                    percents += percent
-                }
+                array.append(IncomeCategoryModel(incomeSum: dict.1[category]!, percents: percent, category: IncomeCategories(rawValue: String(category))!, color: CategoryIncomeDesignElements().getCategoryColors()[category]!))
             }
         }
         
         array = array.sorted { model1, model2 in
             model1.percents > model2.percents
-        }
-        
-        if percents != 0{
-            array.append(IncomeCategoryModel(incomeSum: 1000, percents: percents, category: .businessIncome, color: .black))
-            extraValueDay.on(.next(true))
         }
         
         categories.on(.next([SectionModel(model: "Категории доходов", items: array)]))
@@ -115,28 +102,16 @@ class IncomeScreenViewModel{
         dateComponents.year = Calendar.current.component(.year, from: Date())
         let dict = GetIncomeStatistic().getMonthPercent(dateComponents: dateComponents)
         var array: [IncomeCategoryModel] = []
-        var persents = 0
         for (category, value) in dict.0{
             let percent = Int(round(value * 100) / 100 * 100)
             if value != 0{
-                if percent > 4{
-                    
-                    array.append(IncomeCategoryModel(incomeSum: dict.1[category]!, percents: percent, category: IncomeCategories(rawValue: String(category))!, color: CategoryIncomeDesignElements().getCategoryColors()[category]!))
-                } else {
-                    persents += percent
-                }
+                array.append(IncomeCategoryModel(incomeSum: dict.1[category]!, percents: percent, category: IncomeCategories(rawValue: String(category))!, color: CategoryIncomeDesignElements().getCategoryColors()[category]!))
             }
         }
         
         array = array.sorted(by: { model1, model2 in
             model1.percents > model2.percents
         })
-        
-        if persents != 0{
-            array.append(IncomeCategoryModel(incomeSum: 1000, percents: persents, category: .businessIncome, color: .black))
-            extraValueMonth.on(.next(true))
-        }
-        
         
         categories.on(.next([SectionModel(model: "Категории доходов", items: array)]))
     }
@@ -149,24 +124,13 @@ class IncomeScreenViewModel{
         for (category, value) in dict.0{
             let percent = Int(round(value * 100) / 100 * 100)
             if value != 0{
-                if percent > 4{
-                    print(percent)
-                    array.append(IncomeCategoryModel(incomeSum: dict.1[category]!, percents: percent, category: IncomeCategories(rawValue: String(category))!, color: CategoryIncomeDesignElements().getCategoryColors()[category]!))
-                } else {
-                    print(percent)
-                    persents += percent
-                }
+                array.append(IncomeCategoryModel(incomeSum: dict.1[category]!, percents: percent, category: IncomeCategories(rawValue: String(category))!, color: CategoryIncomeDesignElements().getCategoryColors()[category]!))
             }
         }
         
         array = array.sorted(by: { model1, model2 in
             model1.percents > model2.percents
         })
-        
-        if persents != 0{
-            array.append(IncomeCategoryModel(incomeSum: 1000, percents: persents, category: .businessIncome, color: .black))
-            extraValueYear.on(.next(true))
-        }
         
         categories.on(.next([SectionModel(model: "Категории доходов", items: array)]))
         

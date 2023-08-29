@@ -2,18 +2,14 @@ import UIKit
 import RxCocoa
 import RxSwift
 import RxDataSources
+import DGCharts
 
 class IncomeScreen: UIViewController, UIScrollViewDelegate {
     
-    //MARK: Кнопка бокового меню
-    let menuIcon = MenuIcon.build(color: .brown, frame: CGRect(x: 0, y: 0, width: 40, height: 40))
+    let infoButton = UIButton()
     
-    let addButton = UIButton()
-    
-    //MARK: Круговая диаграмма трат
-    let viewWithCircleContainer = UIView()
-    let label = UILabel()
-    let subLabel = UILabel()
+    //MARK: Круговая диаграмма доходов
+    let pieChart = PieChartView()
     
     //MARK: Labels
     let categoryLabel = UILabel()
@@ -27,9 +23,8 @@ class IncomeScreen: UIViewController, UIScrollViewDelegate {
         collectionViewFlowLayout.minimumLineSpacing = 20
         let collectionView = UICollectionView(frame: CGRect(), collectionViewLayout: collectionViewFlowLayout)
         collectionView.register(CellForIncomeScreen.self, forCellWithReuseIdentifier: "Cell")
-        collectionView.register(ExtraIncomeCell.self, forCellWithReuseIdentifier: "ExtraCell")
         collectionView.translatesAutoresizingMaskIntoConstraints = false
-        collectionView.backgroundColor = .white
+        collectionView.backgroundColor = UIColor(named: "FinanceBackgroundColor")
         collectionView.isScrollEnabled = true
         collectionView.showsHorizontalScrollIndicator = false
         return collectionView
@@ -38,8 +33,6 @@ class IncomeScreen: UIViewController, UIScrollViewDelegate {
     var arrayOfCategoriesSection = [IncomeCategories.RawValue: Double]()
     
     let disposeBag = DisposeBag()
-    
-    
     
     //MARK: Кнопки периода
     let buttons = Buttons()
@@ -50,7 +43,7 @@ class IncomeScreen: UIViewController, UIScrollViewDelegate {
     //MARK: ScrollView
     private lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.backgroundColor = .white
+        scrollView.backgroundColor = UIColor(named: "FinanceBackgroundColor")
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.contentSize = contentSize
         scrollView.showsVerticalScrollIndicator = false
@@ -60,7 +53,7 @@ class IncomeScreen: UIViewController, UIScrollViewDelegate {
     //MARK: Контейнер для ScrollView
     lazy var contentView: UIView = {
         let contentView = UIView()
-        contentView.backgroundColor = .white
+        contentView.backgroundColor = UIColor(named: "FinanceBackgroundColor")
         contentView.frame.size = contentSize
         return contentView
     }()
@@ -106,7 +99,7 @@ class IncomeScreen: UIViewController, UIScrollViewDelegate {
         super.viewDidLoad()
         
         super.viewDidLoad()
-        view.backgroundColor = .white
+        view.backgroundColor = UIColor(named: "FinanceBackgroundColor")
         view.addSubview(scrollView)
         NSLayoutConstraint.activate([
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -118,51 +111,37 @@ class IncomeScreen: UIViewController, UIScrollViewDelegate {
         contentView.addSubview(stackView)
         setupViewConstraints()
         
-        
-        
-        //setupMenuButton()
-        
         //MARK: Настройка кнопок периода
         setUpButtons()
         
-        
-        setupLabel()
         stackView.addArrangedSubview(buttons)
         
         
-        addButton.translatesAutoresizingMaskIntoConstraints = false
-        
-        addButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
-        addButton.titleLabel?.font = .boldSystemFont(ofSize: 30)
-        addButton.tintColor = .gray
-        viewWithCircleContainer.addSubview(addButton)
+        infoButton.translatesAutoresizingMaskIntoConstraints = false
+        infoButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
+        infoButton.titleLabel?.font = .boldSystemFont(ofSize: 30)
+        infoButton.tintColor = UIColor(named: "BoldLabelsColor")
+        pieChart.addSubview(infoButton)
         NSLayoutConstraint.activate([
-            addButton.trailingAnchor.constraint(equalTo: viewWithCircleContainer.trailingAnchor, constant: 16),
-            addButton.bottomAnchor.constraint(equalTo: viewWithCircleContainer.bottomAnchor, constant: 16),
-            addButton.heightAnchor.constraint(equalToConstant: 50),
-            addButton.widthAnchor.constraint(equalToConstant: 50)
+            infoButton.trailingAnchor.constraint(equalTo: pieChart.trailingAnchor, constant: -16),
+            infoButton.bottomAnchor.constraint(equalTo: pieChart.bottomAnchor, constant: -16),
+            infoButton.heightAnchor.constraint(equalToConstant: 50),
+            infoButton.widthAnchor.constraint(equalToConstant: 50)
         ])
-        addButton.backgroundColor = .white
-        addButton.layer.cornerRadius = 25
-        addButton.layer.shadowOpacity = 0.15
-        addButton.layer.shadowOffset = .zero
-        addButton.layer.shouldRasterize = true
-        addButton.layer.shadowRadius = 10
-        addButton.addTarget(self, action: #selector(addMenu), for: .touchUpInside)
+        infoButton.backgroundColor = UIColor(named: "FinanaceMainScreenCellColor")
+        infoButton.layer.cornerRadius = 25
+        infoButton.layer.shadowOpacity = 0.5
+        infoButton.layer.shadowOffset = .zero
+        infoButton.layer.shadowColor = UIColor(named: "ShadowColor")?.cgColor
+        infoButton.layer.shadowRadius = 15
+        infoButton.addTarget(self, action: #selector(addMenu), for: .touchUpInside)
         
         
         viewModel.percentArray.subscribe {
             self.arrayOfCategoriesSection = $0
         }.disposed(by: disposeBag)
-    
-        stackView.addArrangedSubview(viewWithCircleContainer)
-        NSLayoutConstraint.activate([
-            viewWithCircleContainer.heightAnchor.constraint(equalToConstant: view.frame.width * 0.76),
-            viewWithCircleContainer.widthAnchor.constraint(equalToConstant: view.frame.width * 0.76)
-
-        ])
-        viewWithCircleContainer.backgroundColor = .white
         
+        setupPieChart()
         noIncomes.text = "За данный период нет доходов"
         noIncomes.textColor = .gray
         noIncomes.font = .boldSystemFont(ofSize: 20)
@@ -175,11 +154,9 @@ class IncomeScreen: UIViewController, UIScrollViewDelegate {
             let boolValue = $0[0].items.isEmpty
             self.collectionViewCategoriesPercantage.isHidden = boolValue
             self.categoryLabel.isHidden = boolValue
-            self.label.isHidden = boolValue
-            self.subLabel.isHidden = boolValue
         }.disposed(by: disposeBag)
-        self.viewModel.extraValue.on(.next(try! self.viewModel.extraValueDay.value()))
-
+        
+        noIncomes.isHidden = true
     }
     
     
@@ -187,31 +164,6 @@ class IncomeScreen: UIViewController, UIScrollViewDelegate {
         let controller = IncomeViewController()
         self.navigationController?.navigationBar.isHidden = false
         self.navigationController?.pushViewController(controller, animated: true)
-    }
-    
-    
-    //MARK: Настройка компонентов внутри круговой диаграммы
-    func setupLabel(){
-        viewModel.labelText.subscribe{
-            self.label.text = $0
-        }.disposed(by: disposeBag)
-        viewModel.subLabelText.subscribe {
-            self.subLabel.text = $0
-        }.disposed(by: disposeBag)
-        label.font = .boldSystemFont(ofSize: 40)//Исправить под значение
-        subLabel.font = .systemFont(ofSize: 20)
-        label.textColor = .black
-        subLabel.textColor = .gray
-        label.translatesAutoresizingMaskIntoConstraints = false
-        subLabel.translatesAutoresizingMaskIntoConstraints = false
-        viewWithCircleContainer.addSubview(label)
-        viewWithCircleContainer.addSubview(subLabel)
-        NSLayoutConstraint.activate([
-            label.centerXAnchor.constraint(equalTo: viewWithCircleContainer.centerXAnchor),
-            label.centerYAnchor.constraint(equalTo: viewWithCircleContainer.centerYAnchor, constant: 10),
-            subLabel.centerXAnchor.constraint(equalTo: viewWithCircleContainer.centerXAnchor),
-            subLabel.bottomAnchor.constraint(equalTo: label.topAnchor, constant: -5)
-        ])
     }
     
     private func setupViewConstraints(){
@@ -230,23 +182,23 @@ class IncomeScreen: UIViewController, UIScrollViewDelegate {
         buttons.buttonMonth.titleLabel?.font = .boldSystemFont(ofSize: self.view.frame.width * 0.09)
         buttons.buttonYear.titleLabel?.font = .boldSystemFont(ofSize: self.view.frame.width * 0.09)
         buttons.buttonDay.addAction(UIAction(handler: { _ in
-            self.buttons.buttonDay.setTitleColor(.black, for: .normal)
-            self.buttons.buttonMonth.setTitleColor(.systemGray2, for: .normal)
-            self.buttons.buttonYear.setTitleColor(.systemGray2, for: .normal)
+            self.buttons.buttonDay.setTitleColor(UIColor(named: "BoldLabelsColor"), for: .normal)
+            self.buttons.buttonMonth.setTitleColor(UIColor(named: "MainScreenButtonsColor2"), for: .normal)
+            self.buttons.buttonYear.setTitleColor(UIColor(named: "MainScreenButtonsColor2"), for: .normal)
             self.setupDay()
         }), for:  .touchUpInside)
         
         buttons.buttonMonth.addAction(UIAction(handler: { _ in
-            self.buttons.buttonDay.setTitleColor(.systemGray2, for: .normal)
-            self.buttons.buttonMonth.setTitleColor(.black, for: .normal)
-            self.buttons.buttonYear.setTitleColor(.systemGray2, for: .normal)
+            self.buttons.buttonDay.setTitleColor(UIColor(named: "MainScreenButtonsColor2"), for: .normal)
+            self.buttons.buttonMonth.setTitleColor(UIColor(named: "BoldLabelsColor"), for: .normal)
+            self.buttons.buttonYear.setTitleColor(UIColor(named: "MainScreenButtonsColor2"), for: .normal)
             self.setupMonth()
         }), for: .touchUpInside)
         
         buttons.buttonYear.addAction(UIAction(handler: { _ in
-            self.buttons.buttonDay.setTitleColor(.systemGray2, for: .normal)
-            self.buttons.buttonMonth.setTitleColor(.systemGray2, for: .normal)
-            self.buttons.buttonYear.setTitleColor(.black, for: .normal)
+            self.buttons.buttonDay.setTitleColor(UIColor(named: "MainScreenButtonsColor2"), for: .normal)
+            self.buttons.buttonMonth.setTitleColor(UIColor(named: "MainScreenButtonsColor2"), for: .normal)
+            self.buttons.buttonYear.setTitleColor(UIColor(named: "BoldLabelsColor"), for: .normal)
             self.setupYear()
         }), for: .touchUpInside)
     }
@@ -254,13 +206,13 @@ class IncomeScreen: UIViewController, UIScrollViewDelegate {
 extension IncomeScreen{
     func setupCollectionView(){
         categoryLabel.text = "Категории доходов"
-        categoryLabel.textColor = .gray
+        categoryLabel.textColor = UIColor(named: "BoldLabelsColor")
         categoryLabel.font = .systemFont(ofSize: 20)
         stackView.addArrangedSubview(categoryLabel)
         
         stackView.addArrangedSubview(collectionViewCategoriesPercantage)
-        stackView.setCustomSpacing(40, after: viewWithCircleContainer)
-        collectionViewCategoriesPercantage.backgroundColor = .white
+        stackView.setCustomSpacing(0, after: pieChart)
+        collectionViewCategoriesPercantage.backgroundColor = UIColor(named: "FinanceBackgroundColor")
         NSLayoutConstraint.activate([
             collectionViewCategoriesPercantage.heightAnchor.constraint(equalToConstant: view.frame.height * 0.26),
             collectionViewCategoriesPercantage.widthAnchor.constraint(equalToConstant: view.frame.width)
@@ -273,29 +225,20 @@ extension IncomeScreen{
     func bindCollectionView(){
         
         let dataSource = RxCollectionViewSectionedReloadDataSource<SectionModel<String, IncomeCategoryModel>> { _, collectionView, indexPath, item in
-            let indexOfLast = try! self.viewModel.categories.value()[0].items.count - 1
-            let boolValue = try! self.viewModel.extraValue.value()
-            if indexPath.row == indexOfLast && boolValue{
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "ExtraCell", for: indexPath) as! ExtraIncomeCell
-                cell.percentLabel.text = "\(item.percents)%"
-                cell.layer.shadowColor = UIColor.lightGray.cgColor
-                cell.layer.shadowOpacity = 0.25
-                cell.layer.shadowOffset = .zero
-                cell.layer.shadowRadius = 20
-                return cell
-            } else {
-                let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CellForIncomeScreen
-                cell.categoryLabel.text = CategoryIncomeDesignElements().getRussianLabelText()[item.category.rawValue]
-                cell.sumLabel.text = "\(item.incomeSum)"
-                cell.percentLabel.text = "\(item.percents)%"
-                cell.colorImage.backgroundColor = item.color
-                cell.backgroundColor = .white
-                cell.layer.shadowColor = UIColor.lightGray.cgColor
-                cell.layer.shadowOpacity = 0.25
-                cell.layer.shadowOffset = .zero
-                cell.layer.shadowRadius = 20
-                return cell
-            }
+            
+            let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CellForIncomeScreen
+            cell.categoryLabel.text = CategoryIncomeDesignElements().getRussianLabelText()[item.category.rawValue]
+            cell.sumLabel.text = "\(item.incomeSum)"
+            cell.percentLabel.text = "\(item.percents)%"
+            cell.sumLabel.textColor = UIColor(named: "SemiBoldColor")
+            cell.percentLabel.textColor = UIColor(named: "SemiBoldColor")
+            cell.colorImage.backgroundColor = item.color
+            cell.backgroundColor = UIColor(named: "FinanaceMainScreenCellColor")
+            cell.layer.shadowColor = UIColor(named: "ShadowColor")?.cgColor
+            cell.layer.shadowOpacity = 0.25
+            cell.layer.shadowOffset = .zero
+            cell.layer.shadowRadius = 20
+            return cell
         }
         
         viewModel.categories.bind(to: collectionViewCategoriesPercantage.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
@@ -303,15 +246,14 @@ extension IncomeScreen{
         collectionViewCategoriesPercantage.rx.setDelegate(self).disposed(by: disposeBag)
         
         collectionViewCategoriesPercantage.rx.itemSelected.subscribe {
-            let cell = self.collectionViewCategoriesPercantage.dequeueReusableCell(withReuseIdentifier: "Cell", for: $0) as! CellForIncomeScreen
-            print("Название ячейки: \(cell.categoryLabel.text)")
-            self.showCalendarViewControllerInACustomizedSheet(category: "auto")
+            let categories = try! self.viewModel.categories.value()
+            self.showCalendarViewControllerInACustomizedSheet(category: categories[0].items[$0.element!.row].category.rawValue)
         }.disposed(by: disposeBag)
         
     }
     
     func showCalendarViewControllerInACustomizedSheet(category: String) {
-        let viewControllerToPresent = ListSortedCostsViewController(category: category, nibName: nil, bundle: nil)
+        let viewControllerToPresent = ListSortedIncomesViewController(category: category, periodId: try! self.viewModel.categoryChosen.value(), nibName: nil, bundle: nil)
         if let sheet = viewControllerToPresent.sheetPresentationController {
             sheet.detents = [.medium(), .large()]
             sheet.prefersGrabberVisible = true
@@ -320,60 +262,122 @@ extension IncomeScreen{
     }
     
     func setupDay(){
-        self.viewModel.getDayStatistics()
-        self.viewModel.getDayLabelText()
-        self.viewModel.getCircleDay()
-        if label.text != "0"{
-            noIncomes.isHidden = true
-        } else {
-            noIncomes.isHidden = false
+        var dateComponents = DateComponents()
+        dateComponents.day = Calendar.current.component(.day, from: Date())
+        dateComponents.month = Calendar.current.component(.month, from: Date())
+        dateComponents.year = Calendar.current.component(.year, from: Date())
+        let dict = GetIncomeStatistic().getDayPercent(dateComponents: dateComponents)
+        pieChart.drawCenterTextEnabled = true
+        
+        pieChart.centerText = "За сегодня"
+        
+        var entries = [PieChartDataEntry]()
+        var colors = [UIColor]()
+        for (category, value) in dict.0{
+            if value != 0{
+                entries.append(PieChartDataEntry(value: value * 100))
+                colors.append(CategoryIncomeDesignElements().getCategoryColors()[category]!)
+            }
         }
-        self.viewWithCircleContainer.layer.sublayers?.forEach({
-            $0.isHidden = true
-        })
-        self.addButton.isHidden = false
-        self.label.isHidden = false
-        self.subLabel.isHidden = false
-        self.viewModel.extraValue.on(.next(try! self.viewModel.extraValueDay.value()))
+        
+        let set = PieChartDataSet(entries: entries, label: String())
+        let data = PieChartData(dataSet: set)
+        set.colors = colors
+        pieChart.data = data
+        self.viewModel.getDayStatistics()
         self.viewModel.categoryChosen.on(.next(1))
     }
     
     func setupMonth(){
-        self.viewModel.getMonthStatistics()
-        self.viewModel.getMonthLabelText()
-        self.viewModel.getCircleMonth()
-        if label.text != "0"{
-            noIncomes.isHidden = true
-        } else {
-            noIncomes.isHidden = false
+        var dateComponents = DateComponents()
+        dateComponents.month = Calendar.current.component(.month, from: Date())
+        dateComponents.year = Calendar.current.component(.year, from: Date())
+        let dict = GetIncomeStatistic().getMonthPercent(dateComponents: dateComponents)
+        pieChart.drawCenterTextEnabled = true
+        
+        pieChart.centerText = "За месяц"
+        
+        var entries = [PieChartDataEntry]()
+        var colors = [UIColor]()
+        for (category, value) in dict.0{
+            if value != 0{
+                entries.append(PieChartDataEntry(value: value * 100))
+                colors.append(CategoryIncomeDesignElements().getCategoryColors()[category]!)
+            }
         }
-        self.viewWithCircleContainer.layer.sublayers?.forEach({
-            $0.isHidden = true
-        })
-        self.addButton.isHidden = false
-        self.label.isHidden = false
-        self.subLabel.isHidden = false
-
-        self.viewModel.extraValue.on(.next(try! self.viewModel.extraValueMonth.value()))
+        
+        let set = PieChartDataSet(entries: entries, label: String())
+        let data = PieChartData(dataSet: set)
+        set.colors = colors
+        pieChart.data = data
+        self.viewModel.getMonthStatistics()
         self.viewModel.categoryChosen.on(.next(2))
     }
     
     func setupYear(){
-        self.viewModel.getYearStatistics()
-        self.viewModel.getYearLabelText()
-        self.viewModel.getCircleYear()
-        if label.text != "0"{
-            noIncomes.isHidden = true
-        } else {
-            noIncomes.isHidden = false
+        let dict = GetIncomeStatistic().getYearPercent()
+        pieChart.drawCenterTextEnabled = true
+        
+        pieChart.centerText = "За год"
+        
+        var entries = [PieChartDataEntry]()
+        var colors = [UIColor]()
+        for (category, value) in dict.0{
+            if value != 0{
+                entries.append(PieChartDataEntry(value: value * 100))
+                colors.append(CategoryIncomeDesignElements().getCategoryColors()[category]!)
+            }
         }
-        self.viewWithCircleContainer.layer.sublayers?.forEach({
-            $0.isHidden = true
-        })
-        self.addButton.isHidden = false
-        self.label.isHidden = false
-        self.subLabel.isHidden = false
-        self.viewModel.extraValue.on(.next(try! self.viewModel.extraValueYear.value()))
+        
+        let set = PieChartDataSet(entries: entries, label: String())
+        let data = PieChartData(dataSet: set)
+        set.colors = colors
+        pieChart.data = data
+        self.viewModel.getYearStatistics()
         self.viewModel.categoryChosen.on(.next(3))
+    }
+    
+    private func setupPieChart(){
+        
+        var dateComponents = DateComponents()
+        dateComponents.day = Calendar.current.component(.day, from: Date())
+        dateComponents.month = Calendar.current.component(.month, from: Date())
+        dateComponents.year = Calendar.current.component(.year, from: Date())
+        let dict = GetIncomeStatistic().getDayPercent(dateComponents: dateComponents)
+        
+        stackView.addArrangedSubview(pieChart)
+        stackView.setCustomSpacing(0, after: buttons)
+        pieChart.drawCenterTextEnabled = true
+        pieChart.usePercentValuesEnabled = false
+            
+        pieChart.centerText = "За сегодня"
+        pieChart.rotationEnabled = false
+        pieChart.legend.enabled = false
+        pieChart.drawEntryLabelsEnabled = false
+        
+        var entries = [PieChartDataEntry]()
+        var colors = [UIColor]()
+        for (category, value) in dict.0{
+            if value != 0{
+                let entry = PieChartDataEntry(value: value * 100)
+                entries.append(entry)
+                colors.append(CategoryIncomeDesignElements().getCategoryColors()[category]!)
+            }
+        }
+        
+        let set = PieChartDataSet(entries: entries, label: "")
+        set.entryLabelColor = NSUIColor.black
+        set.drawIconsEnabled = false
+        let data = PieChartData(dataSet: set)
+        set.colors = colors
+        pieChart.data?.setDrawValues(false)
+        pieChart.data = data
+        
+        pieChart.snp.makeConstraints { make in
+            make.height.equalTo(view.frame.width * 0.95)
+            make.width.equalTo(view.frame.width * 0.95)
+        }
+        
+        pieChart.holeColor = NSUIColor(named: "FinanceBackgroundColor")
     }
 }

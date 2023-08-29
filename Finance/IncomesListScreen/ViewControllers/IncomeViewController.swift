@@ -14,6 +14,7 @@ class IncomeViewController: UIViewController {
     
     lazy var table: UITableView = {
         let table = UITableView()
+        table.backgroundColor = UIColor(named: "FinanceBackgroundColor")
         table.separatorStyle = .none
         table.translatesAutoresizingMaskIntoConstraints = false
         table.register(IncomeCell.self, forCellReuseIdentifier: "IncomeCell")
@@ -44,6 +45,10 @@ class IncomeViewController: UIViewController {
         segmentControl.tintColor = .gray
         segmentControl.selectedSegmentTintColor = #colorLiteral(red: 1, green: 0.9999921918, blue: 0.3256074786, alpha: 1)
         segmentControl.translatesAutoresizingMaskIntoConstraints = false
+        let titleTextAttributesForNormal = [NSAttributedString.Key.foregroundColor: UIColor.darkGray]
+        segmentControl.setTitleTextAttributes(titleTextAttributesForNormal, for: .normal)
+        let titleTextAttributesForSelected = [NSAttributedString.Key.foregroundColor: #colorLiteral(red: 0.1716541946, green: 0.1766330898, blue: 0.1461265981, alpha: 1)]
+        segmentControl.setTitleTextAttributes(titleTextAttributesForSelected, for: .selected)
         view.addSubview(segmentControl)
         NSLayoutConstraint.activate([
             segmentControl.leadingAnchor.constraint(equalTo: view.leadingAnchor, constant: 16),
@@ -80,11 +85,9 @@ class IncomeViewController: UIViewController {
         exitButton.translatesAutoresizingMaskIntoConstraints = false
         exitButton.setTitle("←", for: .normal)
         exitButton.titleLabel?.font = .systemFont(ofSize: 30)
-        exitButton.backgroundColor = .white
-        exitButton.setTitleColor(.gray, for: .normal)
+        exitButton.backgroundColor = UIColor(named: "FinanaceMainScreenCellColor")
+        exitButton.setTitleColor(UIColor(named: "SemiBoldColor"), for: .normal)
         exitButton.layer.cornerRadius = 25
-        exitButton.layer.shadowOpacity = 0.4
-        exitButton.layer.shadowColor = UIColor.gray.cgColor
         
         view.addSubview(exitButton)
         
@@ -98,11 +101,9 @@ class IncomeViewController: UIViewController {
         addButton.translatesAutoresizingMaskIntoConstraints = false
         addButton.setTitle("+", for: .normal)
         addButton.titleLabel?.font = .systemFont(ofSize: 30)
-        addButton.backgroundColor = .white
-        addButton.setTitleColor(.gray, for: .normal)
+        addButton.backgroundColor = UIColor(named: "FinanaceMainScreenCellColor")
+        addButton.setTitleColor(UIColor(named: "SemiBoldColor"), for: .normal)
         addButton.layer.cornerRadius = 25
-        addButton.layer.shadowOpacity = 0.4
-        addButton.layer.shadowColor = UIColor.gray.cgColor
         view.addSubview(addButton)
         NSLayoutConstraint.activate([
             addButton.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
@@ -204,6 +205,9 @@ extension IncomeViewController: UIScrollViewDelegate{
             cell.labelCategory.font = .italicSystemFont(ofSize: 15)
             cell.categoryColorView.backgroundColor = CategoryIncomeDesignElements().getCategoryColors()[item.category]
             cell.emojiLabel.text = CategoryIncomeDesignElements().getCategoryEmoji()[item.category]
+            
+            cell.labelCategory.textColor = UIColor(named: "SemiBoldColor")
+            cell.labelComment.textColor = UIColor(named: "BoldLabelsColor")
             return cell
             
         } titleForHeaderInSection: { dataSource, sectionIndex in

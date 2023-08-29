@@ -15,9 +15,9 @@ class Buttons: UIStackView{
         buttonDay.titleLabel?.font = .boldSystemFont(ofSize: 35)
         buttonMonth.titleLabel?.font = .boldSystemFont(ofSize: 35)
         buttonYear.titleLabel?.font = .boldSystemFont(ofSize: 35)
-        buttonDay.setTitleColor(.label, for: .normal)
-        buttonMonth.setTitleColor(.systemGray2, for: .normal)
-        buttonYear.setTitleColor(.systemGray2, for: .normal)
+        buttonDay.setTitleColor(UIColor(named: "BoldLabelsColor"), for: .normal)
+        buttonMonth.setTitleColor(UIColor(named: "MainScreenButtonsColor2"), for: .normal)
+        buttonYear.setTitleColor(UIColor(named: "MainScreenButtonsColor2"), for: .normal)
         axis = .horizontal
         spacing = 15
         alignment = .center

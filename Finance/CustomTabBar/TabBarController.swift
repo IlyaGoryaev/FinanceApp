@@ -45,7 +45,7 @@ class TabBarController: UITabBarController {
         let height = tabBar.bounds.height + positionOnY * 2
         
         let roundLayer = CAShapeLayer()
-        roundLayer.fillColor = UIColor.gray.cgColor
+        roundLayer.fillColor = UIColor(named: "FinanaceMainScreenCellColor")?.cgColor
         roundLayer.shadowOpacity = 0.2
         roundLayer.shadowRadius = 20
         roundLayer.shadowOffset = .zero
@@ -60,6 +60,6 @@ class TabBarController: UITabBarController {
         tabBar.itemWidth = width / 6.5
         tabBar.itemPositioning = .centered
         
-        tabBar.tintColor = .white
+        tabBar.tintColor = UIColor(named: "BoldLabelsColor")
     }
 }

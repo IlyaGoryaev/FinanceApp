@@ -1,6 +1,6 @@
 import RealmSwift
 import Foundation
-class GetListOfCategoriesService{
+class GetListOfCostsByCategoriesService{
     private let storage: Realm?
     
     init() {

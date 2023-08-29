@@ -3,11 +3,12 @@ import RxSwift
 import RxDataSources
 import UIKit
 
-class ListSortedCostsViewController: UIViewController, UIScrollViewDelegate {
-    
+
+class ListSortedIncomesViewController: UIViewController, UIScrollViewDelegate {
+
     let disposeBag = DisposeBag()
     
-    let viewModel = ListSortedCostsViewModel()
+    let viewModel = ListSortedIncomesViewModel()
     
     var category: String?
     
@@ -35,7 +36,7 @@ class ListSortedCostsViewController: UIViewController, UIScrollViewDelegate {
         table.separatorStyle = .none
         table.allowsSelection = false
         table.translatesAutoresizingMaskIntoConstraints = false
-        table.register(CostCell.self, forCellReuseIdentifier: "Cell")
+        table.register(IncomeCell.self, forCellReuseIdentifier: "Cell")
         return table
     }()
 
@@ -49,15 +50,16 @@ class ListSortedCostsViewController: UIViewController, UIScrollViewDelegate {
         func bindTable(){
             table.rx.setDelegate(self).disposed(by: disposeBag)
                     
-            let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, CostRealm>>{_, tableView, indexPath, item in
-                let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! CostCell
-                cell.labelCost.text = "\(item.sumCost)₽"
-                cell.labelCategory.text = CategoryCostsDesignElements().getRussianLabelText()[item.category]
+            let dataSource = RxTableViewSectionedReloadDataSource<SectionModel<String, IncomeRealm>>{_, tableView, indexPath, item in
+
+                let cell = tableView.dequeueReusableCell(withIdentifier: "Cell", for: indexPath) as! IncomeCell
+                cell.labelIncome.text = "\(item.sumIncome)₽"
+                cell.labelCategory.text = CategoryIncomeDesignElements().getRussianLabelText()[item.category]
                 cell.labelComment.text = item.label
-                cell.labelCost.font = .boldSystemFont(ofSize: 20)
+                cell.labelIncome.font = .boldSystemFont(ofSize: 20)
                 cell.labelCategory.font = .italicSystemFont(ofSize: 15)
-                cell.categoryColorView.backgroundColor = CategoryCostsDesignElements().getCategoryColors()[item.category]
-                cell.emojiLabel.text = CategoryCostsDesignElements().getCategoryEmoji()[item.category]
+                cell.categoryColorView.backgroundColor = CategoryIncomeDesignElements().getCategoryColors()[item.category]
+                cell.emojiLabel.text = CategoryIncomeDesignElements().getCategoryEmoji()[item.category]
                 
                 cell.labelCategory.textColor = UIColor(named: "SemiBoldColor")
                 cell.labelComment.textColor = UIColor(named: "BoldLabelsColor")
@@ -65,4 +67,5 @@ class ListSortedCostsViewController: UIViewController, UIScrollViewDelegate {
             }
             self.viewModel.array.bind(to: self.table.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
         }
+
 }

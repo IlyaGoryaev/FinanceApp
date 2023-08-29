@@ -25,13 +25,14 @@ class SettingsScreen: UIViewController, UIScrollViewDelegate {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
+        self.view.backgroundColor = UIColor(named: "FinanceBackgroundColor")
         setUpTableView()
         bindTable()
         setupSynchronizationView()
 
         
         settingsLabel.text = "Настройки"
+        settingsLabel.textColor = UIColor(named: "BoldLabelsColor")
         settingsLabel.font = .boldSystemFont(ofSize: 40)
         settingsLabel.translatesAutoresizingMaskIntoConstraints = false
         view.addSubview(settingsLabel)
@@ -54,6 +55,7 @@ class SettingsScreen: UIViewController, UIScrollViewDelegate {
     
     func setUpTableView(){
         self.view.addSubview(table)
+        table.backgroundColor = UIColor(named: "FinanceBackgroundColor")
         NSLayoutConstraint.activate([
             table.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 150),
             table.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -70,7 +72,7 @@ class SettingsScreen: UIViewController, UIScrollViewDelegate {
             let indexPath = IndexPath(item: index, section: 0)
             let cell = tableView.dequeueReusableCell(withIdentifier: "SettingsCell", for: indexPath) as! SettingsCell
             cell.label.text = item
-            print(item)
+            cell.label.textColor = UIColor(named: "BoldLabelsColor")
             return cell
         }.disposed(by: disposeBag)
         

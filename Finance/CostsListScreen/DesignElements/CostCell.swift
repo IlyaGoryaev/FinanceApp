@@ -43,7 +43,9 @@ class CostCell: UITableViewCell {
 extension CostCell{
     
     func setupStyle(){
-        view.backgroundColor = .white
+        self.backgroundColor = UIColor(named: "FinanceBackgroundColor")
+        view.backgroundColor = UIColor(named: "FinanaceMainScreenCellColor")
+        circleView.backgroundColor = UIColor(named: "FinanaceMainScreenCellColor")
         view.translatesAutoresizingMaskIntoConstraints = false
         labelCost.translatesAutoresizingMaskIntoConstraints = false
         categoryColorView.translatesAutoresizingMaskIntoConstraints = false
@@ -63,8 +65,6 @@ extension CostCell{
         categoryColorView.layer.shadowOffset = .zero
         categoryColorView.layer.shouldRasterize = true
         categoryColorView.layer.shadowRadius = 10
-        circleView.backgroundColor = .white
-        circleView.layer.cornerRadius = 35
     }
     
     func layout(){

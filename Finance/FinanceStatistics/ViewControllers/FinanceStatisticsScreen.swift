@@ -14,7 +14,7 @@ class FinanceStatisticsScreen: UIViewController {
             
     lazy var scrollView: UIScrollView = {
         let scrollView = UIScrollView()
-        scrollView.backgroundColor = .systemBackground
+        scrollView.backgroundColor = UIColor(named: "FinanceBackgroundColor")
         scrollView.translatesAutoresizingMaskIntoConstraints = false
         scrollView.contentSize = contentSize
         return scrollView
@@ -22,7 +22,7 @@ class FinanceStatisticsScreen: UIViewController {
     
     lazy var contentView: UIView = {
         let contentView = UIView()
-        contentView.backgroundColor = .systemBackground
+        contentView.backgroundColor = UIColor(named: "FinanceBackgroundColor")
         contentView.frame.size = contentSize
         return contentView
     }()
@@ -42,7 +42,7 @@ class FinanceStatisticsScreen: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        view.backgroundColor = .lightGray
+        view.backgroundColor = UIColor(named: "FinanceBackgroundColor")
         view.addSubview(scrollView)
         NSLayoutConstraint.activate([
             scrollView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
@@ -72,10 +72,6 @@ extension FinanceStatisticsScreen{
     private func setupLabel(){
         label.text = "В разработке"
         stackView.addArrangedSubview(label)
-        label.snp.makeConstraints { make in
-            make.centerX.equalToSuperview()
-            make.centerY.equalToSuperview()
-        }
     }
     
     

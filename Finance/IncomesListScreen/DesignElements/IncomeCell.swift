@@ -50,7 +50,8 @@ class IncomeCell: UITableViewCell {
 extension IncomeCell{
     
     func setupStyle(){
-        view.backgroundColor = .white
+        self.backgroundColor = UIColor(named: "FinanceBackgroundColor")
+        view.backgroundColor = UIColor(named: "FinanaceMainScreenCellColor")
         view.translatesAutoresizingMaskIntoConstraints = false
         labelIncome.translatesAutoresizingMaskIntoConstraints = false
         categoryColorView.translatesAutoresizingMaskIntoConstraints = false
@@ -70,7 +71,7 @@ extension IncomeCell{
         categoryColorView.layer.shadowOffset = .zero
         categoryColorView.layer.shouldRasterize = true
         categoryColorView.layer.shadowRadius = 10
-        circleView.backgroundColor = .white
+        circleView.backgroundColor = UIColor(named: "FinanaceMainScreenCellColor")
         circleView.layer.cornerRadius = 35
     }
     
