@@ -9,6 +9,7 @@ import UIKit
 import RealmSwift
 import UserNotifications
 import Firebase
+
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
 
@@ -16,8 +17,6 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
 
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
         FirebaseApp.configure()
-        print(Auth.auth().currentUser?.uid)
-        
         print(Realm.Configuration.defaultConfiguration.fileURL!)
         notificationCenter.requestAuthorization(options: [.alert, .badge, .alert]) { granted, error in
             guard granted else { return }

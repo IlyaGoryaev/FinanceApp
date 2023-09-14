@@ -13,7 +13,6 @@
 		9D1A99AC2A8D81D200A78AC2 /* GetIncomeStatistics.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1A99AB2A8D81D200A78AC2 /* GetIncomeStatistics.swift */; };
 		9D1A99AE2A8D82DC00A78AC2 /* SumIncomeModelsService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1A99AD2A8D82DB00A78AC2 /* SumIncomeModelsService.swift */; };
 		9D1A99B02A8D842000A78AC2 /* CellForIncomeScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1A99AF2A8D842000A78AC2 /* CellForIncomeScreen.swift */; };
-		9D1A99B22A8D842D00A78AC2 /* ExtraIncomeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1A99B12A8D842D00A78AC2 /* ExtraIncomeCell.swift */; };
 		9D1A99B42A8D84A700A78AC2 /* IncomeScreenViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1A99B32A8D84A700A78AC2 /* IncomeScreenViewModel.swift */; };
 		9D1A99B62A8D886000A78AC2 /* IncomeCategoryModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1A99B52A8D886000A78AC2 /* IncomeCategoryModel.swift */; };
 		9D1A99BD2A8D891800A78AC2 /* IncomeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1A99BC2A8D891800A78AC2 /* IncomeViewController.swift */; };
@@ -30,7 +29,6 @@
 		9D1A99DB2A8F7D4C00A78AC2 /* SettingsCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1A99DA2A8F7D4C00A78AC2 /* SettingsCell.swift */; };
 		9D1A99DE2A8F897B00A78AC2 /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D1A99DD2A8F897B00A78AC2 /* Theme.swift */; };
 		9D2A22B82A71076900CD86F4 /* AddCostViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A22B72A71076900CD86F4 /* AddCostViewModel.swift */; };
-		9D2A22C42A71643300CD86F4 /* MochiyPopPOne-Regular.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 9D2A22C32A71643300CD86F4 /* MochiyPopPOne-Regular.ttf */; };
 		9D2A23122A7451D300CD86F4 /* CostScreen.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A23112A7451D300CD86F4 /* CostScreen.swift */; };
 		9D2A231A2A7542B100CD86F4 /* ExtensionForGestures.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D2A23192A7542B100CD86F4 /* ExtensionForGestures.swift */; };
 		9D398ACA2A9A5D8D00938F81 /* MenuStatisticsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D398AC92A9A5D8D00938F81 /* MenuStatisticsView.swift */; };
@@ -121,6 +119,9 @@
 		9D9B50262A9E6A31003F64DA /* ListSortedIncomesViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9B50252A9E6A31003F64DA /* ListSortedIncomesViewController.swift */; };
 		9D9B50282A9E6A4A003F64DA /* ListSortedIncomesViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9B50272A9E6A4A003F64DA /* ListSortedIncomesViewModel.swift */; };
 		9D9B502A2A9E6B38003F64DA /* GetListOfIncomesByCategoriesService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9B50292A9E6B38003F64DA /* GetListOfIncomesByCategoriesService.swift */; };
+		9D9B502C2A9E77C9003F64DA /* ThemeViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9B502B2A9E77C9003F64DA /* ThemeViewController.swift */; };
+		9D9B502E2A9E77D5003F64DA /* ThemeViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9B502D2A9E77D5003F64DA /* ThemeViewModel.swift */; };
+		9D9B50302A9E787A003F64DA /* ThemeCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D9B502F2A9E787A003F64DA /* ThemeCell.swift */; };
 		9DA0D65E2A6E8F1200DFD80F /* CostViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA0D65D2A6E8F1200DFD80F /* CostViewController.swift */; };
 		9DA0D6602A6E8F2E00DFD80F /* CostCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA0D65F2A6E8F2E00DFD80F /* CostCell.swift */; };
 		9DA0D6632A6E8F5300DFD80F /* CostRealm.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA0D6622A6E8F5300DFD80F /* CostRealm.swift */; };
@@ -132,6 +133,10 @@
 		9DA0D6732A6ED0E900DFD80F /* DateModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA0D6722A6ED0E900DFD80F /* DateModel.swift */; };
 		9DA0D67E2A6FD47200DFD80F /* Button.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA0D67D2A6FD47200DFD80F /* Button.swift */; };
 		9DA0D6802A6FE0CD00DFD80F /* ButtonsStackView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DA0D67F2A6FE0CD00DFD80F /* ButtonsStackView.swift */; };
+		9DC587652AB22C2500CAACC2 /* СustomPieChart.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC587642AB22C2500CAACC2 /* СustomPieChart.swift */; };
+		9DC587682AB301D300CAACC2 /* CostScreenModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC587672AB301D300CAACC2 /* CostScreenModel.swift */; };
+		9DC5876A2AB304AC00CAACC2 /* InfoButton.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC587692AB304AC00CAACC2 /* InfoButton.swift */; };
+		9DC5876D2AB30E5A00CAACC2 /* CostScreenProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9DC5876C2AB30E5A00CAACC2 /* CostScreenProtocol.swift */; };
 		CEC35E980CEBB7D6F303C8D3 /* Pods_Finance.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 5F90BBF5C34D9CE4AA548311 /* Pods_Finance.framework */; };
 /* End PBXBuildFile section */
 
@@ -154,7 +159,6 @@
 		9D1A99AB2A8D81D200A78AC2 /* GetIncomeStatistics.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetIncomeStatistics.swift; sourceTree = "<group>"; };
 		9D1A99AD2A8D82DB00A78AC2 /* SumIncomeModelsService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SumIncomeModelsService.swift; sourceTree = "<group>"; };
 		9D1A99AF2A8D842000A78AC2 /* CellForIncomeScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CellForIncomeScreen.swift; sourceTree = "<group>"; };
-		9D1A99B12A8D842D00A78AC2 /* ExtraIncomeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtraIncomeCell.swift; sourceTree = "<group>"; };
 		9D1A99B32A8D84A700A78AC2 /* IncomeScreenViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomeScreenViewModel.swift; sourceTree = "<group>"; };
 		9D1A99B52A8D886000A78AC2 /* IncomeCategoryModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomeCategoryModel.swift; sourceTree = "<group>"; };
 		9D1A99BC2A8D891800A78AC2 /* IncomeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomeViewController.swift; sourceTree = "<group>"; };
@@ -171,7 +175,6 @@
 		9D1A99DA2A8F7D4C00A78AC2 /* SettingsCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsCell.swift; sourceTree = "<group>"; };
 		9D1A99DD2A8F897B00A78AC2 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
 		9D2A22B72A71076900CD86F4 /* AddCostViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddCostViewModel.swift; sourceTree = "<group>"; };
-		9D2A22C32A71643300CD86F4 /* MochiyPopPOne-Regular.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "MochiyPopPOne-Regular.ttf"; sourceTree = "<group>"; };
 		9D2A23112A7451D300CD86F4 /* CostScreen.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostScreen.swift; sourceTree = "<group>"; };
 		9D2A23192A7542B100CD86F4 /* ExtensionForGestures.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ExtensionForGestures.swift; sourceTree = "<group>"; };
 		9D398AC92A9A5D8D00938F81 /* MenuStatisticsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MenuStatisticsView.swift; sourceTree = "<group>"; };
@@ -234,6 +237,9 @@
 		9D9B50252A9E6A31003F64DA /* ListSortedIncomesViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListSortedIncomesViewController.swift; sourceTree = "<group>"; };
 		9D9B50272A9E6A4A003F64DA /* ListSortedIncomesViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ListSortedIncomesViewModel.swift; sourceTree = "<group>"; };
 		9D9B50292A9E6B38003F64DA /* GetListOfIncomesByCategoriesService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GetListOfIncomesByCategoriesService.swift; sourceTree = "<group>"; };
+		9D9B502B2A9E77C9003F64DA /* ThemeViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeViewController.swift; sourceTree = "<group>"; };
+		9D9B502D2A9E77D5003F64DA /* ThemeViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeViewModel.swift; sourceTree = "<group>"; };
+		9D9B502F2A9E787A003F64DA /* ThemeCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ThemeCell.swift; sourceTree = "<group>"; };
 		9DA0D65D2A6E8F1200DFD80F /* CostViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostViewController.swift; sourceTree = "<group>"; };
 		9DA0D65F2A6E8F2E00DFD80F /* CostCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostCell.swift; sourceTree = "<group>"; };
 		9DA0D6622A6E8F5300DFD80F /* CostRealm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostRealm.swift; sourceTree = "<group>"; };
@@ -245,6 +251,10 @@
 		9DA0D6722A6ED0E900DFD80F /* DateModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DateModel.swift; sourceTree = "<group>"; };
 		9DA0D67D2A6FD47200DFD80F /* Button.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Button.swift; sourceTree = "<group>"; };
 		9DA0D67F2A6FE0CD00DFD80F /* ButtonsStackView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonsStackView.swift; sourceTree = "<group>"; };
+		9DC587642AB22C2500CAACC2 /* СustomPieChart.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "СustomPieChart.swift"; sourceTree = "<group>"; };
+		9DC587672AB301D300CAACC2 /* CostScreenModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostScreenModel.swift; sourceTree = "<group>"; };
+		9DC587692AB304AC00CAACC2 /* InfoButton.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InfoButton.swift; sourceTree = "<group>"; };
+		9DC5876C2AB30E5A00CAACC2 /* CostScreenProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CostScreenProtocol.swift; sourceTree = "<group>"; };
 		B984D3EDD309F9C13FDB8446 /* Pods-Finance.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-Finance.release.xcconfig"; path = "Target Support Files/Pods-Finance/Pods-Finance.release.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -457,6 +467,8 @@
 		9D4C78092A7AEA5D00B79C01 /* CostScreen */ = {
 			isa = PBXGroup;
 			children = (
+				9DC5876B2AB30E4D00CAACC2 /* Protocols */,
+				9DC587662AB301C500CAACC2 /* Models */,
 				9D4C780D2A7AEBB500B79C01 /* DesignElements */,
 				9D4C780B2A7AEADD00B79C01 /* ViewModels */,
 				9D4C780A2A7AEA7A00B79C01 /* ViewControllers */,
@@ -490,6 +502,8 @@
 				9D4C781A2A7BD4D800B79C01 /* Buttons.swift */,
 				9D4C786E2A865FE800B79C01 /* CostScreenGoalCell.swift */,
 				9DA0D67F2A6FE0CD00DFD80F /* ButtonsStackView.swift */,
+				9DC587642AB22C2500CAACC2 /* СustomPieChart.swift */,
+				9DC587692AB304AC00CAACC2 /* InfoButton.swift */,
 			);
 			path = DesignElements;
 			sourceTree = "<group>";
@@ -651,7 +665,6 @@
 			isa = PBXGroup;
 			children = (
 				9D1A99AF2A8D842000A78AC2 /* CellForIncomeScreen.swift */,
-				9D1A99B12A8D842D00A78AC2 /* ExtraIncomeCell.swift */,
 			);
 			path = DesignElements;
 			sourceTree = "<group>";
@@ -742,6 +755,7 @@
 			isa = PBXGroup;
 			children = (
 				9D4C78452A7D343F00B79C01 /* SettingsScreen.swift */,
+				9D9B502B2A9E77C9003F64DA /* ThemeViewController.swift */,
 			);
 			path = ViewControllers;
 			sourceTree = "<group>";
@@ -750,6 +764,7 @@
 			isa = PBXGroup;
 			children = (
 				9D9B501D2A9D228D003F64DA /* SettingsViewModel.swift */,
+				9D9B502D2A9E77D5003F64DA /* ThemeViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -758,6 +773,7 @@
 			isa = PBXGroup;
 			children = (
 				9D1A99DA2A8F7D4C00A78AC2 /* SettingsCell.swift */,
+				9D9B502F2A9E787A003F64DA /* ThemeCell.swift */,
 			);
 			path = DesignElements;
 			sourceTree = "<group>";
@@ -795,7 +811,6 @@
 			isa = PBXGroup;
 			children = (
 				9D9B50092A9CC500003F64DA /* GoogleService-Info.plist */,
-				9D2A22C32A71643300CD86F4 /* MochiyPopPOne-Regular.ttf */,
 				9D9B50062A9CB89A003F64DA /* LoginScreen */,
 				9D7364A42A6E8CCE00528949 /* Info.plist */,
 				9D1A99DC2A8F896800A78AC2 /* Theme */,
@@ -890,6 +905,22 @@
 				9D4C78052A7AE4F200B79C01 /* CategoryCostsDesignElements.swift */,
 			);
 			path = "Design Elements";
+			sourceTree = "<group>";
+		};
+		9DC587662AB301C500CAACC2 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				9DC587672AB301D300CAACC2 /* CostScreenModel.swift */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		9DC5876B2AB30E4D00CAACC2 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				9DC5876C2AB30E5A00CAACC2 /* CostScreenProtocol.swift */,
+			);
+			path = Protocols;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1017,7 +1048,6 @@
 				9D7364A32A6E8CCE00528949 /* LaunchScreen.storyboard in Resources */,
 				9D7364A02A6E8CCE00528949 /* Assets.xcassets in Resources */,
 				9D9B500A2A9CC500003F64DA /* GoogleService-Info.plist in Resources */,
-				9D2A22C42A71643300CD86F4 /* MochiyPopPOne-Regular.ttf in Resources */,
 				9D73649E2A6E8CCD00528949 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -1084,6 +1114,7 @@
 				9DA0D6732A6ED0E900DFD80F /* DateModel.swift in Sources */,
 				9D4C77FC2A79ADB900B79C01 /* ListSortedCostsViewController.swift in Sources */,
 				9D1A99CB2A8E81F800A78AC2 /* AddIncomeViewController.swift in Sources */,
+				9D9B502C2A9E77C9003F64DA /* ThemeViewController.swift in Sources */,
 				9D1A99D02A8E869400A78AC2 /* SaveSumObjectIncomes.swift in Sources */,
 				9D1A99C62A8E79B800A78AC2 /* IncomeModelView.swift in Sources */,
 				9D9B501C2A9D0241003F64DA /* FirebaseGetIncomes.swift in Sources */,
@@ -1102,7 +1133,6 @@
 				9D1A99C22A8E777000A78AC2 /* IncomeCell.swift in Sources */,
 				9D4C78082A7AE83500B79C01 /* CellForCostScreen.swift in Sources */,
 				9D2A22B82A71076900CD86F4 /* AddCostViewModel.swift in Sources */,
-				9D1A99B22A8D842D00A78AC2 /* ExtraIncomeCell.swift in Sources */,
 				9D1A99D72A8F6C4E00A78AC2 /* AddGoalViewModel.swift in Sources */,
 				9DA0D67E2A6FD47200DFD80F /* Button.swift in Sources */,
 				9D4C784E2A7FB30A00B79C01 /* GoalObject.swift in Sources */,
@@ -1116,11 +1146,14 @@
 				9D9B500F2A9CC712003F64DA /* LoginViewController.swift in Sources */,
 				9D2A23122A7451D300CD86F4 /* CostScreen.swift in Sources */,
 				9D4C78662A82896200B79C01 /* ExtensionSetupCollectionViews.swift in Sources */,
+				9DC587682AB301D300CAACC2 /* CostScreenModel.swift in Sources */,
 				9D9B50162A9CE2DF003F64DA /* RegDataValidation.swift in Sources */,
 				9DA0D6692A6E8FA500DFD80F /* CostModelView.swift in Sources */,
+				9D9B50302A9E787A003F64DA /* ThemeCell.swift in Sources */,
 				9DA0D66D2A6E8FD700DFD80F /* Categories.swift in Sources */,
 				9D1A99B42A8D84A700A78AC2 /* IncomeScreenViewModel.swift in Sources */,
 				9D4C77FA2A79ABC200B79C01 /* ListSortedCostsViewModel.swift in Sources */,
+				9D9B502E2A9E77D5003F64DA /* ThemeViewModel.swift in Sources */,
 				9DA0D6602A6E8F2E00DFD80F /* CostCell.swift in Sources */,
 				9D1A99CD2A8E84A700A78AC2 /* AddIncomeViewModel.swift in Sources */,
 				9D1A99AA2A8D7FCC00A78AC2 /* IncomeService.swift in Sources */,
@@ -1132,6 +1165,7 @@
 				9D4C78462A7D343F00B79C01 /* SettingsScreen.swift in Sources */,
 				9D9B50282A9E6A4A003F64DA /* ListSortedIncomesViewModel.swift in Sources */,
 				9D1A99DE2A8F897B00A78AC2 /* Theme.swift in Sources */,
+				9DC587652AB22C2500CAACC2 /* СustomPieChart.swift in Sources */,
 				9D1A99B62A8D886000A78AC2 /* IncomeCategoryModel.swift in Sources */,
 				9D1A99A62A8D7C5F00A78AC2 /* IncomeRealm.swift in Sources */,
 				9D4C781B2A7BD4D800B79C01 /* Buttons.swift in Sources */,
@@ -1151,8 +1185,10 @@
 				9D9B50112A9CDC92003F64DA /* LoginViewModel.swift in Sources */,
 				9D9B50142A9CDF00003F64DA /* FirebaseLogin.swift in Sources */,
 				9D4C78622A8116A700B79C01 /* AddCostGoalCell.swift in Sources */,
+				9DC5876D2AB30E5A00CAACC2 /* CostScreenProtocol.swift in Sources */,
 				9D4C782E2A7CF22B00B79C01 /* MenuModel.swift in Sources */,
 				9D4C78582A7FD40600B79C01 /* CollectionViewForIconsCell.swift in Sources */,
+				9DC5876A2AB304AC00CAACC2 /* InfoButton.swift in Sources */,
 				9D4C78402A7D2A6F00B79C01 /* IncomeScreen.swift in Sources */,
 				9D9B502A2A9E6B38003F64DA /* GetListOfIncomesByCategoriesService.swift in Sources */,
 				9D9B50182A9CF36C003F64DA /* FirebaseAddCost.swift in Sources */,

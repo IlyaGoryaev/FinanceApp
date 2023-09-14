@@ -15,6 +15,10 @@ class CellForIncomeScreen: UICollectionViewCell {
 
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.layer.shadowColor = UIColor(named: "ShadowColor")?.cgColor
+        self.layer.shadowOpacity = 0.25
+        self.layer.shadowOffset = .zero
+        self.layer.shadowRadius = 20
         sumLabel.font = .boldSystemFont(ofSize: 17)
         sumLabel.textColor = .gray
         categoryLabel.font = .systemFont(ofSize: 14)
@@ -49,5 +53,11 @@ class CellForIncomeScreen: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        self.layer.shadowColor = UIColor(named: "ShadowColor")?.cgColor
     }
 }

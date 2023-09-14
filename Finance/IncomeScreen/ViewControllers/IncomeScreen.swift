@@ -234,10 +234,7 @@ extension IncomeScreen{
             cell.percentLabel.textColor = UIColor(named: "SemiBoldColor")
             cell.colorImage.backgroundColor = item.color
             cell.backgroundColor = UIColor(named: "FinanaceMainScreenCellColor")
-            cell.layer.shadowColor = UIColor(named: "ShadowColor")?.cgColor
-            cell.layer.shadowOpacity = 0.25
-            cell.layer.shadowOffset = .zero
-            cell.layer.shadowRadius = 20
+            
             return cell
         }
         
@@ -379,5 +376,12 @@ extension IncomeScreen{
         }
         
         pieChart.holeColor = NSUIColor(named: "FinanceBackgroundColor")
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        self.infoButton.layer.shadowColor = UIColor(named: "ShadowColor")?.cgColor
+        
     }
 }

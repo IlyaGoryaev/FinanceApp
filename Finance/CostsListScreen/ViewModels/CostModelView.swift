@@ -94,13 +94,16 @@ class CostModelView{
     func fetchWeekCosts(){
         
         var array: [any SectionModelType] = []
-        let now = Date() + (60 * 60 * 5)
+        let now = Date() + (60 * 60 * 3)
         let daysWeek = Calendar.current.component(.weekday, from: Date()) == 1 ? 7 : Calendar.current.component(.weekday, from: Date()) - 1
+        print(daysWeek)
         var datesBefore = daysWeek - 1
         var datesAfter = 7 - daysWeek
         if datesBefore != 0{
             for i in 1...datesBefore{
+                print(i)
                 var date: Date = now - TimeInterval((60 * 60 * 24 * i))
+                print(date)
                 insertElement(array: &array, date: date, isInsert: false)
                 
             }

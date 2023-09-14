@@ -3,12 +3,13 @@ import RxSwift
 import RxCocoa
 import RxDataSources
 import DGCharts
-class CostScreen: UIViewController, UIScrollViewDelegate {
+
+final class CostScreen: UIViewController, UIScrollViewDelegate, CostScreenProtocol {
     
-    let infoButton = UIButton()
+    let infoButton = InfoButton()
     
     //MARK: Круговая диаграмма трат
-    let pieChart = PieChartView()
+    var pieChart = CustomPieChart()
     
     //MARK: Labels
     let categoryLabel = UILabel()
@@ -38,7 +39,7 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
     let buttons = Buttons()
     
     //MARK: Инициализация viewModel
-    private var viewModel = CostScreenViewModel()
+    private var viewModel: CostScreenViewModel?
     
     //MARK: ScrollView
     private lazy var scrollView: UIScrollView = {
@@ -79,26 +80,36 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
         return stackView
     }()
     
+    
+    
     override func viewWillAppear(_ animated: Bool) {
-        let chosen = try! self.viewModel.categoryChosen.value()
+        let chosen = try! self.viewModel!.categoryChosen.value()
         switch chosen{
         case 1:
-            setupDay()
+            viewModel?.setUpDayScreen()
             break
         case 2:
-            setupMonth()
+            viewModel?.setUpMonthScreen()
             break
         case 3:
-            setupYear()
+            viewModel?.setUpYearScreen()
+            viewModel?.setUpYearScreen()
             break
         default:
             break
         }
     }
     
+   
     
-    override func viewDidLoad() {
-        super.viewDidLoad()
+    override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+        super.init(nibName: nil , bundle: nil)
+        viewModel = CostScreenViewModel(viewController: self)
+        
+        let theme = Theme(rawValue: UserDefaults.standard.integer(forKey: "app_theme"))
+        theme!.setActive()
+        
+        
         view.backgroundColor = UIColor(named: "FinanceBackgroundColor")
         navigationController?.navigationBar.isHidden = true
         view.addSubview(scrollView)
@@ -114,51 +125,43 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
         
         //MARK: Настройка кнопок периода
         setUpButtons()
-        
-        
         stackView.addArrangedSubview(buttons)
-        
-        infoButton.translatesAutoresizingMaskIntoConstraints = false
-        infoButton.setImage(UIImage(systemName: "ellipsis"), for: .normal)
-        infoButton.tintColor = UIColor(named: "BoldLabelsColor")
-        infoButton.titleLabel?.font = .boldSystemFont(ofSize: 30)
-        pieChart.addSubview(infoButton)
-        NSLayoutConstraint.activate([
-            infoButton.trailingAnchor.constraint(equalTo: pieChart.trailingAnchor, constant: -16),
-            infoButton.bottomAnchor.constraint(equalTo: pieChart.bottomAnchor, constant: -16),
-            infoButton.heightAnchor.constraint(equalToConstant: 50),
-            infoButton.widthAnchor.constraint(equalToConstant: 50)
-        ])
-        infoButton.backgroundColor = UIColor(named: "FinanaceMainScreenCellColor")
-        infoButton.layer.cornerRadius = 25
-        infoButton.layer.shadowOpacity = 0.5
-        infoButton.layer.shadowOffset = .zero
-        infoButton.layer.shadowColor = UIColor(named: "ShadowColor")?.cgColor
-        infoButton.layer.shadowRadius = 15
-        infoButton.addTarget(self, action: #selector(addMenu), for: .touchUpInside)
+    
+        setUpInfoButtons()
         
         
-        viewModel.percentArray.subscribe {
+        
+        
+        viewModel!.percentArray.subscribe {
             self.arrayOfCategoriesSection = $0
         }.disposed(by: disposeBag)
         
         setupPieChart()
+        
+        
         stackView.addArrangedSubview(noCost)
         noCost.text = "За данный период нет расходов"
-        noCost.textColor = .systemGray
+        noCost.textColor = UIColor(named: "SemiBoldColor")
         noCost.font = .boldSystemFont(ofSize: 20)
         
         bindCollectionView()
         setupCollectionView()
         
-        viewModel.categories.subscribe {
+        viewModel!.categories.subscribe {
             let boolValue = $0[0].items.isEmpty
             self.collectionViewCategoriesPercantage.isHidden = boolValue
             self.categoryLabel.isHidden = boolValue
         }.disposed(by: disposeBag)
         
-        noCost.isHidden = true
+        viewModel!.isCategoryEmpty.subscribe {
+            self.noCost.isHidden = !$0
+        }.disposed(by: disposeBag)
     }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     
     @objc func addMenu(){
         let controller = CostViewController()
@@ -169,7 +172,6 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
     
     
     private func setupViewConstraints(){
-        
         stackView.translatesAutoresizingMaskIntoConstraints = false
         NSLayoutConstraint.activate([
             stackView.topAnchor.constraint(equalTo: contentView.topAnchor),
@@ -178,48 +180,53 @@ class CostScreen: UIViewController, UIScrollViewDelegate {
         ])
     }
     
+    
     //MARK: Настройка кнопок
     func setUpButtons(){
         buttons.buttonDay.titleLabel?.font = .boldSystemFont(ofSize: self.view.frame.width * 0.09)
         buttons.buttonMonth.titleLabel?.font = .boldSystemFont(ofSize: self.view.frame.width * 0.09)
         buttons.buttonYear.titleLabel?.font = .boldSystemFont(ofSize: self.view.frame.width * 0.09)
         buttons.buttonDay.addAction(UIAction(handler: { _ in
-            self.buttons.buttonDay.setTitleColor(UIColor(named: "BoldLabelsColor"), for: .normal)
-            self.buttons.buttonMonth.setTitleColor(UIColor(named: "MainScreenButtonsColor2"), for: .normal)
-            self.buttons.buttonYear.setTitleColor(UIColor(named: "MainScreenButtonsColor2"), for: .normal)
-            self.setupDay()
+            self.buttons.setUpDayStyle()
+            self.viewModel?.setUpDayScreen()
         }), for:  .touchUpInside)
 
         buttons.buttonMonth.addAction(UIAction(handler: { _ in
-            self.buttons.buttonDay.setTitleColor(UIColor(named: "MainScreenButtonsColor2"), for: .normal)
-            self.buttons.buttonMonth.setTitleColor(UIColor(named: "BoldLabelsColor"), for: .normal)
-            self.buttons.buttonYear.setTitleColor(UIColor(named: "MainScreenButtonsColor2"), for: .normal)
-            self.setupMonth()
+            self.buttons.setUpMonthStyle()
+            self.viewModel?.setUpMonthScreen()
         }), for: .touchUpInside)
 
         buttons.buttonYear.addAction(UIAction(handler: { _ in
-            self.buttons.buttonDay.setTitleColor(UIColor(named: "MainScreenButtonsColor2"), for: .normal)
-            self.buttons.buttonMonth.setTitleColor(UIColor(named: "MainScreenButtonsColor2"), for: .normal)
-            self.buttons.buttonYear.setTitleColor(UIColor(named: "BoldLabelsColor"), for: .normal)
-            self.setupYear()
+            self.buttons.setUpYearStyle()
+            self.viewModel?.setUpYearScreen()
         }), for: .touchUpInside)
     }
 }
 extension CostScreen{
     
+    private func setUpInfoButtons(){
+        pieChart.addSubview(infoButton)
+        NSLayoutConstraint.activate([
+            infoButton.trailingAnchor.constraint(equalTo: pieChart.trailingAnchor, constant: -16),
+            infoButton.bottomAnchor.constraint(equalTo: pieChart.bottomAnchor, constant: -16),
+            infoButton.heightAnchor.constraint(equalToConstant: 50),
+            infoButton.widthAnchor.constraint(equalToConstant: 50)
+        ])
+        infoButton.addTarget(self, action: #selector(addMenu), for: .touchUpInside)
+    }
+    
+    
     func setupCollectionView(){
         categoryLabel.text = "Категории расходов"
         categoryLabel.textColor = UIColor(named: "BoldLabelsColor")
-        categoryLabel.font = .systemFont(ofSize: 20)
+        categoryLabel.font = .boldSystemFont(ofSize: 20)
         stackView.addArrangedSubview(categoryLabel)
-        
         stackView.addArrangedSubview(collectionViewCategoriesPercantage)
         stackView.setCustomSpacing(0, after: pieChart)
         collectionViewCategoriesPercantage.backgroundColor = UIColor(named: "FinanceBackgroundColor")
         NSLayoutConstraint.activate([
             collectionViewCategoriesPercantage.heightAnchor.constraint(equalToConstant: view.frame.height * 0.26),
             collectionViewCategoriesPercantage.widthAnchor.constraint(equalToConstant: view.frame.width)
-        
         ])
         stackView.setCustomSpacing(0, after: categoryLabel)
     }
@@ -235,155 +242,59 @@ extension CostScreen{
             cell.sumLabel.textColor = UIColor(named: "SemiBoldColor")
             cell.percentLabel.textColor = UIColor(named: "SemiBoldColor")
             cell.colorImage.backgroundColor = item.color
-            cell.layer.shadowColor = UIColor(named: "ShadowColor")?.cgColor
-            cell.layer.shadowOpacity = 0.25
-            cell.layer.shadowOffset = .zero
-            cell.layer.shadowRadius = 20
-            cell.backgroundColor = UIColor(named: "FinanaceMainScreenCellColor")
+            
             return cell
         }
         
-        viewModel.categories.bind(to: collectionViewCategoriesPercantage.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
+        viewModel!.categories.bind(to: collectionViewCategoriesPercantage.rx.items(dataSource: dataSource)).disposed(by: disposeBag)
         
         collectionViewCategoriesPercantage.rx.setDelegate(self).disposed(by: disposeBag)
         
         collectionViewCategoriesPercantage.rx.itemSelected.subscribe {
-            let categories = try! self.viewModel.categories.value()
+            let categories = try! self.viewModel!.categories.value()
             self.showCalendarViewControllerInACustomizedSheet(category: categories[0].items[$0.element!.row].category.rawValue)
         }.disposed(by: disposeBag)
         
     }
     
     func showCalendarViewControllerInACustomizedSheet(category: String) {
-        print(try! self.viewModel.categoryChosen.value())
-        let viewControllerToPresent = ListSortedCostsViewController(category: category, periodId: try! self.viewModel.categoryChosen.value(), nibName: nil, bundle: nil)
+        print(try! self.viewModel!.categoryChosen.value())
+        let viewControllerToPresent = ListSortedCostsViewController(category: category, periodId: try! self.viewModel!.categoryChosen.value(), nibName: nil, bundle: nil)
         if let sheet = viewControllerToPresent.sheetPresentationController {
             sheet.detents = [.medium(), .large()]
             sheet.prefersGrabberVisible = true
         }
         present(viewControllerToPresent, animated: true)
     }
-    
-    
-    func setupDay(){
-        var dateComponents = DateComponents()
-        dateComponents.day = Calendar.current.component(.day, from: Date())
-        dateComponents.month = Calendar.current.component(.month, from: Date())
-        dateComponents.year = Calendar.current.component(.year, from: Date())
-        let dict = GetCostStatistic().getDayPercent(dateComponents: dateComponents)
-        pieChart.drawCenterTextEnabled = true
-        
-        pieChart.centerText = "За сегодня"
-        
-        var entries = [PieChartDataEntry]()
-        var colors = [UIColor]()
-        for (category, value) in dict.0{
-            if value != 0{
-                entries.append(PieChartDataEntry(value: value * 100))
-                colors.append(CategoryCostsDesignElements().getCategoryColors()[category]!)
-            }
-        }
-        
-        let set = PieChartDataSet(entries: entries, label: String())
-        let data = PieChartData(dataSet: set)
-        set.colors = colors
-        pieChart.data = data
-        self.viewModel.getDayStatistics()
-        self.viewModel.categoryChosen.on(.next(1))
-    }
-
-    func setupMonth(){
-        
-        var dateComponents = DateComponents()
-        dateComponents.month = Calendar.current.component(.month, from: Date())
-        dateComponents.year = Calendar.current.component(.year, from: Date())
-        let dict = GetCostStatistic().getMonthPercent(dateComponents: dateComponents)
-        pieChart.drawCenterTextEnabled = true
-        
-        pieChart.centerText = "За месяц"
-        
-        var entries = [PieChartDataEntry]()
-        var colors = [UIColor]()
-        for (category, value) in dict.0{
-            if value != 0{
-                entries.append(PieChartDataEntry(value: value * 100))
-                colors.append(CategoryCostsDesignElements().getCategoryColors()[category]!)
-            }
-        }
-        
-        let set = PieChartDataSet(entries: entries, label: String())
-        let data = PieChartData(dataSet: set)
-        set.colors = colors
-        pieChart.data = data
-        self.viewModel.getMonthStatistics()
-        self.viewModel.categoryChosen.on(.next(2))
-    }
-
-    func setupYear(){
-        let dict = GetCostStatistic().getYearPercent()
-        pieChart.drawCenterTextEnabled = true
-        
-        pieChart.centerText = "За год"
-        
-        var entries = [PieChartDataEntry]()
-        var colors = [UIColor]()
-        for (category, value) in dict.0{
-            if value != 0{
-                entries.append(PieChartDataEntry(value: value * 100))
-                colors.append(CategoryCostsDesignElements().getCategoryColors()[category]!)
-            }
-        }
-        
-        let set = PieChartDataSet(entries: entries, label: String())
-        let data = PieChartData(dataSet: set)
-        set.colors = colors
-        pieChart.data = data
-        self.viewModel.getYearStatistics()
-        self.viewModel.categoryChosen.on(.next(3))
-    }
 
     
     private func setupPieChart(){
-        
-        var dateComponents = DateComponents()
-        dateComponents.day = Calendar.current.component(.day, from: Date())
-        dateComponents.month = Calendar.current.component(.month, from: Date())
-        dateComponents.year = Calendar.current.component(.year, from: Date())
-        let dict = GetCostStatistic().getDayPercent(dateComponents: dateComponents)
-        
+        pieChart.delegate = self
+        self.viewModel?.setUpDayScreen()
         stackView.addArrangedSubview(pieChart)
         stackView.setCustomSpacing(0, after: buttons)
-        pieChart.drawCenterTextEnabled = true
-        pieChart.usePercentValuesEnabled = false
-            
-        pieChart.centerText = "За сегодня"
-        pieChart.rotationEnabled = false
-        pieChart.legend.enabled = false
-        pieChart.drawEntryLabelsEnabled = false
-        
-        var entries = [PieChartDataEntry]()
-        var colors = [UIColor]()
-        for (category, value) in dict.0{
-            if value != 0{
-                let entry = PieChartDataEntry(value: value * 100)
-                entries.append(entry)
-                colors.append(CategoryCostsDesignElements().getCategoryColors()[category]!)
-            }
-        }
-
-        let set = PieChartDataSet(entries: entries, label: "")
-        set.entryLabelColor = NSUIColor.black
-        set.drawIconsEnabled = false
-        let data = PieChartData(dataSet: set)
-        set.colors = colors
-        pieChart.data?.setDrawValues(false)
-        pieChart.data = data
-        
         pieChart.snp.makeConstraints { make in
             make.height.equalTo(view.frame.width * 0.95)
             make.width.equalTo(view.frame.width * 0.95)
         }
-        
         pieChart.holeColor = NSUIColor(named: "FinanceBackgroundColor")
     }
+    
+    
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        self.infoButton.layer.shadowColor = UIColor(named: "ShadowColor")?.cgColor
+        
+    }
+}
+
+
+extension CostScreen: ChartViewDelegate{
+    
+    func chartValueSelected(_ chartView: ChartViewBase, entry: ChartDataEntry, highlight: Highlight) {
+        print(entry.y)
+    }
+    
 }

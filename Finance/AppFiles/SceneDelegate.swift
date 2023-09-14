@@ -7,22 +7,33 @@
 
 import UIKit
 
+final class ThemeWindow: UIWindow {
+    
+    override public func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+
+        // Если текущая тема системная и поменяли оформление в iOS, опять меняем тему на системную.
+        // Например: Пользователь поменял светлое оформление на темное.
+        if Theme.current == .system {
+            DispatchQueue.main.async {
+                Theme.system.setActive()
+            }
+        }
+    }
+}
+
+let themeWindow = ThemeWindow()
+
 class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
     var window: UIWindow?
 
 
     func scene(_ scene: UIScene, willConnectTo session: UISceneSession, options connectionOptions: UIScene.ConnectionOptions) {
-        // Use this method to optionally configure and attach the UIWindow `window` to the provided UIWindowScene `scene`.
-        // If using a storyboard, the `window` property will automatically be initialized and attached to the scene.
-        // This delegate does not imply the connecting scene or session are new (see `application:configurationForConnectingSceneSession` instead).
-//        guard let windowScene = (scene as? UIWindowScene) else { return }
-//        self.window = UIWindow(windowScene: windowScene)
-//        let controller = UINavigationController()
-//        controller.viewControllers = [CostSreen()]
-//        self.window?.rootViewController = controller
-//        self.window?.makeKeyAndVisible()
+        themeWindow.makeKey()
+        print(Theme.current.rawValue)
         guard let windowScene = (scene as? UIWindowScene) else { return }
+        
+        
         self.window = UIWindow(windowScene: windowScene)
         let controller = UINavigationController()
         controller.viewControllers = [TabBarController()]

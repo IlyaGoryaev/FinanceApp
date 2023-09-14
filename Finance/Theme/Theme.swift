@@ -1,8 +1,9 @@
 import Foundation
 import UIKit
 enum Theme: Int, CaseIterable{
-    case light = 0
+    case system = 0
     case dark
+    case light
 }
 
 extension Theme{
@@ -28,6 +29,7 @@ extension Theme {
         switch self {
         case .light: return .light
         case .dark: return .dark
+        case .system: return themeWindow.traitCollection.userInterfaceStyle
         }
     }
     
@@ -39,6 +41,7 @@ extension Theme {
         
         // Устанавливаем активную тему для всех окон приложения
         UIApplication.shared.windows
+            .filter { $0 != themeWindow } 
             .forEach { $0.overrideUserInterfaceStyle = userInterfaceStyle }
     }
 }
@@ -57,5 +60,16 @@ struct Persist<T> {
     init(key: String, defaultValue: T) {
         self.key = key
         self.defaultValue = defaultValue
+    }
+}
+
+extension UIWindow {
+    
+    // Устанавливаем текущую тему для окна
+    // Необходимо вызывать перед показом окна
+    func initTheme() {
+        guard #available(iOS 13.0, *) else { return }
+        
+        overrideUserInterfaceStyle = Theme.current.userInterfaceStyle
     }
 }

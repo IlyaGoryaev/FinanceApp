@@ -17,6 +17,11 @@ class CellForCostScreen: UICollectionViewCell {
         categoryLabel.translatesAutoresizingMaskIntoConstraints = false
         colorImage.layer.cornerRadius = 8
         colorImage.translatesAutoresizingMaskIntoConstraints = false
+        self.layer.shadowColor = UIColor(named: "ShadowColor")?.cgColor
+        self.layer.shadowOpacity = 0.25
+        self.layer.shadowOffset = .zero
+        self.layer.shadowRadius = 20
+        self.backgroundColor = UIColor(named: "FinanaceMainScreenCellColor")
         addSubview(colorImage)
         addSubview(sumLabel)
         addSubview(categoryLabel)
@@ -43,5 +48,12 @@ class CellForCostScreen: UICollectionViewCell {
     
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    override func traitCollectionDidChange(_ previousTraitCollection: UITraitCollection?) {
+        super.traitCollectionDidChange(previousTraitCollection)
+        
+        self.layer.shadowColor = UIColor(named: "ShadowColor")?.cgColor
+        
     }
 }
