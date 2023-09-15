@@ -1,20 +1,21 @@
 import Foundation
 
-struct CostScreenModel: Identifiable{
-    let id: Int
-    let costPeriod: CostPeriod
-    let sumCost: Int
-    let categories: [String: Double]
+struct CostScreenModel{
     
-    init(id: Int = 1, costPeriod: CostPeriod = .Day, sumCost: Int = 0, categories: [String : Double] = [:]) {
-        self.id = id
-        self.costPeriod = costPeriod
+    let period: Period
+    let date: Date
+    let sumCost: Int
+    let categories: [CostCategoryModel]
+    
+    init(date: Date = Date() ,costPeriod: Period = .Day, sumCost: Int = 0, categories: [CostCategoryModel] = []) {
+        self.date = date
+        self.period = costPeriod
         self.sumCost = sumCost
         self.categories = categories
     }
 }
 
-enum CostPeriod: String{
+enum Period: String{
     case Day
     case Month
     case Year

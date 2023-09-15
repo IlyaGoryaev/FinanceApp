@@ -3,21 +3,21 @@ import RxSwift
 import RxDataSources
 import UIKit
 
-class ListSortedCostsViewController: UIViewController, UIScrollViewDelegate {
+final class ListSortedCostsViewController: UIViewController, UIScrollViewDelegate {
     
-    let disposeBag = DisposeBag()
+    private let disposeBag = DisposeBag()
     
-    let viewModel = ListSortedCostsViewModel()
+    private let viewModel = ListSortedCostsViewModel()
     
     var category: String?
     
-    var periodId: Int?
+    var periodId: Period?
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nil, bundle: nil)
     }
     
-    init(category: String, periodId: Int, nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+    init(category: String, periodId: Period, nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nil, bundle: nil)
         self.category = category
         self.periodId = periodId

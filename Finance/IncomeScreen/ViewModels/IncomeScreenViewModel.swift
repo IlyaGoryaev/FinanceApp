@@ -1,140 +1,67 @@
 import UIKit
+import DGCharts
 import RxCocoa
 import RxSwift
 import RxDataSources
 
 class IncomeScreenViewModel{
     
-    var labelText = BehaviorSubject(value: "\(IncomeStorageService().fetchSumCurrentDay())")
-    var subLabelText = BehaviorSubject(value: "Cегодня")
-    var percentArray = BehaviorSubject(value: ["auto": 0.0])
-    var categories = BehaviorSubject(value: [SectionModel(model: "", items: [IncomeCategoryModel]())])
-    var categoryChosen = BehaviorSubject(value: 1)
+    let view: ScreenProtocol?
+    
+    let categories = BehaviorSubject(value: [SectionModel(model: "", items: [IncomeCategoryModel]())])
+    let isCategoryEmpty = BehaviorSubject(value: true)
+    let incomeDescription = BehaviorSubject(value: IncomeScreenModel())
     
     
-    func getDayLabelText(){
-        subLabelText.on(.next("Сегодня"))
-        labelText.on(.next("\(IncomeStorageService().fetchSumCurrentDay())"))
+    init(viewController: ScreenProtocol){
+        self.view = viewController
     }
     
-    func getMonthLabelText(){
-        subLabelText.on(.next("В этом месяце"))
-        labelText.on(.next("\(IncomeStorageService().fetchSumCurrentMonth())"))
-    }
-    
-    
-    func getYearLabelText(){
-        subLabelText.on(.next("В этом году"))
-        labelText.on(.next("\(IncomeStorageService().fetchSumCurrentYear())"))
-    }
-    
-    //Исправить
-    func getCircleYear(){
-        let dict = GetIncomeStatistic().getYearPercent()
-        var array: [IncomeCategories.RawValue: Double] = [:]
-        for (category, item) in dict.0{
-            if item != 0{
-                array[category] = round(item * 100) / 100
-            }
-        }
-        percentArray.on(.next(array))
-    }
-    
-    func getCircleDay(){
-        var dateComponents = DateComponents()
-        dateComponents.day = Calendar.current.component(.day, from: Date())
-        dateComponents.month = Calendar.current.component(.month, from: Date())
-        dateComponents.year = Calendar.current.component(.year, from: Date())
-        let dict = GetIncomeStatistic().getDayPercent(dateComponents: dateComponents)
-        var array: [IncomeCategories.RawValue: Double] = [:]
-        for (category, item) in dict.0{
-            if item != 0{
-                array[category] = round(item * 100) / 100
-            }
-        }
-        percentArray.on(.next(array))
-        
-    }
-    
-    func getCircleMonth(){
-        var dateComponents = DateComponents()
-        dateComponents.month = Calendar.current.component(.month, from: Date())
-        dateComponents.year = Calendar.current.component(.year, from: Date())
-        let dict = GetIncomeStatistic().getMonthPercent(dateComponents: dateComponents)
-        var array: [IncomeCategories.RawValue: Double] = [:]
-        for (category, item) in dict.0{
-            if item != 0{
-                array[category] = round(item * 100) / 100
-            }
-            
-        }
-        
-        percentArray.on(.next(array))
-    }
-    
-    
-    func getDayStatistics(){
-        var dateComponents = DateComponents()
-        dateComponents.day = Calendar.current.component(.day, from: Date())
-        dateComponents.month = Calendar.current.component(.month, from: Date())
-        dateComponents.year = Calendar.current.component(.year, from: Date())
-        let dict = GetIncomeStatistic().getDayPercent(dateComponents: dateComponents)
-        var percents = 0
+    func setUpScreen(periodId: Period){
         var array: [IncomeCategoryModel] = []
+        
+        let dict: ([IncomeCategories.RawValue : Double], [IncomeCategories.RawValue : Int])
+        let sumIncome: Int
+        
+        switch periodId{
+        case .Day:
+            dict = GetIncomeStatistic().getDayPercent(dateComponents: GetCurrentDateComponents.get.day())
+            sumIncome = IncomeStorageService().fetchSumCurrentDay()
+        case .Month:
+            dict = GetIncomeStatistic().getMonthPercent(dateComponents: GetCurrentDateComponents.get.month())
+            sumIncome = IncomeStorageService().fetchSumCurrentMonth()
+        case .Year:
+            dict = GetIncomeStatistic().getYearPercent()
+            sumIncome = IncomeStorageService().fetchSumCurrentYear()
+        }
+        
+        var entries = [PieChartDataEntry]()
+        var colors = [UIColor]()
+        
         for (category, value) in dict.0{
             let percent = Int(round(value * 100) / 100 * 100)
             if value != 0{
                 array.append(IncomeCategoryModel(incomeSum: dict.1[category]!, percents: percent, category: IncomeCategories(rawValue: String(category))!, color: CategoryIncomeDesignElements().getCategoryColors()[category]!))
+                entries.append(PieChartDataEntry(value: value * 100))
+                entries.last?.data = category
+                colors.append(CategoryIncomeDesignElements().getCategoryColors()[category]!)
             }
         }
         
+        let set = PieChartDataSet(entries: entries)
+        set.valueFont = .systemFont(ofSize: 16, weight: .heavy)
+        set.valueTextColor = NSUIColor(cgColor: UIColor(named: "ColorPieChartsLabels")!.cgColor)
+        let data = PieChartData(dataSet: set)
+        set.colors = colors
+        view?.pieChart.data = data
         array = array.sorted { model1, model2 in
             model1.percents > model2.percents
         }
         
-        categories.on(.next([SectionModel(model: "Категории доходов", items: array)]))
-        
+        isCategoryEmpty.on(.next(array.isEmpty))
+        categories.on(.next([SectionModel(model: "Категории Расходов", items: array)]))
+        let incomeScreenModel = IncomeScreenModel(period: periodId, date: Date(), sumIncome: sumIncome, categories: array)
+        incomeDescription.on(.next(incomeScreenModel))
     }
-    
-    func getMonthStatistics(){
-        var dateComponents = DateComponents()
-        dateComponents.month = Calendar.current.component(.month, from: Date())
-        dateComponents.year = Calendar.current.component(.year, from: Date())
-        let dict = GetIncomeStatistic().getMonthPercent(dateComponents: dateComponents)
-        var array: [IncomeCategoryModel] = []
-        for (category, value) in dict.0{
-            let percent = Int(round(value * 100) / 100 * 100)
-            if value != 0{
-                array.append(IncomeCategoryModel(incomeSum: dict.1[category]!, percents: percent, category: IncomeCategories(rawValue: String(category))!, color: CategoryIncomeDesignElements().getCategoryColors()[category]!))
-            }
-        }
-        
-        array = array.sorted(by: { model1, model2 in
-            model1.percents > model2.percents
-        })
-        
-        categories.on(.next([SectionModel(model: "Категории доходов", items: array)]))
-    }
-    
-    
-    func getYearStatistics(){
-        let dict = GetIncomeStatistic().getYearPercent()
-        var array: [IncomeCategoryModel] = []
-        var persents = 0
-        for (category, value) in dict.0{
-            let percent = Int(round(value * 100) / 100 * 100)
-            if value != 0{
-                array.append(IncomeCategoryModel(incomeSum: dict.1[category]!, percents: percent, category: IncomeCategories(rawValue: String(category))!, color: CategoryIncomeDesignElements().getCategoryColors()[category]!))
-            }
-        }
-        
-        array = array.sorted(by: { model1, model2 in
-            model1.percents > model2.percents
-        })
-        
-        categories.on(.next([SectionModel(model: "Категории доходов", items: array)]))
-        
-    }
-    
 }
 

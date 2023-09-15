@@ -1,4 +1,5 @@
 import UIKit
+import SnapKit
 
 class CategoryCell: UICollectionViewCell {
     
@@ -8,6 +9,7 @@ class CategoryCell: UICollectionViewCell {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
+        self.backgroundColor = UIColor(named: "ColorForAddScreen")!
         label.translatesAutoresizingMaskIntoConstraints = false
         greenView.translatesAutoresizingMaskIntoConstraints = false
         labelSelected.translatesAutoresizingMaskIntoConstraints = false
@@ -28,9 +30,9 @@ class CategoryCell: UICollectionViewCell {
             labelSelected.centerXAnchor.constraint(equalTo: centerXAnchor),
             labelSelected.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
-        addDashedBorder()
         greenView.isHidden = true
         labelSelected.isHidden = true
+        setUpUnSelectedStyle()
     }
     
     required init?(coder: NSCoder) {
@@ -39,23 +41,17 @@ class CategoryCell: UICollectionViewCell {
     
 }
 extension CategoryCell{
-    func addDashedBorder() {
-        let lineWidth: CGFloat = 2.0
-        let circularPath = UIBezierPath.init(ovalIn: CGRect(x: 0, y: 0, width: 60, height: 60))
-        
-        // add a new layer for the white border
-        let borderLayer = CAShapeLayer()
-        borderLayer.path = circularPath.cgPath
-        borderLayer.lineWidth = lineWidth
-        borderLayer.strokeColor = UIColor.black.cgColor
-        borderLayer.fillColor = nil
-        borderLayer.lineDashPattern = [6, 3]
-        self.layer.addSublayer(borderLayer)
-        
-        // set the circle mask to your profile image view
-        let circularMask = CAShapeLayer()
-        circularMask.path = circularPath.cgPath
-        self.layer.mask = circularMask
-        
+    
+    func setUpUnSelectedStyle(){
+        self.backgroundColor = UIColor(named: "ColorForAddScreen")!
+        self.layer.shadowOpacity = 0
     }
+    
+    func setUpSelectedStyle(){
+        self.backgroundColor = .white
+        self.layer.shadowOpacity = 0.3
+        self.layer.shadowOffset = .zero
+        self.layer.shadowRadius = 8
+    }
+    
 }

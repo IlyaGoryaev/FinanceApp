@@ -12,13 +12,13 @@ class ListSortedIncomesViewController: UIViewController, UIScrollViewDelegate {
     
     var category: String?
     
-    var periodId: Int?
+    var periodId: Period?
     
     override init(nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nil, bundle: nil)
     }
     
-    init(category: String, periodId: Int, nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
+    init(category: String, periodId: Period, nibName nibNameOrNil: String?, bundle nibBundleOrNil: Bundle?) {
         super.init(nibName: nil, bundle: nil)
         self.category = category
         self.periodId = periodId

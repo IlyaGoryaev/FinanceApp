@@ -122,7 +122,7 @@ extension AddCostController{
             let cell = collectionView.dequeueReusableCell(withReuseIdentifier: "Cell", for: indexPath) as! CategoryCell
             cell.label.text = item
             cell.label.font = .systemFont(ofSize: 40)
-            cell.backgroundColor = .white
+            //cell.backgroundColor = .white
             cell.layer.cornerRadius = 30
             return cell
         }.disposed(by: disposeBag)
@@ -180,10 +180,8 @@ extension AddCostController{
                 if try! self.viewModel.goalsShow.value() == true{
                     
                     let cell = self.collectionViewCategory.cellForItem(at: $0.element!) as! CategoryCell
-                    cell.greenView.isHidden = false
-                    cell.labelSelected.isHidden = false
-                    cell.layer.borderWidth = 2
-                    cell.layer.borderColor = #colorLiteral(red: 0, green: 0.5695374608, blue: 0, alpha: 1).cgColor
+                    cell.setUpSelectedStyle()
+                    
                     
                     
                     
@@ -204,10 +202,8 @@ extension AddCostController{
                     
                     self.viewModel.isItemSelected.on(.next(false))
                     let cell = self.collectionViewCategory.cellForItem(at: $0.element!) as! CategoryCell
-                    cell.greenView.isHidden = true
-                    cell.labelSelected.isHidden = true
-                    cell.layer.borderWidth = 2
-                    cell.layer.borderColor = UIColor.clear.cgColor
+                    cell.setUpUnSelectedStyle()
+                    
                     self.viewModel.buttonStatus()
                     self.animateVisabilityGoals()
                     self.labelSubCategories.isHidden = true
@@ -221,20 +217,13 @@ extension AddCostController{
             } else {
                 
                 let cell = self.collectionViewCategory.cellForItem(at: $0.element!) as! CategoryCell
-                
-                cell.greenView.isHidden = false
-                cell.labelSelected.isHidden = false
-                cell.layer.borderWidth = 2
-                cell.layer.borderColor = #colorLiteral(red: 0, green: 0.5695374608, blue: 0, alpha: 1).cgColor
+                cell.setUpSelectedStyle()
                 
                 if Int(selectedIndex!)! == $0.element!.row{
                     
                     
                     let cell = self.collectionViewCategory.cellForItem(at: $0.element!) as! CategoryCell
-                    cell.greenView.isHidden = true
-                    cell.labelSelected.isHidden = true
-                    cell.layer.borderWidth = 2
-                    cell.layer.borderColor = UIColor.clear.cgColor
+                    cell.setUpUnSelectedStyle()
                     self.animateVisabilityGoals()
                     
                     self.labelSubCategories.isHidden = true
@@ -256,10 +245,7 @@ extension AddCostController{
         
         collectionViewCategory.rx.itemDeselected.subscribe {
             let cell = self.collectionViewCategory.cellForItem(at: $0.element!) as! CategoryCell
-            cell.greenView.isHidden = true
-            cell.labelSelected.isHidden = true
-            cell.layer.borderWidth = 2
-            cell.layer.borderColor = UIColor.clear.cgColor
+            cell.setUpUnSelectedStyle()
             self.viewModel.buttonStatus()
         }.disposed(by: disposeBag)
 

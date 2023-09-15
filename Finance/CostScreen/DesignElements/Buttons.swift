@@ -16,6 +16,7 @@ final class Buttons: UIStackView{
         fatalError("init(coder:) has not been implemented")
     }
     
+    
     func setUpDayStyle(){
         self.buttonDay.setTitleColor(UIColor(named: "BoldLabelsColor"), for: .normal)
         self.buttonMonth.setTitleColor(UIColor(named: "MainScreenButtonsColor2"), for: .normal)

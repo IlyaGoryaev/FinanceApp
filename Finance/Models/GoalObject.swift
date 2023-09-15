@@ -1,6 +1,6 @@
 import RealmSwift
 import Foundation
-
+//Delete
 final class GoalObject: Object{
     
     @Persisted(primaryKey: true) var costId: String
