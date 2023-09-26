@@ -10,20 +10,4 @@
 </p>
 
 ## About
-
-About Text Here
-
-## Documentation
-
-Documentation Here
-
-## Distribute
-
-- [Service Name](Page Link)
-
-
-## Developers
-
-- [Delevoper Name](GitHub Profile Link)
-
-## License
+A personal finance app is created with the purpose of managing private money, track the spendings, and plan out a budget. These apps help people in wisely managing their money, and they are for the personal use of people and not to establish business goals.
