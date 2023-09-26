@@ -1,9 +1,5 @@
 # FinanceApp
-Finance manager app 
-<p align="center">
-      <img src="Project Logo Url" width="726">
-</p>
-
+<img width="371" alt="Снимок экрана 2023-09-26 в 18 55 24" src="https://github.com/IlyaGoryaev/FinanceApp/assets/129415721/a6dcc014-7298-448c-81e1-3c4ced552e9b">
 <p align="center">
    <img src="" alt="Unity Version">
    <img src="" alt="Game Version">
